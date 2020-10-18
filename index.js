@@ -73,7 +73,7 @@ app.get("/api/search-by-id:id", async (req, res) => {
 
     // template movie search url https://api.themoviedb.org/3/search/movie?api_key=<<api_key>>&language=en-US&page=1&include_adult=false
     // multi-search: https://api.themoviedb.org/3/search/multi?api_key=<<api_key>>&language=en-US&query=curb%20your%20enthusiam&page=1&include_adult=false
-    // search TV BY ID : https://api.themoviedb.org/3/tv/1438/videos?api_key=sdfsdfsdfsdfsdfsdfsdfsd&language=en-US
+    // search TV BY ID : https://api.themoviedb.org/3/tv/1438/videos?api_key=<<api_key>&language=en-US
     // serach MOVIE BY ID : https://api.themoviedb.org/3/movie/{movie_id}?api_key=<<api_key>>&language=en-US
     // search PERSON BY ID : https://api.themoviedb.org/3/person/{person_id}?api_key=<<api_key>>&language=en-US
     // translate movieTitle to %20
