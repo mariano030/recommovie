@@ -67,40 +67,40 @@ app.get("/api/multi-search/:searchTerm", async (req, res) => {
     }
 });
 
-app.get("/api/search-by-id:id", async (req, res) => {
-    console.log("/api/search-by-id:id");
+app.get("/api/credits-by-id/:id", async (req, res) => {
+    console.log("/api/credits-by-id/:id");
     console.log("searching for: req.body", req.params);
-
-    // template movie search url https://api.themoviedb.org/3/search/movie?api_key=<<api_key>>&language=en-US&page=1&include_adult=false
-    // multi-search: https://api.themoviedb.org/3/search/multi?api_key=<<api_key>>&language=en-US&query=curb%20your%20enthusiam&page=1&include_adult=false
-    // search TV BY ID : https://api.themoviedb.org/3/tv/1438/videos?api_key=<<api_key>&language=en-US
-    // serach MOVIE BY ID : https://api.themoviedb.org/3/movie/{movie_id}?api_key=<<api_key>>&language=en-US
-    // search PERSON BY ID : https://api.themoviedb.org/3/person/{person_id}?api_key=<<api_key>>&language=en-US
-    // translate movieTitle to %20
-    const searchTerm = req.params.searchTerm;
-    const searchParameter = encodeURIComponent(searchTerm.trim());
+    const id = req.params.id;
+    console.log("<>>> PARAMS.ID", req.params.id);
+    console.log("<>>> ID", id);
+    //
+    // https://api.themoviedb.org/3/movie/21575/credits?api_key=API_KEYYYY&language=en-US
+    //
     const searchUrl =
-        "https://api.themoviedb.org/3/search/multi?api_key=" +
+        "https://api.themoviedb.org/3/movie/" +
+        id +
+        "/credits?api_key=" +
         secrets.TMDB_API_KEY +
-        "&language=en-US&query=" +
-        searchParameter +
-        // "curb%20your" +
-        "&page=1&include_adult=false";
+        "&language=en-US";
     try {
         const { data } = await Axios.get(searchUrl);
-        //console.log(data);
         console.log(
-            "#######################################################################"
+            "*CREDITS*CREDITS*CREDITS*CREDITS*CREDITS*CREDITS*CREDITS*CREDITS*"
         );
-        console.log("data.results: ", data.results);
+        console.log("searchUrl: ", searchUrl);
+        console.log("data: .DATA", data);
         console.log(
-            "###########################  results done  #############################"
+            "CREDITS*CREDITS*CREDITS*##########  results done  #######CREDITS*CREDITS*CREDITS*##############"
         );
-        res.json(data.results);
+        res.json(data);
     } catch (err) {
-        console.log("error searching for movie ", err);
+        console.log("error searching for item by ID ", err);
         res.json({ error: "error accessing database" });
     }
+});
+
+app.get("/r/:code", async (req, res) => {
+    console.log("RECCCOMOVIE req.params.code", req.params.code);
 });
 
 // star route

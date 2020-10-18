@@ -1,6 +1,6 @@
 import React from "react";
 
-export default function MediaTypeDate(props) {
+export default function ItemDate(props) {
     const { item, myClass } = props;
     //const recItem = useSelector((state) => state.recItem);
 

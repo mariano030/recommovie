@@ -2,8 +2,9 @@ import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom"; // ?? needed ??
 import { useDispatch, useSelector } from "react-redux";
 import { setRecommendItem } from "../redux/actions.js";
-import MediaTypeIcon from "./MediaTypeIcon.js";
-import ItemPoster from "./ItemPoster.js";
+import ItemIcon from "../components/ItemIcon.js";
+import ItemImage from "../components/ItemImage.js";
+import AddMessage from "../components/AddMessage.js";
 
 export default function AddDetails() {
     const recItem = useSelector((state) => state.recItem);
@@ -13,11 +14,8 @@ export default function AddDetails() {
     } else {
         return (
             <>
-                <MediaTypeIcon item={recItem} myClass="icon-search" />
-                <div
-                    className="result-recItem"
-                    onClick={() => handleClick(recItem)}
-                >
+                <ItemIcon item={recItem} myClass="icon-search" />
+                <div className="result-recItem">
                     <div>
                         <div className="small">
                             {recItem.media_type == "tv" && (
@@ -37,7 +35,7 @@ export default function AddDetails() {
                     <div>
                         <strong>
                             {recItem.original_name || recItem.original_title}
-                            {recItem.media_type == "recItem" &&
+                            {recItem.media_type != "person" &&
                                 recItem.release_date &&
                                 " (" +
                                     recItem.release_date.substring(0, 4) +
@@ -45,8 +43,15 @@ export default function AddDetails() {
                         </strong>
 
                         <div className="small">Id: {recItem.id}</div>
-                        {recItem && <ItemPoster item={recItem} myClass="" />}
+                        {recItem && (
+                            <ItemImage
+                                item={recItem}
+                                type="backdrop"
+                                myClass=""
+                            />
+                        )}
                     </div>
+                    <AddMessage />
                 </div>
             </>
         );

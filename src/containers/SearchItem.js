@@ -1,44 +1,74 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom"; // ?? needed ??
 import { useDispatch, useSelector } from "react-redux";
 import { setRecItem } from "../redux/actions.js";
-import MediaTypeIcon from "./MediaTypeIcon.js";
 
 import Axios from "../axios";
-import MediaTypeInfo from "./MediaTypeInfo.js";
-import MediaTypeDate from "./MediaTypeDate.js";
-export default function SearchMovies() {
+import ItemIcon from "../components/ItemIcon.js";
+import ItemInfo from "../components/ItemInfo.js";
+import ItemDate from "../components/ItemDate.js";
+export default function SearchItem() {
     const dispatch = useDispatch();
+    const searchField = useRef(); // to manipulate the dom manually, reference an element of DOM
+
     const [userInput, setUserInput] = useState("");
     const [title, setTitle] = useState("Most recently registered Users:");
-    const [movies, setMovies] = useState([]);
+    const [items, setItems] = useState([]);
+    const [credits, setCredits] = useState({});
     const recItem = useSelector((state) => state.recItem);
     //const [recommend, setRecommend] = useState({});
     //const [mounted, setMounted] = useState("");
     const handleChange = (e) => {
         setUserInput(e.target.value);
     };
-    const handleClick = (movie) => {
-        console.log("handleClick running");
-        dispatch(setRecItem(movie));
-        setUserInput(" ");
+    const handleClick = (item) => {
+        console.log("handleClick running - SETTING item ->recItem");
+        dispatch(setRecItem(item));
+        //searchField.current.value = "";
+        setItems([]);
+        setUserInput("");
     };
+    useEffect(() => {
+        console.log("CREDITS BY ID running");
+        items.map((item) => {
+            if (item.media_type == "person") {
+                return;
+            } else {
+                (async () => {
+                    try {
+                        const requestUrl = "/api/credits-by-id/" + item.id;
+                        const credits = await Axios.get(requestUrl);
+                        console.log(
+                            "CREDITS ajax done - credits.data",
+                            credits.data
+                        );
+                        console.log(items);
+                        setCredits(credits.data);
+                        // let mounted = true;
+                    } catch (err) {
+                        console.log("error", err);
+                    }
+                })();
+            }
+        });
+    }, [items]);
     useEffect(() => {
         console.log("useEffect running");
         let ignore = false;
         if (userInput && userInput.length > 3) {
             (async () => {
                 try {
-                    console.log("ajax about to start!");
+                    console.log("/api/multi-search/ " + userInput);
                     const requestUrl = "/api/multi-search/" + userInput;
-
                     const searchResults = await Axios.get(requestUrl);
                     console.log("ajax done", searchResults.data);
-                    console.log("searchResults: ", searchResults.data);
-                    setMovies([]);
-                    setMovies(searchResults.data);
-                    console.log(movies);
-                    let mounted = true;
+                    console.log(items);
+                    if (!ignore) {
+                        //setItems([]);
+                        setItems(searchResults.data);
+                    } else {
+                        console.log("ignored!");
+                    }
                 } catch (err) {
                     console.log("error", err);
                 }
@@ -77,6 +107,7 @@ export default function SearchMovies() {
             </p>
             <div className="column">
                 <input
+                    ref={searchField}
                     onChange={handleChange}
                     name="search"
                     type="text"
@@ -92,32 +123,32 @@ export default function SearchMovies() {
                 <p>{title}</p>
             </div>
             <div className="result-list">
-                {movies &&
-                    movies.map((movie, i) => {
+                {items &&
+                    items.map((item, i) => {
                         return (
                             <div
                                 key={i}
                                 className="result-item"
-                                onClick={() => handleClick(movie)}
+                                onClick={() => handleClick(item)}
                             >
                                 <div>
-                                    <MediaTypeIcon
-                                        item={movie}
+                                    <ItemIcon
+                                        item={item}
                                         myClass="icon-search"
                                     />
                                 </div>
                                 <div>
                                     <strong>
-                                        {movie.name || movie.title}{" "}
-                                        <MediaTypeDate item={movie} />
+                                        {item.name || item.title}{" "}
+                                        <ItemDate item={item} />
                                     </strong>
                                     {/* {movie.original_title && (
                                         <div className="small">
                                             <i>{movie.original_title}</i>
                                         </div>
                                     )} */}
-                                    <MediaTypeInfo item={movie} />
-                                    <div className="small">Id: {movie.id}</div>
+                                    <ItemInfo item={item} credits={credits} />
+                                    <div className="small">Id: {item.id}</div>
                                 </div>
                             </div>
                         );

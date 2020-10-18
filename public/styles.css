@@ -31,8 +31,10 @@ body {
 
 .result-item {
     margin-bottom: 7px;
-    background-color: antiquewhite;
+    background-color: lightskyblue;
     display: flex;
+    padding: 12px 18px 12px 12px;
+    border-radius: 10px;
 }
 
 .icon-search {

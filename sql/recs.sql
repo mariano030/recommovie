@@ -1,0 +1,26 @@
+DROP TABLE IF EXISTS recs CASCADE;
+
+CREATE TABLE recs(
+    id SERIAL PRIMARY KEY,
+    code VARCHAR(255) NOT NULL UNIQUE,
+    mediaType e_mediaType,
+    mediaId INT NOT NULL,
+    senderId  INT REFERENCES users(id) NOT NULL,
+    recipientId INT REFERENCES users(id),
+    imageType e_imageType,
+    customImage VARCHAR(255),
+    focus INT REFERENCES focus(id),
+    message VARCHAR(255),
+    audioFile VARCHAR(255),
+    trailer VARCHAR(255),
+    location VARCHAR(255),
+    extUrl VARCHAR(255),
+    senderRating INT,
+    recipientRating INT,
+    -- onList VARCHAR(255) REFERENCES lists(id),
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+-- SELECT * FROM recs;
+
+-- imageType

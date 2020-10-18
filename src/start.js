@@ -9,8 +9,8 @@ import reducer from "./redux/reducer.js";
 import { Provider } from "react-redux";
 
 // components
-import SearchMovie from "./components/SearchMovie.js";
-import AddDetails from "./components/AddDetails.js";
+import SearchItem from "./containers/SearchItem.js";
+import AddDetails from "./containers/AddDetails.js";
 // import { init } from "./socket.js";
 
 // socket.io
@@ -28,7 +28,7 @@ let elem = (
     <Provider store={store}>
         {" "}
         <div className="row-left">
-            <SearchMovie />
+            <SearchItem />
             <AddDetails />
             {/* SelectFocalPoint */}
             {/* Recommend TO & MSG */}
