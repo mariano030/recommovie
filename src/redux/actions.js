@@ -41,10 +41,10 @@ export function setRecItem(item) {
     };
 }
 
-export function addSelectedAspect(item) {
-    console.log("AA setRecommendItem ", item);
+export function addRecAspect(item) {
+    console.log("AA addRecAspect ", item);
     return {
-        type: "ADD_SELECTED_ASPECT",
+        type: "ADD_REC_ASPECT",
         payload: item,
     };
 }

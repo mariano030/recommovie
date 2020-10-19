@@ -53,13 +53,13 @@ export default function reducer(state = {}, action) {
                 genres: action.payload, // whatever you called the key in actions.js
             };
             break;
-        case "ADD_SELECTED_ASPECT":
-            console.log("reducer -> ADD_SELECTED_ASPECT");
-            state.addSelectedAspect.push(item),
-                (state = {
-                    ...state,
-                    ...addSelectedAspects.push(item),
-                });
+        case "ADD_REC_ASPECT":
+            console.log("reducer -> ADD_REC_ASPECT");
+            console.log(action.payload);
+            state = {
+                ...state,
+                recAspects: [...state.recAspects, action.payload],
+            };
     }
     return state;
 }

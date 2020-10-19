@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import useForm from "react-hook-form";
 import { Link } from "react-router-dom"; // ?? needed ??
 import { useDispatch, useSelector } from "react-redux";
-import { setRecommendItem } from "../redux/actions.js";
+import { addRecAspect } from "../redux/actions.js";
 
 import useStatefulFields from "../hooks/useStatefulFields";
 
@@ -16,8 +16,9 @@ export default function AddDetails() {
     //const { register, handleSubmit, errors } = useForm();
 
     const [values, handleChange] = useStatefulFields();
-    const dipatch = useDispatch();
+    const dispatch = useDispatch();
     const recItem = useSelector((state) => state.recItem);
+    const recAspects = useSelector((state) => state.recAspects);
     const genres = useSelector((state) => state.genres);
     const aspects = useSelector((state) => state.aspects);
     //const selected = useEffect(() => {}, []);
@@ -37,11 +38,11 @@ export default function AddDetails() {
         );
         const selectedAspect = aspects.filter((aspect) => {
             if (aspect.id == id) {
-                return aspect;
                 console.log("aspect.name", aspect.name);
+                return aspect;
             }
         })[0].name;
-        dispatch(addSelectedAspect(selectedAspect));
+        dispatch(addRecAspect(selectedAspect));
         console.log("selectedAspect", selectedAspect);
     };
 
@@ -89,6 +90,18 @@ export default function AddDetails() {
                                 myClass=""
                             />
                         )}
+                        <div className="genres">
+                            {recItem &&
+                                recItem.genre_ids.map((genreId) => (
+                                    <div className="genre-item" key={genreId}>
+                                        {genres.map((item) => {
+                                            if (item.id == genreId) {
+                                                return item.name;
+                                            }
+                                        })}
+                                    </div>
+                                ))}
+                        </div>
                     </div>
                     {/* <input
                         type="text"
@@ -141,18 +154,7 @@ export default function AddDetails() {
                             placeholder="Add personal message..."
                             label="Personal message: "
                         />
-                        <div className="genres">
-                            {recItem &&
-                                recItem.genre_ids.map((genreId) => (
-                                    <div className="genre-item" key={genreId}>
-                                        {genres.map((item) => {
-                                            if (item.id == genreId) {
-                                                return item.name;
-                                            }
-                                        })}
-                                    </div>
-                                ))}
-                        </div>
+
                         <div className="aspects">
                             {aspects &&
                                 aspects.map((aspect) => (
