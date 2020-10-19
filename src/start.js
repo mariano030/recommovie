@@ -9,8 +9,10 @@ import reducer from "./redux/reducer.js";
 import { Provider } from "react-redux";
 
 // components
-import SearchItem from "./containers/SearchItem.js";
-import AddDetails from "./containers/AddDetails.js";
+import App from "./App.js";
+
+//hooks
+//import GetAspects from "./hooks/GetAspects";
 // import { init } from "./socket.js";
 
 // socket.io
@@ -26,14 +28,16 @@ const store = createStore(
 
 let elem = (
     <Provider store={store}>
-        {" "}
-        <div className="row-left">
-            <SearchItem />
-            <AddDetails />
-            {/* SelectFocalPoint */}
-            {/* Recommend TO & MSG */}
-            {/* Link Generation */}
-        </div>
+        <App />
+
+        {/* <div className="row-left"> */}
+        {/* <SearchItem />
+            <AddDetails /> */}
+
+        {/* SelectFocalPoint */}
+        {/* Recommend TO & MSG */}
+        {/* Link Generation */}
+        {/* </div> */}
     </Provider>
 );
 

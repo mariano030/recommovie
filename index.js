@@ -3,6 +3,7 @@ const app = express();
 const compression = require("compression");
 const { default: Axios } = require("axios");
 const bodyParser = require("body-parser");
+const db = require("./db.js");
 
 const secrets = require("./secrets");
 
@@ -26,10 +27,10 @@ app.use(bodyParser.urlencoded({ extended: true })); // with extended:true you ca
 app.use(express.json());
 
 // console.log middleware   --- why socket.io?
-// app.use(function (req, res, next) {
-//     console.log("### method: ", req.method, " ### destination", req.url);
-//     next();
-// });
+app.use(function (req, res, next) {
+    console.log("### method: ", req.method, " ### destination", req.url);
+    next();
+});
 
 // static route for public
 app.use(express.static("public"));
@@ -63,43 +64,72 @@ app.get("/api/multi-search/:searchTerm", async (req, res) => {
         res.json(data.results);
     } catch (err) {
         console.log("error searching for movie ", err);
-        res.json({ error: "error accessing database" });
+        //res.json({ error: true });
     }
 });
 
-app.get("/api/credits-by-id/:id", async (req, res) => {
-    console.log("/api/credits-by-id/:id");
-    console.log("searching for: req.body", req.params);
-    const id = req.params.id;
-    console.log("<>>> PARAMS.ID", req.params.id);
-    console.log("<>>> ID", id);
-    //
-    // https://api.themoviedb.org/3/movie/21575/credits?api_key=API_KEYYYY&language=en-US
-    //
+// app.get("/api/credits-by-id/:id", async (req, res) => {
+//     console.log("/api/credits-by-id/:id");
+//     console.log("searching for: req.body", req.params);
+//     const id = req.params.id;
+//     console.log("<>>> PARAMS.ID", req.params.id);
+//     console.log("<>>> ID", id);
+//     //
+//     // https://api.themoviedb.org/3/movie/21575/credits?api_key=API_KEYYYY&language=en-US
+//     //
+//     const searchUrl =
+//         "https://api.themoviedb.org/3/movie/" +
+//         id +
+//         "/credits?api_key=" +
+//         secrets.TMDB_API_KEY +
+//         "&language=en-US";
+//     try {
+//         const { data } = await Axios.get(searchUrl);
+//         console.log(
+//             "*CREDITS*CREDITS*CREDITS*CREDITS*CREDITS*CREDITS*CREDITS*CREDITS*"
+//         );
+//         console.log("searchUrl: ", searchUrl);
+//         console.log("data: .DATA", data);
+//         console.log(
+//             "CREDITS*CREDITS*CREDITS*##########  results done  #######CREDITS*CREDITS*CREDITS*##############"
+//         );
+//         res.json(data);
+//     } catch (err) {
+//         console.log("error searching for item by ID ", err);
+//         res.json({ error: true });
+//     }
+// });
+
+app.get("/api/get-aspects/", async (req, res) => {
+    try {
+        const aspectsResults = await db.getAspects();
+        console.log("getAspects done:  aspectsResults: ", aspectsResults);
+        res.json(aspectsResults.rows);
+        console.log("aspectsResults.rows", aspectsResults.rows);
+    } catch (err) {
+        console.log("error getting aspects");
+        //res.json((error: true})
+    }
+});
+
+app.get("/api/get-genres/", async (req, res) => {
     const searchUrl =
-        "https://api.themoviedb.org/3/movie/" +
-        id +
-        "/credits?api_key=" +
+        "https://api.themoviedb.org/3/genre/movie/list?api_key=" +
         secrets.TMDB_API_KEY +
-        "&language=en-US";
+        "&language=en-US&query=";
     try {
         const { data } = await Axios.get(searchUrl);
-        console.log(
-            "*CREDITS*CREDITS*CREDITS*CREDITS*CREDITS*CREDITS*CREDITS*CREDITS*"
-        );
-        console.log("searchUrl: ", searchUrl);
-        console.log("data: .DATA", data);
-        console.log(
-            "CREDITS*CREDITS*CREDITS*##########  results done  #######CREDITS*CREDITS*CREDITS*##############"
-        );
+        console.log("GENRES RECEIVED");
+        console.log("genres aka data", data);
         res.json(data);
     } catch (err) {
-        console.log("error searching for item by ID ", err);
-        res.json({ error: "error accessing database" });
+        console.log("error getting GENRES from tmdb");
+        //res.json((error: true})
     }
 });
 
 app.get("/r/:code", async (req, res) => {
+    // check if user is senderId
     console.log("RECCCOMOVIE req.params.code", req.params.code);
 });
 

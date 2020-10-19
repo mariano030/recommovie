@@ -2,61 +2,62 @@ DROP TABLE IF EXISTS aspects CASCADE;
 
 CREATE TABLE aspects(
     id SERIAL PRIMARY KEY,
-    aspect VARCHAR(255)
+    name VARCHAR(255),
+    icon VARCHAR(255)
 );
 
-INSERT into aspects (id, aspect)
-values (1, 'Color');
+INSERT into aspects (id,name, icon)
+values (1, 'Color','color');
 
-INSERT into aspects (aspect)
-values (2, 'Art Design');
+INSERT into aspects(name, icon)
+values (2, 'Art Design','design');
 
-INSERT into aspects (aspect)
-values (3,'Costumes');
+INSERT into aspects(name,icon)
+values (3,'Costumes','costumes');
 
-INSERT into aspects (aspect)
-values (4, 'Characters');
+INSERT into aspects(name,icon)
+values (4, 'Characters','caracters');
 
-INSERT into aspects (aspect)
-values ('Story');
+INSERT into aspects(name,icon)
+values ('Story','story');
 
-INSERT into aspects (aspect)
-values ('Screenplay');
+INSERT into aspects(name,icon)
+values ('Screenplay','script');
 
-INSERT into aspects (aspect)
-values ('Dialogue');
+INSERT into aspects(name,icon)
+values ('Dialogue','dialogue');
 
-INSERT into aspects (aspect)
-values ('Editing');
+INSERT into aspects(name,icon)
+values ('Editing','editing');
 
-INSERT into aspects (aspect)
-values ('Mood');
+INSERT into aspects(name,icon)
+values ('Mood','mood');
 
-INSERT into aspects (aspect)
+INSERT into aspects(name,icon)
 values ('Pacing');
 
-INSERT into aspects (aspect)
-values ('Staging/Blocking');
+INSERT into aspects(name,icon)
+values ('Staging/Blocking','blocking');
 
-INSERT into aspects (aspect)
-values ('Lighting');
+INSERT into aspects(name,icon)
+values ('Lighting','lighting');
 
-INSERT into aspects (aspect)
-values ('Music');
+INSERT into aspects(name,icon)
+values ('Music','music');
 
-INSERT into aspects (aspect)
-values ('Sounddesign');
+INSERT into aspects(name,icon)
+values ('Sounddesign','sound');
 
-INSERT into aspects (aspect)
-values ('Cinematography');
+INSERT into aspects(name,icon)
+values ('Cinematography','camera');
 
-INSERT into aspects (aspect)
+INSERT into aspects(name,icon)
 values ('Suspense');
 
-INSERT into aspects (aspect)
-values ('Special Effects');
+INSERT into aspects(name,icon)
+values ('Special Effects','sfx');
 
-INSERT into aspects (aspect)
-values ('Visual Effects');
+INSERT into aspects(name,icon)
+values ('Visual Effects','vfx');
 
 select * from aspects;

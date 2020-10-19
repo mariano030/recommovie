@@ -17,6 +17,22 @@ export async function getFriendsList() {
     }
 }
 
+export function setAspects(array) {
+    console.log("AA setAspects ", array);
+    return {
+        type: "SET_ASPECTS",
+        payload: array,
+    };
+}
+
+export function setGenres(array) {
+    console.log("AA setGenres ", array);
+    return {
+        type: "SET_GENRES",
+        payload: array,
+    };
+}
+
 export function setRecItem(item) {
     console.log("AA setRecommendItem ", item);
     return {
@@ -24,3 +40,19 @@ export function setRecItem(item) {
         payload: item,
     };
 }
+
+export function addSelectedAspect(item) {
+    console.log("AA setRecommendItem ", item);
+    return {
+        type: "ADD_SELECTED_ASPECT",
+        payload: item,
+    };
+}
+
+// export function setRecCredits(item) {
+//     console.log("AA setRecommendItem ", item);
+//     return {
+//         type: "SET_REC_ITEM",
+//         payload: item,
+//     };
+// }

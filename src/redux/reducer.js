@@ -1,5 +1,7 @@
 //src/redux/reducer.js
 
+import { addSelectedAspect } from "./actions";
+
 export default function reducer(state = {}, action) {
     // this is where the reducer takes current state
     // copies the current state
@@ -35,6 +37,29 @@ export default function reducer(state = {}, action) {
                 recItem: action.payload, // whatever you called the key in actions.js
             };
             break;
+        case "SET_ASPECTS":
+            console.log("reducer -> SET_ASPECTS");
+            console.log("reducer saying action.payload", action.payload);
+            state = {
+                ...state,
+                aspects: action.payload, // whatever you called the key in actions.js
+            };
+            break;
+        case "SET_GENRES":
+            console.log("reducer -> SET_GENRES");
+            console.log("reducer saying action.payload", action.payload);
+            state = {
+                ...state,
+                genres: action.payload, // whatever you called the key in actions.js
+            };
+            break;
+        case "ADD_SELECTED_ASPECT":
+            console.log("reducer -> ADD_SELECTED_ASPECT");
+            state.addSelectedAspect.push(item),
+                (state = {
+                    ...state,
+                    ...addSelectedAspects.push(item),
+                });
     }
     return state;
 }

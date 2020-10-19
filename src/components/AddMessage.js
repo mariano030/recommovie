@@ -2,6 +2,7 @@ import React from "react";
 import { useState, useEffect } from "react";
 
 export default function AddMessage(props) {
+    const { name, onChange } = props;
     // if (!item) {
     //     return null;
     // } else {
@@ -22,8 +23,9 @@ export default function AddMessage(props) {
             AddMessage
             <input
                 type="text"
-                name="message"
+                name={name}
                 placholder="personal message"
+                onChange={onChange}
             ></input>
             <button type="button" onClick={toggleButtonLabel}>
                 {buttonLabel}

@@ -45,14 +45,45 @@ body {
     padding: 5px;
 }
 
+.aspects {
+    display: flex;
+    flex-direction: row;
+}
+
+.aspect-item {
+    border-radius: 10px;
+    background-color: lightskyblue;
+    padding: 10px;
+    margin: 3px;
+}
+
+.genres {
+    display: flex;
+    flex-direction: row;
+}
+
+.genre-item {
+    border-radius: 10px;
+    background-color: seagreen;
+    padding: 10px;
+    margin: 3px;
+}
+
 /* display flex  */
 .row-center {
     display: flex;
     justify-content: center;
     align-content: center;
 }
-.row-left {
+.row-start {
     display: flex;
     justify-content: flex-start;
+    align-content: center;
+}
+
+.column-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     align-content: center;
 }

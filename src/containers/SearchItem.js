@@ -14,7 +14,7 @@ export default function SearchItem() {
     const [userInput, setUserInput] = useState("");
     const [title, setTitle] = useState("Most recently registered Users:");
     const [items, setItems] = useState([]);
-    const [credits, setCredits] = useState({});
+    //const [credits, setCredits] = useState({});
     const recItem = useSelector((state) => state.recItem);
     //const [recommend, setRecommend] = useState({});
     //const [mounted, setMounted] = useState("");
@@ -28,32 +28,32 @@ export default function SearchItem() {
         setItems([]);
         setUserInput("");
     };
+    // useEffect(() => {
+    //     console.log("CREDITS BY ID running");
+    //     items.map((item) => {
+    //         if (item.media_type == "person") {
+    //             return;
+    //         } else {
+    //             (async () => {
+    //                 try {
+    //                     const requestUrl = "/api/credits-by-id/" + item.id;
+    //                     const credits = await Axios.get(requestUrl);
+    //                     console.log(
+    //                         "CREDITS ajax done - credits.data",
+    //                         credits.data
+    //                     );
+    //                     console.log(items);
+    //                     setCredits(credits.data);
+    //                     // let mounted = true;
+    //                 } catch (err) {
+    //                     console.log("error", err);
+    //                 }
+    //             })();
+    //         }
+    //     });
+    // }, [items]);
     useEffect(() => {
-        console.log("CREDITS BY ID running");
-        items.map((item) => {
-            if (item.media_type == "person") {
-                return;
-            } else {
-                (async () => {
-                    try {
-                        const requestUrl = "/api/credits-by-id/" + item.id;
-                        const credits = await Axios.get(requestUrl);
-                        console.log(
-                            "CREDITS ajax done - credits.data",
-                            credits.data
-                        );
-                        console.log(items);
-                        setCredits(credits.data);
-                        // let mounted = true;
-                    } catch (err) {
-                        console.log("error", err);
-                    }
-                })();
-            }
-        });
-    }, [items]);
-    useEffect(() => {
-        console.log("useEffect running");
+        console.log("SearchItem useEffect running");
         let ignore = false;
         if (userInput && userInput.length > 3) {
             (async () => {
@@ -147,7 +147,7 @@ export default function SearchItem() {
                                             <i>{movie.original_title}</i>
                                         </div>
                                     )} */}
-                                    <ItemInfo item={item} credits={credits} />
+                                    <ItemInfo item={item} />
                                     <div className="small">Id: {item.id}</div>
                                 </div>
                             </div>
