@@ -4,10 +4,31 @@ import { useDispatch, useSelector } from "react-redux";
 import { setRecItem } from "../redux/actions.js";
 
 import Axios from "../axios";
+// material ui
+import { TextField, Button } from "@material-ui/core";
+import { makeStyles } from "@material-ui/core/styles";
+import List from "@material-ui/core/List";
+
+// components
+import ResultsItemsList from "../components/ResultsItemsList.js";
 import ItemIcon from "../components/ItemIcon.js";
 import ItemInfo from "../components/ItemInfo.js";
 import ItemDate from "../components/ItemDate.js";
+import ResultItem from "../components/ResultItem.js";
+
+const useStyles = makeStyles((theme) => ({
+    root: {
+        width: "100%",
+        maxWidth: "36ch",
+        backgroundColor: theme.palette.background.paper,
+    },
+    inline: {
+        display: "inline",
+    },
+}));
+
 export default function SearchItem() {
+    const classes = useStyles();
     const dispatch = useDispatch();
     const searchField = useRef(); // to manipulate the dom manually, reference an element of DOM
 
@@ -106,13 +127,22 @@ export default function SearchItem() {
                     recommendItem.original_title} */}
             </p>
             <div className="column">
-                <input
+                <TextField
                     ref={searchField}
                     onChange={handleChange}
                     name="search"
-                    type="text"
                     placeholder="Search ..."
+                    id="outlined-basic"
+                    label="Movie / TV-Show"
+                    variant="outlined"
                 />
+                {/* <input
+                    ref={searchField}
+                    onChange={handleChange}
+                    name="search"
+                    placeholder="Search ..."
+                    type="text"
+                /> */}
                 <p className="powered-by-text-small">
                     Powered by{" "}
                     <img
@@ -120,40 +150,24 @@ export default function SearchItem() {
                         src="/icons/tmdb-short.svg"
                     ></img>
                 </p>
-                <p>{title}</p>
             </div>
-            <div className="result-list">
-                {items &&
-                    items.map((item, i) => {
+
+            {items && (
+                <List className={classes.root}>
+                    {items.map((item, i) => {
+                        // wrap in button here?
                         return (
                             <div
-                                key={i}
-                                className="result-item"
+                                key={item}
+                                className="pointer"
                                 onClick={() => handleClick(item)}
                             >
-                                <div>
-                                    <ItemIcon
-                                        item={item}
-                                        myClass="icon-search"
-                                    />
-                                </div>
-                                <div>
-                                    <strong>
-                                        {item.name || item.title}{" "}
-                                        <ItemDate item={item} />
-                                    </strong>
-                                    {/* {movie.original_title && (
-                                        <div className="small">
-                                            <i>{movie.original_title}</i>
-                                        </div>
-                                    )} */}
-                                    <ItemInfo item={item} />
-                                    <div className="small">Id: {item.id}</div>
-                                </div>
+                                <ResultItem item={item} />
                             </div>
                         );
                     })}
-            </div>
+                </List>
+            )}
         </div>
     );
 }

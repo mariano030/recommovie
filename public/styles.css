@@ -87,3 +87,12 @@ body {
     justify-content: center;
     align-content: center;
 }
+
+.pointer {
+    cursor: pointer;
+}
+
+.hero-image {
+    max-width: 90vw;
+    object-fit: contain;
+}

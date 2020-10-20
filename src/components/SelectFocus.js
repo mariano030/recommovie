@@ -9,7 +9,7 @@ export default function SelectFocus(props) {
                     const requestUrl = "/api/get-aspects/";
                     const aspects = await Axios.get(requestUrl);
                     console.log(
-                        "CREDITS ajax done - aspects.rows",
+                        "ASPECTS ajax done - aspects.rows",
                         aspects.rows
                     );
                     }

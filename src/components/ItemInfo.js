@@ -4,8 +4,21 @@ import { useDispatch, useSelector } from "react-redux";
 import { setRecommendItem } from "../redux/actions.js";
 
 import Axios from "../axios";
+import { makeStyles } from "@material-ui/core/styles";
+const useStyles = makeStyles((theme) => ({
+    root: {
+        width: "100%",
+        maxWidth: "36ch",
+        backgroundColor: theme.palette.background.paper,
+    },
+    inline: {
+        display: "inline",
+    },
+}));
 
 export default function ItemInfo(props) {
+    const classes = useStyles();
+
     const [credits, setCredits] = useState({}); // useState(credits)
     const { item, myClass } = props;
     const recItem = useSelector((state) => state.recItem);
@@ -16,28 +29,29 @@ export default function ItemInfo(props) {
             return;
         } else {
             console.log("getting CREDITS for ", item.id);
-            (async () => {
-                try {
-                    const requestUrl = "/api/credits-by-id/" + item.id;
-                    const credits = await Axios.get(requestUrl);
-                    console.log(
-                        "CREDITS ajax done - credits.data",
-                        credits.data
-                    );
-                    setCredits(credits.data);
-                    // let mounted = true;
-                    if (credits && credits.crew) {
-                        let [director] = credits.crew.map((credit) => {
-                            if (credit.department == "Directing") {
-                                return credit;
-                            }
-                        });
-                        console.log("director", director);
-                    }
-                } catch (err) {
-                    console.log("error", err);
-                }
-            })();
+            // (async () => {
+            //     try {
+            //         console.log("ITEM ID???", item.id);
+            //         const requestUrl = "/api/credits-by-id/" + item.id;
+            //         const credits = await Axios.get(requestUrl);
+            //         console.log(
+            //             "CREDITS ajax done - credits.data",
+            //             credits.data
+            //         );
+            //         setCredits(credits.data);
+            //         // let mounted = true;
+            //         if (credits && credits.crew) {
+            //             let [director] = credits.crew.map((credit) => {
+            //                 if (credit.department == "Directing") {
+            //                     return credit;
+            //                 }
+            //             });
+            //             console.log("director", director);
+            //         }
+            //     } catch (err) {
+            //         console.log("error", err);
+            //     }
+            // })();
         }
     }, [item]);
     useEffect(() => {

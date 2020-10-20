@@ -9,6 +9,7 @@ import useStatefulFields from "../hooks/useStatefulFields";
 import ItemIcon from "../components/ItemIcon.js";
 import ItemImage from "../components/ItemImage.js";
 import TextField from "../components/TextField";
+import InputFieldIcon from "../components/InputFieldIcon";
 //delete me soon:
 import AddMessage from "../components/AddMessage.js";
 
@@ -18,13 +19,16 @@ export default function AddDetails() {
     const [values, handleChange] = useStatefulFields();
     const dispatch = useDispatch();
     const recItem = useSelector((state) => state.recItem);
-    const recAspects = useSelector((state) => state.recAspects);
+    //const recAspects = useSelector((state) => state.recAspects);
     const genres = useSelector((state) => state.genres);
     const aspects = useSelector((state) => state.aspects);
     //const selected = useEffect(() => {}, []);
     // const onSubmit = (data) => {
     //     console.log(data);
     // };
+
+    // USE Standalone toggle button for Genres
+
     const handleClick = (id) => {
         console.log("clicked button with id:", id);
         console.log(
@@ -54,7 +58,7 @@ export default function AddDetails() {
                 <ItemIcon item={recItem} myClass="icon-search" />
                 <div className="result-recItem">
                     <div>
-                        <ItemImage item={recItem}></ItemImage>
+                        {/* <ItemImage item={recItem}></ItemImage> */}
                         <div className="small">
                             {recItem.media_type == "tv" && (
                                 <img
@@ -70,6 +74,7 @@ export default function AddDetails() {
                             )}
                         </div>
                     </div>
+                    friendsName: {values.friendsName}
                     message: {values.message} senderName: {values.senderName}{" "}
                     recipientName {values.recipientName}
                     <div>
@@ -84,14 +89,15 @@ export default function AddDetails() {
 
                         <div className="small">Id: {recItem.id}</div>
                         {recItem && (
-                            <ItemImage
-                                item={recItem}
-                                type="backdrop"
-                                myClass=""
-                            />
+                            <img
+                                src={
+                                    "https://image.tmdb.org/t/p/w780" +
+                                    recItem.backdrop_path
+                                }
+                            ></img>
                         )}
                         <div className="genres">
-                            {recItem &&
+                            {recItem.genre &&
                                 recItem.genre_ids.map((genreId) => (
                                     <div className="genre-item" key={genreId}>
                                         {genres.map((item) => {
@@ -154,7 +160,8 @@ export default function AddDetails() {
                             placeholder="Add personal message..."
                             label="Personal message: "
                         />
-
+                        MATERIAL!
+                        <InputFieldIcon handleChange={handleChange} />
                         <div className="aspects">
                             {aspects &&
                                 aspects.map((aspect) => (
