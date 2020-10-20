@@ -135,6 +135,7 @@ export default function SearchItem() {
                     id="outlined-basic"
                     label="Movie / TV-Show"
                     variant="outlined"
+                    fullWidth
                 />
                 {/* <input
                     ref={searchField}
@@ -153,7 +154,7 @@ export default function SearchItem() {
             </div>
 
             {items && (
-                <List className={classes.root}>
+                <List className={classes.root} fullWidth>
                     {items.map((item, i) => {
                         // wrap in button here?
                         return (

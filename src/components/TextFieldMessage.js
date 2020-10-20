@@ -14,7 +14,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function TextFieldMessage(props) {
     const classes = useStyles();
-    const { handleChange, label, placeholder } = props;
+    const { onChange, label, placeholder, name } = props;
 
     //const [value, setValue] = React.useState("Controlled");
 
@@ -26,11 +26,9 @@ export default function TextFieldMessage(props) {
         <form className={classes.root} noValidate autoComplete="off">
             <Grid container spacing={1} alignItems="flex-end">
                 <Grid item>
-                    <ChatBubbleOutlined />
-                </Grid>
-                <Grid item>
                     <TextField
-                        onChange={handleChange}
+                        name={name}
+                        onChange={onChange}
                         id="standard-textarea"
                         label={label}
                         placeholder={placeholder}

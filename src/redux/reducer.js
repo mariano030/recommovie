@@ -2,7 +2,7 @@
 
 import { addSelectedAspect } from "./actions";
 
-export default function reducer(state = {}, action) {
+export default function reducer(state = { recData: {} }, action) {
     // this is where the reducer takes current state
     // copies the current state
     // modifies the copy of the current state
@@ -60,9 +60,31 @@ export default function reducer(state = {}, action) {
                 ...state,
                 recAspects: [...state.recAspects, action.payload],
             };
+            break;
+        case "SET_REC_MESSAGE":
+            console.log("reducer -> SET_REC_MESSAGE");
+            console.log(action.payload);
+            state = {
+                ...state,
+                recMessage: action.payload,
+            };
+            break;
+        case "ADD_TO_REC_DATA":
+            console.log("reducer -> SET_REC_MESSAGE");
+            console.log(action.payload);
+            state = {
+                ...state,
+                recData: {
+                    ...state.recData,
+                    ...action.payload,
+                },
+            };
+            break;
     }
     return state;
 }
+
+// SET_REC_MESSAGE
 
 // type: "LOAD_TEN",
 // payload: messages,

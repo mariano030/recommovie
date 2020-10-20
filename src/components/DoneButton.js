@@ -6,6 +6,7 @@ import CloudUploadIcon from "@material-ui/icons/CloudUpload";
 import KeyboardVoiceIcon from "@material-ui/icons/KeyboardVoice";
 import Icon from "@material-ui/core/Icon";
 import SaveIcon from "@material-ui/icons/Save";
+import TheatersIcon from "@material-ui/icons/Theaters";
 
 const useStyles = makeStyles((theme) => ({
     button: {
@@ -17,64 +18,15 @@ export default function DoneButton() {
     const classes = useStyles();
 
     return (
-        <div>
-            <Button
-                variant="contained"
-                color="secondary"
-                className={classes.button}
-                startIcon={<DeleteIcon />}
-            >
-                Delete
-            </Button>
-            {/* This Button uses a Font Icon, see the installation instructions in the Icon component docs. */}
-            <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                endIcon={<Icon>send</Icon>}
-            >
-                Send
-            </Button>
-            <Button
-                variant="contained"
-                color="default"
-                className={classes.button}
-                startIcon={<CloudUploadIcon />}
-            >
-                Upload
-            </Button>
-            <Button
-                variant="contained"
-                disabled
-                color="secondary"
-                className={classes.button}
-                startIcon={<KeyboardVoiceIcon />}
-            >
-                Talk
-            </Button>
-            {/* Fastfood Favorite Highlight Spotlight Loyalty MeetingRoom Mood Movie
-            MovieFilter MoodBad TagFaces Theaters Textsms Watch WatchLater Cake
-            Weekend EmojiEmotions Face */}
-            ChatBubbleOutlined SentimentDissatisfied SentimentSatisfied
-            SentimentSatisfiedAlt SentimentVerySatisfied
-            SentimentVeryDissatisfied NavigateBefore NavigateNextf
-            <Button
-                variant="contained"
-                color="primary"
-                size="small"
-                className={classes.button}
-                startIcon={<SaveIcon />}
-            >
-                Save
-            </Button>
+        <div className="row-center">
             <Button
                 variant="contained"
                 color="primary"
                 size="large"
                 className={classes.button}
-                startIcon={<SaveIcon />}
+                startIcon={<TheatersIcon />}
             >
-                Save
+                Recommend Now
             </Button>
         </div>
     );

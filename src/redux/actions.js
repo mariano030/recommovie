@@ -49,6 +49,22 @@ export function addRecAspect(item) {
     };
 }
 
+export function setRecMessage(message) {
+    console.log("AA addRecMessage - adding:", message);
+    return {
+        type: "SET_REC_MESSAGE",
+        payload: message,
+    };
+}
+
+export function addToRecData(nameValueObj) {
+    console.log("AA addRecMessage - adding:", nameValueObj);
+    return {
+        type: "ADD_TO_REC_DATA",
+        payload: nameValueObj,
+    };
+}
+
 // export function setRecCredits(item) {
 //     console.log("AA setRecommendItem ", item);
 //     return {

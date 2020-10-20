@@ -15,7 +15,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function InputFieldIcon(props) {
-    const { handleChange, label } = props;
+    const { onChange, label } = props;
     const classes = useStyles();
 
     return (
@@ -28,7 +28,7 @@ export default function InputFieldIcon(props) {
                     <Grid item>
                         <TextField
                             name="friendsName"
-                            onChange={handleChange}
+                            onChange={onChange}
                             id="input-with-icon-grid"
                             label={label}
                         />

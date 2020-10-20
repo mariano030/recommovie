@@ -1,3 +1,4 @@
+
 ///////////////////////////////////////////////////////////
 
 // monday
@@ -26,3 +27,68 @@
 // prsentation
 
 // general - do i get the imdb id??
+
+
+
+buttons
+            <Button
+                variant="contained"
+                color="secondary"
+                className={classes.button}
+                startIcon={<DeleteIcon />}
+            >
+                Delete
+            </Button>
+            {/* This Button uses a Font Icon, see the installation instructions in the Icon component docs. */}
+            <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                endIcon={<Icon>send</Icon>}
+            >
+                Send
+            </Button>
+            <Button
+                variant="contained"
+                color="default"
+                className={classes.button}
+                startIcon={<CloudUploadIcon />}
+            >
+                Upload
+            </Button>
+            <Button
+                variant="contained"
+                disabled
+                color="secondary"
+                className={classes.button}
+                startIcon={<KeyboardVoiceIcon />}
+            >
+                Talk
+            </Button>
+            {/* Fastfood Favorite Highlight Spotlight Loyalty MeetingRoom Mood Movie
+            MovieFilter MoodBad TagFaces Theaters Textsms Watch WatchLater Cake
+            Weekend EmojiEmotions Face */}
+            ChatBubbleOutlined SentimentDissatisfied SentimentSatisfied
+            SentimentSatisfiedAlt SentimentVerySatisfied
+            SentimentVeryDissatisfied NavigateBefore NavigateNextf
+            <Button
+                variant="contained"
+                color="primary"
+                size="small"
+                className={classes.button}
+                startIcon={<SaveIcon />}
+            >
+                Save
+            </Button>
+
+
+functionName (e) =>{
+    //prevent defaults? wenn button im form??
+    setWasauchimmer(e.target.value)
+    dispatch(wasauchImmer(e.target.value));
+}
+
+<TextField 
+    onChange={functionName}
+    value={stateVariable}
+/>

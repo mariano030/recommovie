@@ -62,10 +62,10 @@ export default function ResultItem(props) {
             iconUrl = "/icons/media_type_person.svg";
             break;
     }
-
+    let key = item.id * item.vote_average;
     return (
         <>
-            <ListItem key={item.id} alignItems="flex-start">
+            <ListItem key={key.id} alignItems="flex-start">
                 <ListItemAvatar>
                     <Avatar alt="Remy Sharp" src={iconUrl} />
                 </ListItemAvatar>
@@ -82,12 +82,17 @@ export default function ResultItem(props) {
                                 className={classes.inline}
                                 color="textPrimary"
                             >
-                                {item.original_title && " — "}
-                                {item.original_title &&
-                                    item.original_title}{" "}
-                                {/* {" — " +
+                                <i>
+                                    {item.original_title && " — "}
+                                    {item.original_title &&
+                                        item.original_title}{" "}
+                                    {item.original_name && " — "}
+                                    {item.original_name &&
+                                        item.original_name}{" "}
+                                    {/* {" — " +
                                     <ItemTitle item={item} type={original} /> +
                                     " (original title)"} */}
+                                </i>
                             </Typography>
                             <Typography
                                 component="span"
@@ -98,10 +103,16 @@ export default function ResultItem(props) {
                                 <br></br>
                                 Genres:
                                 {genres &&
+                                    genres.map((item) => {
+                                        if (item.id == genreId) {
+                                            return item.name;
+                                        }
+                                    })}
+                                {/* {genres &&
                                     item.genre_ids &&
                                     item.genre_ids.map((id) => {
                                         return genres[id].name + ", ";
-                                    })}
+                                    })} */}
                             </Typography>
                         </React.Fragment>
                     }

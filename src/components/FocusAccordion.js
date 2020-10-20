@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function FocusAccordion() {
+export default function FocusAccordion(props) {
     const classes = useStyles();
 
     return (
@@ -37,16 +37,9 @@ export default function FocusAccordion() {
                     <Typography>
                         <FocusButton
                             // key={aspect.id}
+
                             className="aspect-item"
                             label="Cinematography"
-                            onClick={() => {
-                                this.handleClick(aspect.id);
-                            }}
-                        />
-                        <FocusButton
-                            // key={aspect.id}
-                            className="aspect-item"
-                            label="Art Design"
                             onClick={() => {
                                 this.handleClick(aspect.id);
                             }}
