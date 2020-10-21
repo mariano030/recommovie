@@ -69,6 +69,7 @@ export default function MoreDetails() {
     // };
     console.log("recItem: ", recItem);
     let iconUrl = "";
+    let date = "";
 
     const handleSubmit = () => {
         console.log("submit button pressed");
@@ -92,6 +93,11 @@ export default function MoreDetails() {
         }
     };
 
+    // const handleFocusButton = (id) => {
+    //     console.log("submit button pressed");
+    //     console.log("aspect id:", id);
+    // };
+
     // input fields:
     const handleChangeMaterial = (e) => {
         console.log(e.target.value);
@@ -100,7 +106,7 @@ export default function MoreDetails() {
         dispatch(addToRecData(dataObj));
     };
     const handleFocusButton = (newFocusID) => {
-        console.log("FOCUS BUTTON", focusId);
+        console.log("FOCUS BUTTON", newFocusID);
         // array building here...
 
         //let dataObj = { [e.target.name]: e.target.value };
@@ -158,12 +164,16 @@ export default function MoreDetails() {
         //imgUrl = "https://image.tmdb.org/t/p/w780" + recItem.backdrop_path;
         switch (recItem.media_type) {
             case "movie":
-                setRecDate("(" + recItem.release_date.substring(0, 4) + ")");
+                date = "(" + recItem.release_date.substring(0, 4) + ")";
+                console.log("DATE", date);
+                setRecDate(date);
                 iconUrl = "/icons/media_type_movie.svg";
                 break;
             case "tv":
-                setRecDate("(" + recItem.first_air_date.substring(0, 4) + ")");
+                date = "(" + recItem.first_air_date.substring(0, 4) + ")";
+                setRecDate(date);
                 iconUrl = "/icons/media_type_tv.svg";
+                console.log("DATE", date);
                 break;
             case "person":
                 iconUrl = "/icons/media_type_person.svg";
@@ -219,8 +229,10 @@ export default function MoreDetails() {
                                 <Typography variant="h5">
                                     {recItem.original_name ||
                                         recItem.original_title}
-                                    {recItem.media_type != "person" &&
-                                        " (" + { recDate } + ")"}
+                                    {/* {recItem.media_type != "person" && {
+                                        recDate,
+                                    }} */}{" "}
+                                    {recDate}
                                 </Typography>
                             </div>
                         </div>
@@ -282,7 +294,7 @@ export default function MoreDetails() {
                             value={message}
                             onChange={handleChangeMaterial}
                             label="Personal message"
-                            placeholder="'Check out the great ...'"
+                            placeholder="'Check out this moving gem. I'm sure you'll like it!'"
                         />
                         <InputFieldLink
                             name="customUrl"
@@ -321,12 +333,14 @@ export default function MoreDetails() {
                                         aspects.map((aspect) => (
                                             <FocusButton
                                                 // key={aspect.id}
-                                                name={aspects.id}
+                                                name={aspect.id}
                                                 className="aspect-item"
-                                                label="Cinematography"
-                                                onClick={handleFocusButton(
-                                                    aspects[0].id
-                                                )}
+                                                label={aspect.name}
+                                                onClick={() =>
+                                                    handleFocusButton(
+                                                        aspects[0].id
+                                                    )
+                                                }
                                             />
                                         ))}
                                 </Typography>

@@ -119,3 +119,13 @@ functionName (e) =>{
 
 // recommender id in cookie speichern
 // beim rec link checke ob recommender id von rec != vom cookie dann bin ich angucker
+
+
+// post
+// send recData
+// (session)
+// find next user and create?
+// create focus insert
+// create rec insert
+// generate link
+// res.json link

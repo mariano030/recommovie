@@ -33,6 +33,7 @@ export default function TextFieldMessage(props) {
                         label={label}
                         placeholder={placeholder}
                         multiline
+                        rows={5}
                     />
                 </Grid>
             </Grid>

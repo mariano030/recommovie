@@ -189,7 +189,7 @@ export default function SearchItem() {
                 </p>
             </div>
 
-            {items && (
+            {items.length >= 1 && (
                 <List className={classes.root}>
                     {items.map((item, i) => {
                         // wrap in button here?
