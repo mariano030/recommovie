@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { useDispatch } from "react-redux"; // useSelector
+import { useDispatch, useSelector } from "react-redux"; // useSelector
 import { BrowserRouter, Route, Link } from "react-router-dom";
 import Axios from "axios";
 
@@ -21,9 +21,11 @@ import AddDetails from "./containers/AddDetails.js";
 import MoreDetails from "./containers/MoreDetails.js";
 import InputFieldIcon from "./components/InputFieldIcon.js";
 import DoneButton from "./components/DoneButton.js";
+import LinkIsReady from "./containers/LinkIsReady.js";
 
 export default function App() {
     const dispatch = useDispatch();
+    const newRecLink = useSelector((state) => state.newRecLink);
     // const recItem = useSelector((state) => state.recItem);
     // const selected = useEffect(() => {}, []);
     //
@@ -54,9 +56,10 @@ export default function App() {
                 <SearchItem />
                 {/* <AddDetails /> */}
                 <MoreDetails />
+                {/* {newRecLink && <LinkIsReady />} */}
                 {/* <Button> Material UI</Button> */}
                 {/* <InputFieldIcon /> */}
-                <DoneButton />
+                {/* <DoneButton /> */}
             </div>
         </>
     );

@@ -92,3 +92,30 @@ functionName (e) =>{
     onChange={functionName}
     value={stateVariable}
 />
+
+
+
+// get credits for item
+//      implement crew / cast
+// get videos for item
+//      implement trailers
+
+
+// code/fsadf/
+// check cookie with sender
+// if no cookie set cookie
+// if recipient null update
+// get rec
+// get item
+
+// get credits
+// get videos for item
+
+// Preview??
+
+
+// kein bild vorhanden?! - die katze 2007
+
+
+// recommender id in cookie speichern
+// beim rec link checke ob recommender id von rec != vom cookie dann bin ich angucker

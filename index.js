@@ -6,9 +6,30 @@ const bodyParser = require("body-parser");
 const db = require("./db.js");
 
 const secrets = require("./secrets");
+const util = require("util");
+
+// cookies
+const cookieSession = require("cookie-session");
+const csurf = require("csurf");
+
+const cookieSessionMiddleware = cookieSession({
+    secret: secrets.SESSION_SECRET,
+    maxAge: 1000 * 60 * 60 * 24 * 90,
+});
+
+app.use(cookieSessionMiddleware);
+app.use(csurf());
+
+app.use((req, res, next) => {
+    res.set("x-frame-options", "DENY");
+    res.cookie("mytoken", req.csrfToken());
+    next();
+});
 
 console.log("api key", secrets.TMDB_API_KEY);
 app.use(compression());
+
+let uidSafe = util.promisify(require("uid-safe"));
 
 // proxy setup
 if (process.env.NODE_ENV != "production") {
@@ -35,6 +56,69 @@ app.use(function (req, res, next) {
 // static route for public
 app.use(express.static("public"));
 
+// post routes
+app.post("/rec/", async (req, res) => {
+    if (req.body && req.session) {
+        console.log("req.body.session");
+    } else {
+        console.log("no cookie present");
+    }
+    console.log("/rec/ - making a recOmmendation!");
+    console.log("req.body", req.body);
+
+    // get cookie!
+    // user id in users eintragen
+    //console.log("fullUrl", fullUrl);
+    console.log(req.header);
+    console.log("req.protocol: ", req.protocol);
+    console.log('req.get("host"): ', req.get("host"));
+    console.log("req.url: ", req.url);
+    // sender req.body.session
+    const {
+        mediaType,
+        itemId,
+        imageType = 2,
+        focus = 1,
+        extUrl,
+        message,
+    } = req.body;
+    const senderId = 1;
+    console.log("mediaType", mediaType);
+    console.log("itemId: ", itemId);
+    console.log("imageType: ", imageType);
+    console.log("message: ", message);
+    // deal with focus!! list of focus relations?!
+    console.log("focus", focus);
+    //console.log("req.originalUrl", originalUrl);
+    // const randomCode = util.promisify(generateCode);
+    uidSafe(5)
+        .then((randomCode) => {
+            console.log("promised", randomCode);
+            db.makeRec(randomCode, mediaType, itemId, senderId, message)
+                .then(() => {
+                    const link =
+                        req.protocol +
+                        "://" +
+                        req.get("host") +
+                        "/r/" +
+                        randomCode;
+                    //console.log("mylink", dynamicLink);
+                    console.log("sending: link", link);
+                    res.json({ link });
+                    console.log("response sent to server!");
+                })
+                .catch((err) => console.log("error inserting rec ", err));
+        })
+        .catch((err) =>
+            console.log("error with randomCode and DB recs inster", err)
+        );
+
+    // add req.body.session for sender
+    //await db.makeRec(code, "movie");
+    //const { mediaType, mediaId, imageType } = req.body;
+});
+
+// get routes
 app.get("/api/multi-search/:searchTerm", async (req, res) => {
     console.log("searching for: req.body", req.params);
 

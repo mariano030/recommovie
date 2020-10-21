@@ -28,14 +28,22 @@ export default function reducer(state = { recData: {} }, action) {
                 allFriendsAndRequests: action.payload, // whatever you called the key in actions.js
             };
             break;
-        case "SET_REC_ITEM":
+        case "SET_REC_ITEM_REC_DATA":
             // what what?
-            console.log("RRR SET_REC_ITEM");
+            console.log("SET_REC_ITEM_REC_DATA");
             console.log("reducer saying action.payload", action.payload);
+
+            console.log(action.payload.media_type);
             state = {
                 ...state,
-                recItem: action.payload, // whatever you called the key in actions.js
+                recItem: action.payload,
+                recData: {
+                    ...state.recData,
+                    itemId: action.payload.id,
+                    mediaType: action.payload.media_type,
+                },
             };
+
             break;
         case "SET_ASPECTS":
             console.log("reducer -> SET_ASPECTS");
@@ -78,6 +86,14 @@ export default function reducer(state = { recData: {} }, action) {
                     ...state.recData,
                     ...action.payload,
                 },
+            };
+            break;
+        case "SET_NEW_REC_LINK":
+            console.log("reducer -> SET_REC_MESSAGE");
+            console.log(action.payload);
+            state = {
+                ...state,
+                newRecLink: action.payload,
             };
             break;
     }

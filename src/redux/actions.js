@@ -33,10 +33,10 @@ export function setGenres(array) {
     };
 }
 
-export function setRecItem(item) {
+export function setRecItemRecData(item) {
     console.log("AA setRecommendItem ", item);
     return {
-        type: "SET_REC_ITEM",
+        type: "SET_REC_ITEM_REC_DATA",
         payload: item,
     };
 }
@@ -62,6 +62,14 @@ export function addToRecData(nameValueObj) {
     return {
         type: "ADD_TO_REC_DATA",
         payload: nameValueObj,
+    };
+}
+
+export function setRecLink(link) {
+    console.log("AA  setRecLink(link)  - adding:", link);
+    return {
+        type: "SET_NEW_REC_LINK",
+        payload: link,
     };
 }
 

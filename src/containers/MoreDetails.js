@@ -3,6 +3,7 @@ import useForm from "react-hook-form";
 import { Link } from "react-router-dom"; // ?? needed ??
 import { useDispatch, useSelector } from "react-redux";
 import { addRecAspect, addToRecData } from "../redux/actions.js";
+import Axios from "../axios";
 
 import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
@@ -11,6 +12,7 @@ import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import DoneButton from "../components/DoneButton.js";
 
 import useStatefulFields from "../hooks/useStatefulFields";
 
@@ -50,11 +52,16 @@ export default function MoreDetails() {
     const [customUrl, setCustomUrl] = useState();
     const [imgStyle, setPictureType] = useState("backdrop_path");
     const [imgUrl, setImgUrl] = useState("");
-    const dispatch = useDispatch();
+    const [recDate, setRecDate] = useState("");
+    const [recLink, setRecLink] = useState("");
     //const recAspects = useSelector((state) => state.recAspects);
+    //redux
+    const dispatch = useDispatch();
     const recItem = useSelector((state) => state.recItem);
     const genres = useSelector((state) => state.genres);
     const aspects = useSelector((state) => state.aspects);
+    const recData = useSelector((state) => state.recData);
+    //const recLink = useSelector((state) => state.recLink;
     let focusId = [];
     //const selected = useEffect(() => {}, []);
     // const onSubmit = (data) => {
@@ -62,8 +69,29 @@ export default function MoreDetails() {
     // };
     console.log("recItem: ", recItem);
     let iconUrl = "";
-    // let imgUrl = "";
-    // let imgStyle = "";
+
+    const handleSubmit = () => {
+        console.log("submit button pressed");
+        console.log("recData", recData);
+        if (!recItem) {
+            console.log("no recItem can not recOmmend");
+        } else {
+            (async () => {
+                try {
+                    const response = await Axios.post("/rec/", recData);
+                    console.log(
+                        "the link is here! response.data",
+                        response.data.link
+                    );
+                    //dispatch(setRecLink(response.data.link));
+                    setRecLink(response.data.link);
+                } catch (err) {
+                    console.log("error recommending...!", err);
+                }
+            })();
+        }
+    };
+
     // input fields:
     const handleChangeMaterial = (e) => {
         console.log(e.target.value);
@@ -81,6 +109,16 @@ export default function MoreDetails() {
 
     const toggleImage = () => {
         console.log("changing imgStyle from previous", imgStyle);
+        if (recItem.poster_path && recItem.backdrop_path) {
+            console.log("has poster & backdeop");
+        } else if (recItem.poster_path) {
+            console.log("has only recItem.poster_path");
+        } else if (recItem.backdrop_path) {
+            console.log("has only backdrop_path");
+        } else {
+            console.log("has only backdrop_path");
+            setImgUrl("/images/default_picture.webp");
+        }
         if (imgStyle == "backdrop_path") {
             setImgUrl("poster_path");
             setImgUrl("https://image.tmdb.org/t/p/w780" + recItem.poster_path);
@@ -92,20 +130,39 @@ export default function MoreDetails() {
         }
         console.log(imgUrl);
     };
+
+    useEffect(() => {
+        if (recLink) {
+            //dispatch(setRecLink(recLink));
+        } else {
+            console.log("no link yet...");
+        }
+    }, [recLink]);
     useEffect(() => {
         if (!recItem) {
             return;
         }
         console.log("imgUrl", imgUrl);
 
+        // {
+        //     recItem.original_name || recItem.original_title;
+        // }
+        // {
+        //     recItem.media_type != "person" &&
+        //         recItem.release_date &&
+        //         " (" + recItem.release_date.substring(0, 4) + ")";
+        // }
+
         // imgStyle = "backdrop_path";
         setImgUrl("https://image.tmdb.org/t/p/w780" + recItem[imgStyle]);
         //imgUrl = "https://image.tmdb.org/t/p/w780" + recItem.backdrop_path;
         switch (recItem.media_type) {
             case "movie":
+                setRecDate("(" + recItem.release_date.substring(0, 4) + ")");
                 iconUrl = "/icons/media_type_movie.svg";
                 break;
             case "tv":
+                setRecDate("(" + recItem.first_air_date.substring(0, 4) + ")");
                 iconUrl = "/icons/media_type_tv.svg";
                 break;
             case "person":
@@ -140,8 +197,8 @@ export default function MoreDetails() {
     } else {
         return (
             <>
-                <ItemIcon item={recItem} myClass="icon-search" />
-                MORE DETAILS
+                {/* MORE DETAILS */}
+                {recLink && <h1>{recLink}</h1>}
                 <div className="result-recItem">
                     <div>
                         <ItemImage
@@ -151,14 +208,22 @@ export default function MoreDetails() {
                         <div className="small"></div>
                     </div>
                     <div>
-                        <strong>
-                            {recItem.original_name || recItem.original_title}
-                            {recItem.media_type != "person" &&
-                                recItem.release_date &&
-                                " (" +
-                                    recItem.release_date.substring(0, 4) +
-                                    ")"}
-                        </strong>
+                        <div className="row-start">
+                            <div>
+                                <ItemIcon
+                                    item={recItem}
+                                    myClass="icon-search"
+                                />
+                            </div>
+                            <div className="item-title">
+                                <Typography variant="h5">
+                                    {recItem.original_name ||
+                                        recItem.original_title}
+                                    {recItem.media_type != "person" &&
+                                        " (" + { recDate } + ")"}
+                                </Typography>
+                            </div>
+                        </div>
 
                         <div className="small">Id: {recItem.id}</div>
                         {/* {recItem && <img src={imgUrl}></img>} */}
@@ -174,8 +239,10 @@ export default function MoreDetails() {
                                             fontSize={10}
                                             p={1}
                                             m={1}
-                                            bgcolor="text.disabled"
+                                            // cssStyle={{ bgcolor: "yellow" }}
+                                            bgcolor="white"
                                             // bgcolor="background.paper"
+                                            // cssStyle={class: "genre-item"}
                                         >
                                             {genres.map((item) => {
                                                 if (item.id == genreId) {
@@ -243,24 +310,25 @@ export default function MoreDetails() {
                                         value="check"
                                         selected={selected}
                                         onChange={() => {
-                                            handleFocusButton(aspects[0].id);
+                                            handleFocusButton;
                                             setSelected(!selected);
                                         }}
                                     >
                                         {aspects[0].name}
                                     </ToggleButton>
 
-                                    {aspects && (
-                                        <FocusButton
-                                            // key={aspect.id}
-                                            name={aspects[0].id}
-                                            className="aspect-item"
-                                            label="Cinematography"
-                                            onClick={handleFocusButton(
-                                                aspects[0].id
-                                            )}
-                                        />
-                                    )}
+                                    {aspects &&
+                                        aspects.map((aspect) => (
+                                            <FocusButton
+                                                // key={aspect.id}
+                                                name={aspects.id}
+                                                className="aspect-item"
+                                                label="Cinematography"
+                                                onClick={handleFocusButton(
+                                                    aspects[0].id
+                                                )}
+                                            />
+                                        ))}
                                 </Typography>
                             </AccordionDetails>
                         </Accordion>{" "}
@@ -289,6 +357,8 @@ export default function MoreDetails() {
                 {/* <Button /> */}
                 {/* <VanillaTextInput /> */}
                 {/* </div> */}
+
+                <DoneButton onClick={() => handleSubmit()} />
             </>
         );
     }

@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom"; // ?? needed ??
 import { useDispatch, useSelector } from "react-redux";
-import { setRecItem } from "../redux/actions.js";
+import { setRecItemRecData } from "../redux/actions.js";
 
 import Axios from "../axios";
 // material ui
 import { TextField, Button } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 import List from "@material-ui/core/List";
+import Typography from "@material-ui/core/Typography";
+import MovieIcon from "@material-ui/icons/Movie";
+import TheatersIcon from "@material-ui/icons/Theaters";
 
 // components
 import ResultsItemsList from "../components/ResultsItemsList.js";
@@ -44,7 +47,7 @@ export default function SearchItem() {
     };
     const handleClick = (item) => {
         console.log("handleClick running - SETTING item ->recItem");
-        dispatch(setRecItem(item));
+        dispatch(setRecItemRecData(item));
         //searchField.current.value = "";
         setItems([]);
         setUserInput("");
@@ -76,56 +79,89 @@ export default function SearchItem() {
     useEffect(() => {
         console.log("SearchItem useEffect running");
         let ignore = false;
-        if (userInput && userInput.length > 3) {
-            (async () => {
-                try {
-                    console.log("/api/multi-search/ " + userInput);
-                    const requestUrl = "/api/multi-search/" + userInput;
-                    const searchResults = await Axios.get(requestUrl);
-                    console.log("ajax done", searchResults.data);
-                    console.log(items);
-                    if (!ignore) {
-                        //setItems([]);
-                        setItems(searchResults.data);
-                    } else {
-                        console.log("ignored!");
-                    }
-                } catch (err) {
-                    console.log("error", err);
-                }
-            })();
+        if (userInput == "") {
+            setItems([]);
         } else {
-            setTitle("Search for your recommendation:");
-            // const formData = new FormData();
-            // formData.append(("userInput", userInput));
-            console.log("now go an get the ones i am searching for, maDUDE");
-            const requestUrl = "/api/find-users/" + userInput;
+            if (userInput && userInput.length >= 3) {
+                (async () => {
+                    try {
+                        console.log("/api/multi-search/ " + userInput);
+                        const requestUrl = "/api/multi-search/" + userInput;
+                        const searchResults = await Axios.get(requestUrl);
+                        console.log("ajax done", searchResults.data);
+                        console.log(items);
+                        if (!ignore) {
+                            //setItems([]);
+                            let searchResultsFiltered = searchResults.data;
+                            // .slice(
+                            //     0,
+                            //     limit results here but "burning" :()
+                            // )
+                            setItems(searchResultsFiltered);
+                        } else {
+                            console.log("ignored!");
+                        }
+                    } catch (err) {
+                        console.log("error", err);
+                    }
+                })();
 
-            // (async () => {
-            //     try {
-            //         console.log("ajax about to start!");
-            //         const { data } = await Axios.post(requestUrl);
-            //         //setMovies(data);
-            //     } catch (err) {
-            //         console.log("error ", err);
-            //     }
-            // })();
+                return () => {
+                    console.log("cleanup running");
+                    ignore = true;
+                };
+            } else {
+                setItems([]);
+                // setTitle("Search for your recommendation:");
+                // // const formData = new FormData();
+                // // formData.append(("userInput", userInput));
+                // console.log(
+                //     "now go an get the ones i am searching for, maDUDE"
+                // );
+                // const requestUrl = "/api/find-users/" + userInput;
+
+                // (async () => {
+                //     try {
+                //         console.log("ajax about to start!");
+                //         const { data } = await Axios.post(requestUrl);
+                //         //setMovies(data);
+                //     } catch (err) {
+                //         console.log("error ", err);
+                //     }
+                // })();
+            }
+            // ,
+            // [userInput]
+            // }
         }
-        // ,
-        // [userInput]
-        // }
-        return () => {
-            console.log("cleanup running");
-            ignore = true;
-        };
     }, [userInput]);
 
     return (
-        <div className="search-container">
-            <p>
-                {/* {(recommendItem && recommendItem.original_name) ||
-                    recommendItem.original_title} */}
-            </p>
+        <div>
+            <div className="row-center">
+                <TheatersIcon
+                    style={{
+                        fontSize: 30,
+                        transform: "translateY(-10%)",
+                        margin: "10px",
+                    }}
+                />
+                {/* <div className="icon-title">
+                    <img
+                        className="icon-movie-title"
+                        src="/icons/media_type_movie.svg"
+                        alt="movie"
+                    ></img>
+                </div> */}
+                <div className="icon-tv-title">
+                    <img
+                        className="icon-tv-title"
+                        src="/icons/media_type_tv.svg"
+                        alt="tv"
+                    ></img>
+                </div>
+                <Typography variant="h4">Recommend.</Typography>
+            </div>
             <div className="column">
                 <TextField
                     ref={searchField}
@@ -135,7 +171,7 @@ export default function SearchItem() {
                     id="outlined-basic"
                     label="Movie / TV-Show"
                     variant="outlined"
-                    fullWidth
+                    fullWidth={true}
                 />
                 {/* <input
                     ref={searchField}
@@ -154,7 +190,7 @@ export default function SearchItem() {
             </div>
 
             {items && (
-                <List className={classes.root} fullWidth>
+                <List className={classes.root}>
                     {items.map((item, i) => {
                         // wrap in button here?
                         return (

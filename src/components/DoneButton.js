@@ -14,12 +14,14 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function DoneButton() {
+export default function DoneButton(props) {
+    const { onClick } = props;
     const classes = useStyles();
 
     return (
         <div className="row-center">
             <Button
+                onClick={onClick}
                 variant="contained"
                 color="primary"
                 size="large"

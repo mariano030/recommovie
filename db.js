@@ -21,3 +21,12 @@ module.exports.getAspects = () => {
     const params = [];
     return db.query(q, params);
 };
+
+module.exports.makeRec = (code, mediaType, mediaId, senderId, message) => {
+    const q = `
+    INSERT into recs (code, mediaType, mediaId,senderId,message)
+                values ($1,$2,$3,$4,$5)
+    `;
+    const params = [code, mediaType, mediaId, senderId, message];
+    return db.query(q, params);
+};

@@ -26,14 +26,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function ResultItem(props) {
-    const { item } = props;
+    const { item, genres } = props;
     //const [title, originalTitle, iconUrl] = ItemTitle(item);
     const classes = useStyles();
     //console.log("itemDate", <ItemDate item={item} />);
     const recItem = useSelector((state) => state.recItem);
-    const genres = useSelector((state) => {
-        state.genres;
-    });
+    // const genres = useSelector((state) => {
+    //     state.genres;
+    // });
 
     // title date logic
     let itemDate = "";
@@ -67,7 +67,9 @@ export default function ResultItem(props) {
         <>
             <ListItem key={key.id} alignItems="flex-start">
                 <ListItemAvatar>
-                    <Avatar alt="Remy Sharp" src={iconUrl} />
+                    <Avatar>
+                        <img src={iconUrl} className="icon-search"></img>
+                    </Avatar>
                 </ListItemAvatar>
                 <ListItemText
                     primary={item.name || item.title + " " + itemDate}
@@ -89,6 +91,8 @@ export default function ResultItem(props) {
                                     {item.original_name && " — "}
                                     {item.original_name &&
                                         item.original_name}{" "}
+                                    {item.known_for_department &&
+                                        item.known_for_department}{" "}
                                     {/* {" — " +
                                     <ItemTitle item={item} type={original} /> +
                                     " (original title)"} */}
@@ -118,6 +122,7 @@ export default function ResultItem(props) {
                     }
                 />
             </ListItem>
+            <Divider />
         </>
     );
 }
