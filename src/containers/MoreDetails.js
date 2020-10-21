@@ -13,7 +13,7 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import DoneButton from "../components/DoneButton.js";
-
+import LinkIsReady from "../containers/LinkIsReady";
 import useStatefulFields from "../hooks/useStatefulFields";
 
 import ItemIcon from "../components/ItemIcon.js";
@@ -25,7 +25,7 @@ import TextFieldMessage from "../components/TextFieldMessage.js";
 import FocusButton from "../components/FocusButton.js";
 import FocusAccordion from "../components/FocusAccordion.js";
 import ToggleButton from "@material-ui/lab/ToggleButton";
-
+import { aspectStatusToggle } from "../redux/actions";
 //test stuff below - just delte when done with recData
 import VanillaTextInput from "../components/VanillaTextInput.js";
 
@@ -54,6 +54,7 @@ export default function MoreDetails() {
     const [imgUrl, setImgUrl] = useState("");
     const [recDate, setRecDate] = useState("");
     const [recLink, setRecLink] = useState("");
+    const [aspectsStatus, setAspectsStatus] = useState([]);
     //const recAspects = useSelector((state) => state.recAspects);
     //redux
     const dispatch = useDispatch();
@@ -61,6 +62,7 @@ export default function MoreDetails() {
     const genres = useSelector((state) => state.genres);
     const aspects = useSelector((state) => state.aspects);
     const recData = useSelector((state) => state.recData);
+    // const selectedAspects = useSelector((state) => state.selectedAspects);
     //const recLink = useSelector((state) => state.recLink;
     let focusId = [];
     //const selected = useEffect(() => {}, []);
@@ -71,15 +73,26 @@ export default function MoreDetails() {
     let iconUrl = "";
     let date = "";
 
+    // const aspectsStatus = aspects.map((aspect) => {
+    //     return { ...aspect, status: false };
+    // });
+
     const handleSubmit = () => {
         console.log("submit button pressed");
         console.log("recData", recData);
+
         if (!recItem) {
             console.log("no recItem can not recOmmend");
         } else {
             (async () => {
                 try {
-                    const response = await Axios.post("/rec/", recData);
+                    const response = await Axios.post("/rec/", {
+                        ...recData,
+                        aspects: aspects
+                            .filter((aspect) => aspect.status == true)
+                            .map((aspect) => aspect.id),
+                    });
+
                     console.log(
                         "the link is here! response.data",
                         response.data.link
@@ -93,10 +106,10 @@ export default function MoreDetails() {
         }
     };
 
-    // const handleFocusButton = (id) => {
-    //     console.log("submit button pressed");
-    //     console.log("aspect id:", id);
-    // };
+    const handleFocusButton = (aspect, i) => {
+        console.log("submit button pressed");
+        dispatch(aspectStatusToggle(i));
+    };
 
     // input fields:
     const handleChangeMaterial = (e) => {
@@ -104,13 +117,6 @@ export default function MoreDetails() {
         //setValue(e.target.value);
         let dataObj = { [e.target.name]: e.target.value };
         dispatch(addToRecData(dataObj));
-    };
-    const handleFocusButton = (newFocusID) => {
-        console.log("FOCUS BUTTON", newFocusID);
-        // array building here...
-
-        //let dataObj = { [e.target.name]: e.target.value };
-        //dispatch(addToRecData(dataObj));
     };
 
     const toggleImage = () => {
@@ -207,7 +213,6 @@ export default function MoreDetails() {
     } else {
         return (
             <>
-                {/* MORE DETAILS */}
                 {recLink && <h1>{recLink}</h1>}
                 <div className="result-recItem">
                     <div>
@@ -278,17 +283,18 @@ export default function MoreDetails() {
                     </div>
                     <div className="column-center">
                         <InputFieldIcon
-                            name="senderName"
-                            value={senderName}
-                            onChange={handleChangeMaterial}
-                            label="Your name"
-                        />
-                        <InputFieldIcon
                             name="recipientName"
                             value={recipientName}
                             onChange={handleChangeMaterial}
-                            label="Friends name"
+                            label="Recommend for"
                         />
+                        <InputFieldIcon
+                            name="senderName"
+                            value={senderName}
+                            onChange={handleChangeMaterial}
+                            label="Recommended by"
+                        />
+
                         <TextFieldMessage
                             name="message"
                             value={message}
@@ -316,7 +322,7 @@ export default function MoreDetails() {
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Typography>
-                                    <ToggleButton
+                                    {/* <ToggleButton
                                         name={aspects[0].id}
                                         size="small"
                                         value="check"
@@ -327,19 +333,17 @@ export default function MoreDetails() {
                                         }}
                                     >
                                         {aspects[0].name}
-                                    </ToggleButton>
+                                    </ToggleButton> */}
 
                                     {aspects &&
-                                        aspects.map((aspect) => (
+                                        aspects.map((aspect, i) => (
                                             <FocusButton
                                                 // key={aspect.id}
                                                 name={aspect.id}
                                                 className="aspect-item"
                                                 label={aspect.name}
                                                 onClick={() =>
-                                                    handleFocusButton(
-                                                        aspects[0].id
-                                                    )
+                                                    handleFocusButton(aspect, i)
                                                 }
                                             />
                                         ))}
@@ -373,6 +377,13 @@ export default function MoreDetails() {
                 {/* </div> */}
 
                 <DoneButton onClick={() => handleSubmit()} />
+
+                {recLink && (
+                    <LinkIsReady
+                        recLink={recLink}
+                        recipientName={recData.recipientName}
+                    />
+                )}
             </>
         );
     }

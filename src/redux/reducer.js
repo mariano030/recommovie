@@ -96,6 +96,20 @@ export default function reducer(state = { recData: {} }, action) {
                 newRecLink: action.payload,
             };
             break;
+        case "TOGGLE_ASPECT":
+            console.log(action.payload);
+            state = {
+                ...state,
+                aspects: [
+                    ...state.aspects.slice(0, action.payload),
+                    {
+                        ...state.aspects[action.payload],
+                        status: !state.aspects[action.payload].status,
+                    },
+                    ...state.aspects.slice(action.payload + 1),
+                ],
+            };
+            break;
     }
     return state;
 }

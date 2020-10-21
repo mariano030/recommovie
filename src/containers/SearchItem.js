@@ -195,7 +195,7 @@ export default function SearchItem() {
                         // wrap in button here?
                         return (
                             <div
-                                key={item}
+                                key={i}
                                 className="pointer"
                                 onClick={() => handleClick(item)}
                             >

@@ -43,7 +43,14 @@ export default function App() {
                     "functiongetAspects -> aspectsResults",
                     aspectsResults
                 );
-                dispatch(setAspects(aspectsResults.data));
+                // dispatch(setAspects(aspectsResults.data));
+                dispatch(
+                    setAspects(
+                        aspectsResults.data.map((aspect) => {
+                            return { ...aspect, status: false };
+                        })
+                    )
+                );
                 dispatch(setGenres(genresResults.data.genres));
             } catch (err) {
                 console.log("error getting aspects or genres -> err", err);

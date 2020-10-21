@@ -78,40 +78,74 @@ app.post("/rec/", async (req, res) => {
         mediaType,
         itemId,
         imageType = 2,
-        focus = 1,
+        aspects,
         extUrl,
         message,
     } = req.body;
     const senderId = 1;
+
+    console.log("aspects", aspects);
     console.log("mediaType", mediaType);
     console.log("itemId: ", itemId);
     console.log("imageType: ", imageType);
     console.log("message: ", message);
     // deal with focus!! list of focus relations?!
-    console.log("focus", focus);
     //console.log("req.originalUrl", originalUrl);
     // const randomCode = util.promisify(generateCode);
-    uidSafe(5)
-        .then((randomCode) => {
-            console.log("promised", randomCode);
-            db.makeRec(randomCode, mediaType, itemId, senderId, message)
-                .then(() => {
-                    const link =
-                        req.protocol +
-                        "://" +
-                        req.get("host") +
-                        "/r/" +
-                        randomCode;
-                    //console.log("mylink", dynamicLink);
-                    console.log("sending: link", link);
-                    res.json({ link });
-                    console.log("response sent to server!");
-                })
-                .catch((err) => console.log("error inserting rec ", err));
-        })
-        .catch((err) =>
-            console.log("error with randomCode and DB recs inster", err)
+
+    try {
+        const randomCode = await uidSafe(5);
+
+        console.log("promised", randomCode);
+
+        const { rows } = await db.makeRec(
+            randomCode,
+            mediaType,
+            itemId,
+            senderId,
+            message
         );
+        console.log("data.id: ", rows[0].id);
+        for (const aspectId of aspects) {
+            await db.setAspects(rows[0].id, aspectId);
+        }
+
+        const link =
+            req.protocol + "://" + req.get("host") + "/r/" + randomCode;
+        //console.log("mylink", dynamicLink);
+        console.log("sending: link", link);
+        res.json({ link });
+        console.log("response sent to server!");
+    } catch (err) {
+        console.error("error", err);
+    }
+
+    // uidSafe(5)
+    //     .then((randomCode) => {
+    //         console.log("promised", randomCode);
+
+    //         const data = db
+    //             .makeRec(randomCode, mediaType, itemId, senderId, message)
+    //             .then((data) => {
+    //                 console.log("data.id", data.id);
+    //                 aspects.map(())
+    //                 db.setAspects(data.id)
+    //                 const link =
+    //                     req.protocol +
+    //                     "://" +
+    //                     req.get("host") +
+    //                     "/r/" +
+    //                     randomCode;
+    //                 //console.log("mylink", dynamicLink);
+    //                 console.log("sending: link", link);
+    //                 res.json({ link });
+    //                 console.log("response sent to server!");
+    //             })
+    //             .catch((err) => console.log("error inserting rec ", err));
+    //     })
+    //     .catch((err) =>
+    //         console.log("error with randomCode and DB recs inster", err)
+    //     );
 
     // add req.body.session for sender
     //await db.makeRec(code, "movie");

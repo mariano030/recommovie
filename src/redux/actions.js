@@ -73,6 +73,14 @@ export function setRecLink(link) {
     };
 }
 
+export function aspectStatusToggle(i) {
+    console.log("AA  aspectStatusToggle(i)  - toggeling:", i);
+    return {
+        type: "TOGGLE_ASPECT",
+        payload: i,
+    };
+}
+
 // export function setRecCredits(item) {
 //     console.log("AA setRecommendItem ", item);
 //     return {

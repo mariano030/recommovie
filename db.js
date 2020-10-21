@@ -26,7 +26,18 @@ module.exports.makeRec = (code, mediaType, mediaId, senderId, message) => {
     const q = `
     INSERT into recs (code, mediaType, mediaId,senderId,message)
                 values ($1,$2,$3,$4,$5)
+                RETURNING id
     `;
     const params = [code, mediaType, mediaId, senderId, message];
+    return db.query(q, params);
+};
+
+module.exports.setAspects = (recId, aspectId) => {
+    const q = `
+    INSERT into rec_aspects (recid, aspectid)
+                values ($1,$2)
+                RETURNING id
+    `;
+    const params = [recId, aspectId];
     return db.query(q, params);
 };

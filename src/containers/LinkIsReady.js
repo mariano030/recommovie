@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import Box from "@material-ui/core/Box";
-import { makeStyles } from "@material-ui/core/styles";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
@@ -10,6 +9,20 @@ import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import DoneButton from "../components/DoneButton.js";
 
+import clsx from "clsx";
+import { makeStyles } from "@material-ui/core/styles";
+import IconButton from "@material-ui/core/IconButton";
+import Input from "@material-ui/core/Input";
+import FilledInput from "@material-ui/core/FilledInput";
+import OutlinedInput from "@material-ui/core/OutlinedInput";
+import InputLabel from "@material-ui/core/InputLabel";
+import InputAdornment from "@material-ui/core/InputAdornment";
+import FormHelperText from "@material-ui/core/FormHelperText";
+import FormControl from "@material-ui/core/FormControl";
+import Visibility from "@material-ui/icons/Visibility";
+import Share from "@material-ui/icons/Share";
+
+import VisibilityOff from "@material-ui/icons/VisibilityOff";
 import ItemIcon from "../components/ItemIcon.js";
 import ItemImage from "../components/ItemImage.js";
 import TextField from "../components/TextField";
@@ -33,20 +46,19 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function LinkIsReady() {
+export default function LinkIsReady({ recLink }) {
     const classes = useStyles();
-
+    const recData = useSelector((state) => state.recData);
     //const { register, handleSubmit, errors } = useForm();
 
     // const [values, handleChange] = useStatefulFields();
-    const [recipientName, setRecipientName] = useState();
+    // const [recipientName, setRecipientName] = useState();
     //const recAspects = useSelector((state) => state.recAspects);
     //redux
     const dispatch = useDispatch();
     const recItem = useSelector((state) => state.recItem);
     const genres = useSelector((state) => state.genres);
     const aspects = useSelector((state) => state.aspects);
-    const recData = useSelector((state) => state.recData);
 
     // input fields:
     const handleChangeMaterial = (e) => {
@@ -56,71 +68,57 @@ export default function LinkIsReady() {
         dispatch(addToRecData(dataObj));
     };
 
-    useEffect(() => {
-        if (!recLink) {
-            return;
-        }
-        console.log("imgUrl", imgUrl);
-        setImgUrl("https://image.tmdb.org/t/p/w780" + recItem[imgStyle]);
-        //imgUrl = "https://image.tmdb.org/t/p/w780" + recItem.backdrop_path;
-        switch (recItem.media_type) {
-            case "movie":
-                setRecDate("(" + recItem.release_date.substring(0, 4) + ")");
-                iconUrl = "/icons/media_type_movie.svg";
-                break;
-            case "tv":
-                setRecDate("(" + recItem.first_air_date.substring(0, 4) + ")");
-                iconUrl = "/icons/media_type_tv.svg";
-                break;
-            case "person":
-                iconUrl = "/icons/media_type_person.svg";
-                break;
-        }
-    }, [recItem]);
+    // useEffect(() => {
+    //     if (!recLink) {
+    //         return;
+    //     }
+    //     console.log("imgUrl", imgUrl);
+    //     setImgUrl("https://image.tmdb.org/t/p/w780" + recItem[imgStyle]);
+    //     //imgUrl = "https://image.tmdb.org/t/p/w780" + recItem.backdrop_path;
+    //     switch (recItem.media_type) {
+    //         case "movie":
+    //             setRecDate("(" + recItem.release_date.substring(0, 4) + ")");
+    //             iconUrl = "/icons/media_type_movie.svg";
+    //             break;
+    //         case "tv":
+    //             setRecDate("(" + recItem.first_air_date.substring(0, 4) + ")");
+    //             iconUrl = "/icons/media_type_tv.svg";
+    //             break;
+    //         case "person":
+    //             iconUrl = "/icons/media_type_person.svg";
+    //             break;
+    //     }
+    // }, [recItem]);
 
     if (!recLink) {
         return null;
     } else {
         return (
             <>
-                {/* MORE DETAILS
-                {recLink && <h1>{recLink}</h1>}
-                    <div>
-                        <ItemImage
-                            item={recItem}
-                            myClass="hero-image"
-                        ></ItemImage>
-                        <div className="small"></div>
-                    </div>
-                    <div>
-                        <Typography >
-                            Your link for                                     {recItem.original_name ||
-                                        recItem.original_title}
-                                    {recItem.media_type != "person" &&
-                                        " (" + { recDate } + ")"} is ready.
-                        </Typography>
-                        <Typography >
-                            Just copy the link and send it to {recData.recipientName}.
-                        </Typography>
-                        <Typography >
-                            {recLink}
-                        </Typography>
-                        <div className="row-start">
-                            <div>
-                                <ItemIcon
-                                    item={recItem}
-                                    myClass="icon-search"
-                                />
-                            </div>
-                            <div className="item-title">
-                                <Typography variant="h5">
-                                    {recItem.original_name ||
-                                        recItem.original_title}
-                                    {recItem.media_type != "person" &&
-                                        " (" + { recDate } + ")"}
-                                </Typography>
-                            </div>
-                        </div> */}
+                <Typography variant="h5">Your link is ready</Typography>
+                <Typography variant="h5">
+                    Just copy the link and send it to {recData.recipientName}.
+                </Typography>
+                {/* <Typography variant="h2">{recLink}</Typography> */}
+
+                <FormControl
+                    className={clsx(classes.margin, classes.textField)}
+                    fullWidth
+                >
+                    <InputLabel>Recommendation Link</InputLabel>
+                    <Input
+                        fullWidth
+                        disabled
+                        value={recLink}
+                        endAdornment={
+                            <InputAdornment position="end">
+                                <IconButton>
+                                    <Share />
+                                </IconButton>
+                            </InputAdornment>
+                        }
+                    />
+                </FormControl>
             </>
         );
     }
