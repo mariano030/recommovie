@@ -4,11 +4,11 @@ DROP TABLE IF EXISTS focus CASCADE;
 
 CREATE TABLE focus(
     id SERIAL PRIMARY KEY,
-    recId INT NOT NULL REFERENCES recs(id),
     genre VARCHAR(255),
     aspects INT REFERENCES aspects(id),
     department VARCHAR(255),
-    artist INT
+    artist INT,
+    contact INT []
 );
 
 

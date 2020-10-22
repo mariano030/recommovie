@@ -9,7 +9,7 @@ CREATE TABLE recs(
     recipientId INT,
     imageType VARCHAR(255),
     customImage VARCHAR(255),
-    focus INT REFERENCES focus(id),
+    aspects TEXT [],
     message VARCHAR(255),
     audioFile VARCHAR(255),
     trailer VARCHAR(255),
