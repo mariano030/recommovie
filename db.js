@@ -87,6 +87,23 @@ module.exports.getRec = (code) => {
     return db.query(q, params);
 };
 
+module.exports.getSenderName = (id) => {
+    const q = `
+    SELECT name as sendername from users 
+    WHERE users.id = $1
+    `;
+    const params = [id];
+    return db.query(q, params);
+};
+
+module.exports.getRecipientName = (id) => {
+    const q = `
+    SELECT name as recipientname from users 
+    WHERE users.id = $1
+    `;
+    const params = [id];
+    return db.query(q, params);
+};
 // `SELECT users.id, first, last, image_url, accepted
 //     FROM friendships
 //     JOIN users

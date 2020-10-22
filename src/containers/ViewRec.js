@@ -25,7 +25,7 @@ import TextFieldMessage from "../components/TextFieldMessage.js";
 import FocusButton from "../components/FocusButton.js";
 import FocusAccordion from "../components/FocusAccordion.js";
 import ToggleButton from "@material-ui/lab/ToggleButton";
-import { aspectStatusToggle } from "../redux/actions";
+import { aspectStatusToggle, setRecDataFull } from "../redux/actions";
 //test stuff below - just delte when done with recData
 import VanillaTextInput from "../components/VanillaTextInput.js";
 
@@ -198,13 +198,16 @@ export default function ViewRec(props) {
                 const result = await Axios.get(requestUrl);
                 console.log("recommendation data received");
                 //setCredits(credits.data);
-                console.log("RESULT.data", result.data);
-                console.log("recommendation.data[0]", recItemWithRecInfo);
+                console.log(
+                    "RESULT.data AKA (recItemWithRecInfo)",
+                    result.data
+                );
+                dispatch(setRecDataFull(result.data));
             } catch (err) {
                 console.log("error", err);
             }
         })();
-    });
+    }, []);
     // const handleClick = (id) => {
     //     console.log("clicked button with id:", id);
     //     console.log(
@@ -383,31 +386,55 @@ export default function ViewRec(props) {
                             </AccordionDetails>
                         </Accordion>{" "}
                     </div>
+                    {recData.aspects && aspects && (
+                        <Typography>
+                            {recData.sendername} highlighted these aspects for
+                            you:
+                        </Typography>
+                    )}
+                    {recData.aspects &&
+                        aspects && (
+                            <Typography>
+                                {recData.sendername} highlighted these aspects
+                                for you:
+                            </Typography>
+                        ) &&
+                        recData.aspects.map((aspectId, i) => (
+                            <Box
+                                key={i}
+                                component="div"
+                                display="inline"
+                                fontWeight="fontWeightLight"
+                                fontSize={10}
+                                p={1}
+                                m={1}
+                                // cssStyle={{ bgcolor: "yellow" }}
+                                bgcolor="white"
+                            >
+                                {aspects[aspectId].name}
+                            </Box>
+                        ))}
                     <div className="column-center">
                         <InputFieldIcon
                             name="recipientName"
                             value={recipientName}
-                            onChange={handleChangeMaterial}
                             label="Recommend for"
                         />
                         <InputFieldIcon
                             name="senderName"
                             value={senderName}
-                            onChange={handleChangeMaterial}
                             label="Recommended by"
                         />
 
                         <TextFieldMessage
                             name="message"
                             value={message}
-                            onChange={handleChangeMaterial}
                             label="Personal message"
                             placeholder="'Check out this moving gem. I'm sure you'll like it!'"
                         />
                         <InputFieldLink
                             name="extUrl"
                             value={customUrl}
-                            onChange={handleChangeMaterial}
                             label="custom url"
                         />
                     </div>

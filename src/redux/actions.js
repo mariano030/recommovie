@@ -73,6 +73,14 @@ export function setRecLink(link) {
     };
 }
 
+export function setRecDataFull(recItem) {
+    console.log("action setRecDataFull triggered");
+    return {
+        type: "SET_REC_DATA_FULL",
+        payload: recItem,
+    };
+}
+
 export function aspectStatusToggle(i) {
     console.log("AA  aspectStatusToggle(i)  - toggeling:", i);
     return {

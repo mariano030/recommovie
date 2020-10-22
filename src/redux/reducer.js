@@ -110,6 +110,18 @@ export default function reducer(state = { recData: {} }, action) {
                 ],
             };
             break;
+        case "SET_REC_DATA_FULL":
+            console.log("reudcer", "SET_REC_DATA_FULL", action.payload);
+            console.log(
+                "put this in redux-state as recData action.payload.recData,",
+                action.payload.recData
+            );
+            state = {
+                ...state,
+                recItem: action.payload,
+                recData: action.payload.recInfos,
+            };
+            break;
     }
     return state;
 }

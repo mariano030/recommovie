@@ -247,7 +247,6 @@ app.get("/api/credits-by-id/:id", async (req, res) => {
 app.get("/api/get-aspects/", async (req, res) => {
     try {
         const aspectsResults = await db.getAspects();
-        console.log("getAspects done:  aspectsResults: ", aspectsResults);
         res.json(aspectsResults.rows);
         console.log("aspectsResults.rows", aspectsResults.rows);
     } catch (err) {
@@ -300,6 +299,18 @@ app.get("/api/get-rec/:code", async (req, res) => {
         }
         const itemInfo = await Axios.get(searchUrl);
         console.log("#################itemInfo", itemInfo.data); // same format as recItem
+        const sendernameResult = await db.getSenderName(rows[0].senderid);
+        const recipientResult = await db.getRecipientName(rows[0].recipientid);
+        console.log("~~~~~~~~~~~ sendernameResult", sendernameResult);
+        console.log(
+            "~~~~~~~~~~~ sendernameResult.rows",
+            sendernameResult.rows[0].sendername
+        );
+        console.log("~~~~~~~~~~~ recipientResult", recipientResult);
+        console.log(
+            "~~~~~~~~~~~ recipientResult.rows",
+            recipientResult.rows[0].recipientname
+        );
         const recItem = {
             ...itemInfo.data,
             recInfos: rows[0],
