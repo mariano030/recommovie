@@ -89,8 +89,8 @@ module.exports.getRec = (code) => {
 
 module.exports.getSenderName = (id) => {
     const q = `
-    SELECT name as sendername from users 
-    WHERE users.id = $1
+    SELECT * FROM senders 
+    WHERE id = $1
     `;
     const params = [id];
     return db.query(q, params);
@@ -98,8 +98,26 @@ module.exports.getSenderName = (id) => {
 
 module.exports.getRecipientName = (id) => {
     const q = `
-    SELECT name as recipientname from users 
-    WHERE users.id = $1
+    SELECT * FROM recipients 
+    WHERE id = $1
+    `;
+    const params = [id];
+    return db.query(q, params);
+};
+
+module.exports.createRecipientName = (id) => {
+    const q = `
+    Insert into recipients (recipientname) 
+    VALUES ($1)
+    `;
+    const params = [id];
+    return db.query(q, params);
+};
+
+module.exports.createSenderName = (id) => {
+    const q = `
+    Insert into sender (sendername) 
+    VALUES ($1)
     `;
     const params = [id];
     return db.query(q, params);

@@ -31,13 +31,14 @@ INSERT into aspects (id,name, icon)
 values (1, 'Color','color');
 
 INSERT into aspects(name,icon)
+values ('Staging/Blocking','blocking');
+
+INSERT into aspects(name,icon)
 values ('Mood','mood');
 
 INSERT into aspects(name,icon)
 values ('Pacing');
 
-INSERT into aspects(name,icon)
-values ('Staging/Blocking','blocking');
 
 INSERT into aspects(name,icon)
 values ('Lighting','lighting');

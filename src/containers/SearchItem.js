@@ -141,20 +141,21 @@ export default function SearchItem() {
     return (
         <div>
             <div className="row-center">
-                <TheatersIcon
+                {/* <TheatersIcon
+                    color="primary"
                     style={{
                         fontSize: 30,
                         transform: "translateY(-10%)",
                         margin: "10px",
                     }}
-                />
-                {/* <div className="icon-title">
+                /> */}
+                <div className="icon-movie-title">
                     <img
                         className="icon-movie-title"
                         src="/icons/media_type_movie.svg"
                         alt="movie"
                     ></img>
-                </div> */}
+                </div>
                 <div className="icon-tv-title">
                     <img
                         className="icon-tv-title"
@@ -162,7 +163,9 @@ export default function SearchItem() {
                         alt="tv"
                     ></img>
                 </div>
-                <Typography variant="h4">Recommend.</Typography>
+                <Typography variant="h4" color="primary">
+                    Recommend.
+                </Typography>
             </div>
             <div className="column">
                 <TextField

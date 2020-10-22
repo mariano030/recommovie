@@ -115,9 +115,9 @@ export default function LinkIsReady({ recLink }) {
                     className={clsx(classes.margin, classes.textField)}
                     fullWidth
                 >
-                    <InputLabel className={classes.red}>
+                    {/* <InputLabel className={classes.red}>
                         Recommendation Link
-                    </InputLabel>
+                    </InputLabel> */}
                     <Input
                         className={classes.red}
                         fullWidth
@@ -132,6 +132,9 @@ export default function LinkIsReady({ recLink }) {
                         }
                     />
                 </FormControl>
+                <Box></Box>
+                <Box></Box>
+                <Box></Box>
             </>
         );
     }

@@ -16,6 +16,7 @@ import DoneButton from "../components/DoneButton.js";
 import LinkIsReady from "../containers/LinkIsReady";
 import useStatefulFields from "../hooks/useStatefulFields";
 
+import Grid from "@material-ui/core/Grid";
 import ItemIcon from "../components/ItemIcon.js";
 import ItemImage from "../components/ItemImage.js";
 import TextField from "../components/TextField";
@@ -254,10 +255,7 @@ export default function MoreDetails() {
                     <div>
                         <div className="row-start">
                             <div>
-                                <ItemIcon
-                                    item={recItem}
-                                    myClass="icon-search"
-                                />
+                                <ItemIcon item={recItem} myClass="icon-black" />
                             </div>
                             <div className="item-title">
                                 <Typography variant="h5">
@@ -329,6 +327,7 @@ export default function MoreDetails() {
                                         })}
                             </div>
                         </div>
+                        <Box component="span" m={1}></Box>
                         <div className="genres">
                             <div style={{ width: "100%" }}>
                                 {recItem.genre_ids &&
@@ -366,7 +365,9 @@ export default function MoreDetails() {
                                 ))} */}
                         </div>
                     </div>
+                    <Box></Box>
                     <div className={classes.root}>
+                        <Box component="span" m={1}></Box>
                         <Accordion>
                             <AccordionSummary
                                 expandIcon={<ExpandMoreIcon />}
@@ -378,7 +379,12 @@ export default function MoreDetails() {
                                 </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
-                                <Typography>
+                                <Grid
+                                    container
+                                    direction="row"
+                                    justify="flex-start"
+                                    alignItems="stretch"
+                                >
                                     {aspects &&
                                         aspects.map((aspect, i) => (
                                             <FocusButton
@@ -391,7 +397,7 @@ export default function MoreDetails() {
                                                 }
                                             />
                                         ))}
-                                </Typography>
+                                </Grid>
                             </AccordionDetails>
                         </Accordion>{" "}
                     </div>
@@ -414,7 +420,7 @@ export default function MoreDetails() {
                             value={message}
                             onChange={handleChangeMaterial}
                             label="Personal message"
-                            placeholder="'Check out this moving gem. I'm sure you'll like it!'"
+                            placeholder=""
                         />
                         <InputFieldLink
                             name="extUrl"

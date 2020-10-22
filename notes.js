@@ -60,6 +60,7 @@ buttons
                 variant="contained"
                 disabled
                 color="secondary"
+
                 className={classes.button}
                 startIcon={<KeyboardVoiceIcon />}
             >
@@ -129,3 +130,11 @@ functionName (e) =>{
 // create rec insert
 // generate link
 // res.json link
+
+
+
+// http://localhost:8080/r/D9DdD3s un prophete  
+// http://localhost:8080/r/C52OtVQ  nathan for you
+
+
+// http://localhost:8080/r/pIVdCRA recipient sender

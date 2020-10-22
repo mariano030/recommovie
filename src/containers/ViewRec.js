@@ -5,17 +5,23 @@ import { useDispatch, useSelector } from "react-redux";
 import { addRecAspect, addToRecData } from "../redux/actions.js";
 import Axios from "../axios";
 
+import CapitalizedText from "../components/Capitalize.js";
+
+import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
+import Paper from "@material-ui/core/Paper";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import DoneButton from "../components/DoneButton.js";
 import LinkIsReady from "./LinkIsReady";
+
 import useStatefulFields from "../hooks/useStatefulFields";
 
+import ViewMessage from "../components/ViewMessage.js";
 import ItemIcon from "../components/ItemIcon.js";
 import ItemImage from "../components/ItemImage.js";
 import TextField from "../components/TextField";
@@ -37,11 +43,18 @@ const useStyles = makeStyles((theme) => ({
         fontSize: theme.typography.pxToRem(15),
         fontWeight: theme.typography.fontWeightRegular,
     },
+    root: {
+        flexGrow: 1,
+    },
+    paper: {
+        padding: theme.spacing(2),
+        textAlign: "center",
+        color: theme.palette.text.secondary,
+    },
 }));
 
 export default function ViewRec(props) {
     const classes = useStyles();
-
     //const { register, handleSubmit, errors } = useForm();
 
     // const [values, handleChange] = useStatefulFields();
@@ -69,55 +82,11 @@ export default function ViewRec(props) {
     // const onSubmit = (data) => {
     //     console.log(data);
     // };
+
+    const preventDefault = (event) => event.preventDefault();
     console.log("recItem: ", recItem);
     let iconUrl = "";
     let date = "";
-
-    // const aspectsStatus = aspects.map((aspect) => {
-    //     return { ...aspect, status: false };
-    // });
-
-    // const handleSubmit = () => {
-    //     console.log("submit button pressed");
-    //     console.log("recData", recData);
-
-    //     if (!recItem) {
-    //         console.log("no recItem can not recOmmend");
-    //     } else {
-    //         (async () => {
-    //             try {
-    //                 const response = await Axios.post("/rec/", {
-    //                     ...recData,
-    //                     aspects: aspects
-    //                         .filter((aspect) => aspect.status == true)
-    //                         .map((aspect) => aspect.id),
-    //                 });
-
-    //                 console.log(
-    //                     "the link is here! response.data",
-    //                     response.data.link
-    //                 );
-    //                 //dispatch(setRecLink(response.data.link));
-    //                 setRecLink(response.data.link);
-    //             } catch (err) {
-    //                 console.log("error recommending...!", err);
-    //             }
-    //         })();
-    //     }
-    // };
-
-    // const handleFocusButton = (aspect, i) => {
-    //     console.log("submit button pressed");
-    //     dispatch(aspectStatusToggle(i));
-    // };
-
-    // input fields:
-    // const handleChangeMaterial = (e) => {
-    //     console.log(e.target.value);
-    //     //setValue(e.target.value);
-    //     let dataObj = { [e.target.name]: e.target.value };
-    //     dispatch(addToRecData(dataObj));
-    // };
 
     const toggleImage = () => {
         console.log("changing imgStyle from previous", imgStyle);
@@ -228,12 +197,89 @@ export default function ViewRec(props) {
     //     dispatch(addRecAspect(selectedAspect));
     //     console.log("selectedAspect", selectedAspect);
     // };
+    let highlightsCaption;
+    useEffect(() => {
+        if (!recItem) {
+            return;
+        }
+        console.log("imgUrl", imgUrl);
+        setImgUrl("https://image.tmdb.org/t/p/w780" + recItem[imgStyle]);
+        switch (recItem.media_type) {
+            case "movie":
+                date = "(" + recItem.release_date.substring(0, 4) + ")";
+                console.log("DATE", date);
+                setRecDate(date);
+                iconUrl = "/icons/media_type_movie.svg";
+                break;
+            case "tv":
+                date = "(" + recItem.first_air_date.substring(0, 4) + ")";
+                setRecDate(date);
+                iconUrl = "/icons/media_type_tv.svg";
+                console.log("DATE", date);
+                break;
+            case "person":
+                iconUrl = "/icons/media_type_person.svg";
+                break;
+        }
+    }, [recItem]);
+    useEffect(() => {
+        console.log("recData use EFF", recData);
+        if (recData.senderName && aspects) {
+            highlightsCaption =
+                recData.senderName + "highlighted these aspects for you:";
+        } else if (!recData.senderName && aspects) {
+            highlightsCaption = "These aspects have been highlighted for you:";
+        }
+    }, [recData.senderName, aspects]);
 
     if (!recItem) {
         return null;
     } else {
         return (
             <>
+                <div
+                    className="column-cent
+                er"
+                >
+                    <div className="row-center">
+                        <img
+                            className="clapperboard"
+                            src="/icons/clapperboard.svg"
+                        ></img>
+                    </div>
+                    <div className="row-center">
+                        {recData.recipientName && !recData.senderName && (
+                            <Typography m="auto" variant="h6">
+                                A recommendation for{" "}
+                                <CapitalizedText
+                                    capitalize={recData.recipientName}
+                                ></CapitalizedText>
+                            </Typography>
+                        )}
+                    </div>
+                </div>{" "}
+                {recData.recipientName && recData.senderName && (
+                    <Typography variant="h6">
+                        A recommendation for{" "}
+                        <CapitalizedText
+                            capitalize={recData.recipientName}
+                        ></CapitalizedText>
+                    </Typography>
+                )}
+                {!recData.recipientName && recData.senderName && (
+                    <Typography variant="h6">
+                        A recommendation for{" "}
+                        <CapitalizedText
+                            capitalize={recData.recipientName}
+                        ></CapitalizedText>
+                    </Typography>
+                )}
+                <div className="view">
+                    <ViewMessage
+                        message={recData.message}
+                        senderName={recData.senderName}
+                    />
+                </div>
                 <div className="result-recItem">
                     <div>
                         <ItemImage
@@ -245,13 +291,10 @@ export default function ViewRec(props) {
                     <div>
                         <div className="row-start">
                             <div>
-                                <ItemIcon
-                                    item={recItem}
-                                    myClass="icon-search"
-                                />
+                                <ItemIcon item={recItem} myClass="icon-red" />
                             </div>
-                            <div className="item-title">
-                                <Typography variant="h5">
+                            <div className="view-item-title">
+                                <Typography variant="h5" color="primary">
                                     {recItem.original_name ||
                                         recItem.original_title}
                                     {/* {recItem.media_type != "person" && {
@@ -323,9 +366,9 @@ export default function ViewRec(props) {
                         <div className="genres">
                             <div style={{ width: "100%" }}>
                                 {recItem.genre_ids &&
-                                    recItem.genre_ids.map((genreId) => (
+                                    recItem.genre_ids.map((genreId, i) => (
                                         <Box
-                                            key={genreId}
+                                            key={i}
                                             component="div"
                                             display="inline"
                                             fontWeight="fontWeightLight"
@@ -357,122 +400,36 @@ export default function ViewRec(props) {
                                 ))} */}
                         </div>
                     </div>
-                    <div className={classes.root}>
-                        <Accordion>
-                            <AccordionSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
-                            >
-                                <Typography className={classes.heading}>
-                                    Highlight aspects:
-                                </Typography>
-                            </AccordionSummary>
-                            <AccordionDetails>
-                                <Typography>
-                                    {aspects &&
-                                        aspects.map((aspect, i) => (
-                                            <FocusButton
-                                                // key={aspect.id}
-                                                name={aspect.id}
-                                                className="aspect-item"
-                                                label={aspect.name}
-                                                onClick={() =>
-                                                    handleFocusButton(aspect, i)
-                                                }
-                                            />
-                                        ))}
-                                </Typography>
-                            </AccordionDetails>
-                        </Accordion>{" "}
+                    <div className="view">
+                        <Box>
+                            <Typography>{highlightsCaption}</Typography>
+                        </Box>
+                        <div className={classes.root}>
+                            <Grid container spacing={1}>
+                                {aspects &&
+                                    recData &&
+                                    recData.aspects.map((aspectId, i) => (
+                                        <Grid item xs key={i}>
+                                            <Paper className={classes.paper}>
+                                                {aspects[i].name}
+                                            </Paper>
+                                        </Grid>
+                                    ))}
+                            </Grid>
+                        </div>
                     </div>
-                    {recData.aspects && aspects && (
-                        <Typography>
-                            {recData.sendername} highlighted these aspects for
-                            you:
-                        </Typography>
-                    )}
-                    {recData.aspects &&
-                        aspects && (
-                            <Typography>
-                                {recData.sendername} highlighted these aspects
-                                for you:
-                            </Typography>
-                        ) &&
-                        recData.aspects.map((aspectId, i) => (
-                            <Box
-                                key={i}
-                                component="div"
-                                display="inline"
-                                fontWeight="fontWeightLight"
-                                fontSize={10}
-                                p={1}
-                                m={1}
-                                // cssStyle={{ bgcolor: "yellow" }}
-                                bgcolor="white"
+                    <div className="column-center">
+                        {recData.exturl && (
+                            <Link
+                                href={recData.exturl}
+                                onClick={preventDefault}
+                                variant="body2"
                             >
-                                {aspects[aspectId].name}
-                            </Box>
-                        ))}
-                    <div className="column-center">
-                        <InputFieldIcon
-                            name="recipientName"
-                            value={recipientName}
-                            label="Recommend for"
-                        />
-                        <InputFieldIcon
-                            name="senderName"
-                            value={senderName}
-                            label="Recommended by"
-                        />
-
-                        <TextFieldMessage
-                            name="message"
-                            value={message}
-                            label="Personal message"
-                            placeholder="'Check out this moving gem. I'm sure you'll like it!'"
-                        />
-                        <InputFieldLink
-                            name="extUrl"
-                            value={customUrl}
-                            label="custom url"
-                        />
+                                {recData.exturl}
+                            </Link>
+                        )}
                     </div>
-                    {/* <FocusAccordion aspects={aspects} />
-                    <div className="column-center">
-                        <div className="aspects">
-                            {aspects &&
-                                aspects.map((aspect) => (
-                                    <FocusButton
-                                        key={aspect.id}
-                                        className="aspect-item"
-                                        label={aspect.name}
-                                        onClick={() => {
-                                            this.handleClick(aspect.id);
-                                        }}
-                                    />
-                                ))}
-                        </div> */}
-                    {/* message: {values.message} senderName:{" "}
-                        {values.senderName} recipientName {values.recipientName}
-                        {value} */}
-                    {customUrl} {senderName} {recipientName} {message}
                 </div>
-                {/* <div className="genres">{genres && aspects.map(()=> <div className="genre">)}</div> */}
-                {/* <Button /> */}
-                {/* <VanillaTextInput /> */}
-                {/* </div> */}
-
-                {!recLink && <DoneButton onClick={() => handleSubmit()} />}
-                <DoneButton onClick={() => handleSubmit()} />
-
-                {recLink && (
-                    <LinkIsReady
-                        className={classes.red}
-                        recLink={recLink}
-                        recipientName={recData.recipientName}
-                    />
-                )}
             </>
         );
     }

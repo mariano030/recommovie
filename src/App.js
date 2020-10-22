@@ -39,6 +39,9 @@ const theme = createMuiTheme({
         action: {
             main: "#c6c7c4",
         },
+        red: {
+            main: "#D4353A",
+        },
     },
     //action , error , disabled
     text: {

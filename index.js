@@ -299,21 +299,27 @@ app.get("/api/get-rec/:code", async (req, res) => {
         }
         const itemInfo = await Axios.get(searchUrl);
         console.log("#################itemInfo", itemInfo.data); // same format as recItem
-        const sendernameResult = await db.getSenderName(rows[0].senderid);
+        const senderResult = await db.getSenderName(rows[0].senderid);
         const recipientResult = await db.getRecipientName(rows[0].recipientid);
-        console.log("~~~~~~~~~~~ sendernameResult", sendernameResult);
+        console.log("~~~~~~~~~~~ sendernameResult");
         console.log(
             "~~~~~~~~~~~ sendernameResult.rows",
-            sendernameResult.rows[0].sendername
+            senderResult.rows[0].sendername
         );
-        console.log("~~~~~~~~~~~ recipientResult", recipientResult);
         console.log(
             "~~~~~~~~~~~ recipientResult.rows",
             recipientResult.rows[0].recipientname
         );
+        console.log("~~~~~~~~~~~ recipientResult");
+        recInfos = {
+            ...rows[0],
+            senderName: senderResult.rows[0].sendername,
+            recipientName: recipientResult.rows[0].recipientname,
+        };
         const recItem = {
             ...itemInfo.data,
-            recInfos: rows[0],
+            media_type: rows[0].mediatype,
+            recInfos: recInfos,
         };
         // rows = recInfo  // itemInfo
         console.log("recItem", recItem);
