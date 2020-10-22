@@ -81,9 +81,13 @@ app.post("/rec/", async (req, res) => {
         aspects,
         extUrl,
         message,
+        senderName,
+        recipientName,
     } = req.body;
-    const senderId = 1;
+    const senderId = 1; /// whatch out here! delete soon
 
+    console.log("recipientName", recipientName);
+    console.log("senderName", senderName);
     console.log("aspects", aspects);
     console.log("mediaType", mediaType);
     console.log("itemId: ", itemId);
@@ -95,16 +99,28 @@ app.post("/rec/", async (req, res) => {
 
     try {
         const randomCode = await uidSafe(5);
-
         console.log("promised", randomCode);
-
+        let recipientId = 0;
+        if (recipientName) {
+            const { rows } = await db.createUser(recipientName);
+            recipientId = rows[0].id;
+            console.log("recipientId", recipientId);
+        }
+        if (senderName) {
+            const { rows } = await db.createUser(senderName);
+            let senderId = rows[0].id;
+            console.log("senderId", senderId);
+        }
+        console.log("about to makeRec recipientId:", recipientId);
         const { rows } = await db.makeRec(
             randomCode,
             mediaType,
             itemId,
             senderId,
+            recipientId,
             message
         );
+        //aspects
         console.log("data.id: ", rows[0].id);
         for (const aspectId of aspects) {
             await db.setAspects(rows[0].id, aspectId);
@@ -188,7 +204,8 @@ app.get("/api/multi-search/:searchTerm", async (req, res) => {
 
 app.get("/api/credits-by-id/:id", async (req, res) => {
     console.log("/api/credits-by-id/:id");
-    console.log("searching for: req.body", req.params);
+    console.log("why is this not logging");
+    console.log("searching for: req.params", req.params);
     const id = req.params.id;
     console.log("<>>> PARAMS.ID", req.params.id);
     console.log("<>>> ID", id);
@@ -249,6 +266,11 @@ app.get("/api/get-genres/", async (req, res) => {
 app.get("/r/:code", async (req, res) => {
     // check if user is senderId
     console.log("RECCCOMOVIE req.params.code", req.params.code);
+    try {
+        //const rec.data = await db.getRec(rew.params.code)
+    } catch (err) {
+        console.error("error", err);
+    }
 });
 
 // star route

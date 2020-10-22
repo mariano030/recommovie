@@ -76,6 +76,18 @@ body {
         brightness(100%) contrast(100%);
 }
 
+.icon-tiny {
+    align-self: center;
+    align-content: center;
+    height: 20px;
+    width: 20px;
+    padding: 3px;
+}
+
+.credits-small {
+    font-size: 0.8em;
+}
+
 .result-recItem {
     margin-top: 10px;
 }

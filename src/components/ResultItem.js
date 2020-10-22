@@ -13,6 +13,7 @@ import ListItemText from "@material-ui/core/ListItemText";
 import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
+import Box from "@material-ui/core/Box";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -29,8 +30,9 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function ResultItem(props) {
-    const { item, genres } = props;
+export default function ResultItem({ item }) {
+    const genres = useSelector((state) => state.genres);
+
     //const [title, originalTitle, iconUrl] = ItemTitle(item);
     const classes = useStyles();
     //console.log("itemDate", <ItemDate item={item} />);
@@ -108,14 +110,36 @@ export default function ResultItem(props) {
                                 className={classes.inline}
                                 color="textPrimary"
                             >
-                                <br></br>
-                                Genres:
-                                {genres &&
+                                {/* <br></br> */}
+
+                                {/* {item.genre_ids &&
+                                    item.genre_ids.map((genreId, i) => (
+                                        <Box
+                                            key={i}
+                                            component="div"
+                                            display="inline"
+                                            fontWeight="fontWeightLight"
+                                            fontSize={10}
+                                            p={1}
+                                            m={1}
+                                            // cssStyle={{ bgcolor: "yellow" }}
+                                            bgcolor="white"
+                                            // bgcolor="background.paper"
+                                            // cssStyle={class: "genre-item"}
+                                        >
+                                            {genres.map((item) => {
+                                                if (item.id == genreId) {
+                                                    return item.name;
+                                                }
+                                            })}
+                                        </Box>
+                                    ))} */}
+                                {/* {genres &&
                                     genres.map((item) => {
-                                        if (item.id == genreId) {
+                                        if (item.id == genre) {
                                             return item.name;
                                         }
-                                    })}
+                                    })} */}
                                 {/* {genres &&
                                     item.genre_ids &&
                                     item.genre_ids.map((id) => {

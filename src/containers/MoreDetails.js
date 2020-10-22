@@ -54,10 +54,8 @@ export default function MoreDetails() {
     const [imgUrl, setImgUrl] = useState("");
     const [recDate, setRecDate] = useState("");
     const [recLink, setRecLink] = useState("");
-    const [aspectsStatus, setAspectsStatus] = useState([]);
-    const [credits, setCredits] = useState({}); // useState(credits)
+    const [credits, setCredits] = useState({});
 
-    //const recAspects = useSelector((state) => state.recAspects);
     //redux
     const dispatch = useDispatch();
     const recItem = useSelector((state) => state.recItem);
@@ -167,21 +165,25 @@ export default function MoreDetails() {
                     try {
                         console.log("ITEM ID???", recItem.id);
                         const requestUrl = "/api/credits-by-id/" + recItem.id;
+                        console.log("requestUrl: ", requestUrl);
                         const credits = await Axios.get(requestUrl);
                         console.log(
                             "CREDITS ajax done - credits.data",
                             credits.data
                         );
-                        setCredits(credits.data);
                         // let mounted = true;
-                        if (credits && credits.crew) {
-                            let [director] = credits.crew.map((credit) => {
-                                if (credit.department == "Directing") {
-                                    return credit;
+                        if (credits.data && credits.data.crew) {
+                            console.log("this HAPPENING AT ALL?");
+                            let [director] = credits.data.crew.map(
+                                (crewMemeber) => {
+                                    if (crewMemeber.department == "Directing") {
+                                        return crewMemeber;
+                                    }
                                 }
-                            });
+                            );
                             console.log("director", director);
                         }
+                        setCredits(credits.data);
                     } catch (err) {
                         console.log("error", err);
                     }
@@ -270,8 +272,64 @@ export default function MoreDetails() {
                             </div>
                         </div>
 
-                        <div className="small">Id: {recItem.id}</div>
-                        {/* {recItem && <img src={imgUrl}></img>} */}
+                        {/* <div className="small">Id: {recItem.id}</div> */}
+                        <div className="credits-small">
+                            <div className="credits-crew-small">
+                                {credits.cast && (
+                                    <img
+                                        src="/icons/credits-director.svg"
+                                        className="icon-tiny"
+                                    ></img>
+                                )}
+                                {credits.cast &&
+                                    credits.crew.map((castMem, i) => {
+                                        if (castMem.job == "Director") {
+                                            let rety = castMem.name + " ";
+                                            return rety;
+                                        }
+                                    })}
+                                {"  "}
+                                {credits.cast && (
+                                    <img
+                                        src="/icons/credits-camera.svg"
+                                        className="icon-tiny"
+                                    ></img>
+                                )}
+                                {credits.cast &&
+                                    credits.crew.map((castMem, i) => {
+                                        if (
+                                            castMem.job ==
+                                            "Director of Photography"
+                                        ) {
+                                            let rety = castMem.name + " ";
+                                            return rety;
+                                        }
+                                    })}
+                            </div>
+                            <div className="credits-cast-small">
+                                {credits.cast && (
+                                    <img
+                                        src="/icons/credits-cast.svg"
+                                        className="icon-tiny"
+                                    ></img>
+                                )}
+                                {credits.cast &&
+                                    credits.cast
+                                        .slice(0, 4)
+                                        .map((castMem, i) => {
+                                            i < 5;
+                                            let rety = castMem.name + ", ";
+                                            return rety;
+                                        })}
+                                {credits.cast &&
+                                    credits.cast
+                                        .slice(4, 5)
+                                        .map((castMem, i) => {
+                                            let rety = castMem.name + " ";
+                                            return rety;
+                                        })}
+                            </div>
+                        </div>
                         <div className="genres">
                             <div style={{ width: "100%" }}>
                                 {recItem.genre_ids &&

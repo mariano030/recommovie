@@ -31,6 +31,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function SearchItem() {
+    const genres = useSelector((state) => state.genres);
+
     const classes = useStyles();
     const dispatch = useDispatch();
     const searchField = useRef(); // to manipulate the dom manually, reference an element of DOM

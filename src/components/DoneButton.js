@@ -28,7 +28,7 @@ export default function DoneButton(props) {
                 className={classes.button}
                 startIcon={<TheatersIcon />}
             >
-                Recommend Now
+                Recommend
             </Button>
         </div>
     );

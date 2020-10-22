@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
 export default function ItemInfo(props) {
     const classes = useStyles();
 
-    const [credits, setCredits] = useState({}); // useState(credits)
     const { item, myClass } = props;
     const recItem = useSelector((state) => state.recItem);
     let director = {};
