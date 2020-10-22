@@ -23,37 +23,7 @@ export default function ItemInfo(props) {
     const { item, myClass } = props;
     const recItem = useSelector((state) => state.recItem);
     let director = {};
-    useEffect(() => {
-        console.log("CREDITS BY ID running");
-        if (item.media_type == "person") {
-            return;
-        } else {
-            console.log("getting CREDITS for ", item.id);
-            // (async () => {
-            //     try {
-            //         console.log("ITEM ID???", item.id);
-            //         const requestUrl = "/api/credits-by-id/" + item.id;
-            //         const credits = await Axios.get(requestUrl);
-            //         console.log(
-            //             "CREDITS ajax done - credits.data",
-            //             credits.data
-            //         );
-            //         setCredits(credits.data);
-            //         // let mounted = true;
-            //         if (credits && credits.crew) {
-            //             let [director] = credits.crew.map((credit) => {
-            //                 if (credit.department == "Directing") {
-            //                     return credit;
-            //                 }
-            //             });
-            //             console.log("director", director);
-            //         }
-            //     } catch (err) {
-            //         console.log("error", err);
-            //     }
-            // })();
-        }
-    }, [item]);
+
     useEffect(() => {
         console.log("ItemInfo useEffect running");
     });

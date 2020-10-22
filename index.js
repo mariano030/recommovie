@@ -186,37 +186,37 @@ app.get("/api/multi-search/:searchTerm", async (req, res) => {
     }
 });
 
-// app.get("/api/credits-by-id/:id", async (req, res) => {
-//     console.log("/api/credits-by-id/:id");
-//     console.log("searching for: req.body", req.params);
-//     const id = req.params.id;
-//     console.log("<>>> PARAMS.ID", req.params.id);
-//     console.log("<>>> ID", id);
-//     //
-//     // https://api.themoviedb.org/3/movie/21575/credits?api_key=API_KEYYYY&language=en-US
-//     //
-//     const searchUrl =
-//         "https://api.themoviedb.org/3/movie/" +
-//         id +
-//         "/credits?api_key=" +
-//         secrets.TMDB_API_KEY +
-//         "&language=en-US";
-//     try {
-//         const { data } = await Axios.get(searchUrl);
-//         console.log(
-//             "*CREDITS*CREDITS*CREDITS*CREDITS*CREDITS*CREDITS*CREDITS*CREDITS*"
-//         );
-//         console.log("searchUrl: ", searchUrl);
-//         console.log("data: .DATA", data);
-//         console.log(
-//             "CREDITS*CREDITS*CREDITS*##########  results done  #######CREDITS*CREDITS*CREDITS*##############"
-//         );
-//         res.json(data);
-//     } catch (err) {
-//         console.log("error searching for item by ID ", err);
-//         res.json({ error: true });
-//     }
-// });
+app.get("/api/credits-by-id/:id", async (req, res) => {
+    console.log("/api/credits-by-id/:id");
+    console.log("searching for: req.body", req.params);
+    const id = req.params.id;
+    console.log("<>>> PARAMS.ID", req.params.id);
+    console.log("<>>> ID", id);
+    //
+    // https://api.themoviedb.org/3/movie/21575/credits?api_key=API_KEYYYY&language=en-US
+    //
+    const searchUrl =
+        "https://api.themoviedb.org/3/movie/" +
+        id +
+        "/credits?api_key=" +
+        secrets.TMDB_API_KEY +
+        "&language=en-US";
+    try {
+        const { data } = await Axios.get(searchUrl);
+        console.log(
+            "*CREDITS*CREDITS*CREDITS*CREDITS*CREDITS*CREDITS*CREDITS*CREDITS*"
+        );
+        console.log("searchUrl: ", searchUrl);
+        console.log("data: .DATA", data);
+        console.log(
+            "CREDITS*CREDITS*CREDITS*##########  results done  #######CREDITS*CREDITS*CREDITS*##############"
+        );
+        res.json(data);
+    } catch (err) {
+        console.log("error searching for item by ID ", err);
+        res.json({ error: true });
+    }
+});
 
 app.get("/api/get-aspects/", async (req, res) => {
     try {

@@ -22,6 +22,35 @@ import MoreDetails from "./containers/MoreDetails.js";
 import InputFieldIcon from "./components/InputFieldIcon.js";
 import DoneButton from "./components/DoneButton.js";
 import LinkIsReady from "./containers/LinkIsReady.js";
+import { ThemeProvider } from "@material-ui/core/styles";
+import { createMuiTheme } from "@material-ui/core/styles";
+import purple from "@material-ui/core/colors/purple";
+import green from "@material-ui/core/colors/green";
+
+const theme = createMuiTheme({
+    palette: {
+        primary: {
+            main: "#f96f5d",
+        },
+        secondary: {
+            main: "#c6c7c4",
+        },
+        action: {
+            main: "#c6c7c4",
+        },
+    },
+    //action , error , disabled
+    toggle: {
+        thumbOnColor: "yellow",
+        trackOnColor: "#f96f5d",
+    },
+    text: {
+        primary: "#242325",
+    },
+    background: {
+        primary: "#242325",
+    },
+});
 
 export default function App() {
     const dispatch = useDispatch();
@@ -59,15 +88,17 @@ export default function App() {
     }, []);
     return (
         <>
-            <div className="column-start">
-                <SearchItem />
-                {/* <AddDetails /> */}
-                <MoreDetails />
-                {/* {newRecLink && <LinkIsReady />} */}
-                {/* <Button> Material UI</Button> */}
-                {/* <InputFieldIcon /> */}
-                {/* <DoneButton /> */}
-            </div>
+            <ThemeProvider theme={theme}>
+                <div className="column-start">
+                    <SearchItem />
+                    {/* <AddDetails /> */}
+                    <MoreDetails />
+                    {/* {newRecLink && <LinkIsReady />} */}
+                    {/* <Button> Material UI</Button> */}
+                    {/* <InputFieldIcon /> */}
+                    {/* <DoneButton /> */}
+                </div>
+            </ThemeProvider>
         </>
     );
 }

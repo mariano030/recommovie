@@ -12,11 +12,18 @@ body {
 }
 
 .powered-by-small {
-    height: 8px;
+    margin: 1px;
+
+    height: 4px;
     filter: invert(0%) sepia(0%) saturate(0%) hue-rotate(346deg) brightness(20%)
         contrast(100%);
     cursor: pointer;
 }
+
+.powered-by-small img {
+    height: 5px;
+}
+
 .powered-by-small:hover {
     filter: none;
 }
@@ -46,6 +53,8 @@ body {
     width: 35px;
     padding: 10px 7px 4px 0px;
     transform: rotate(40deg);
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(346deg)
+        brightness(100%) contrast(100%);
 }
 
 .icon-tv-title {
@@ -63,6 +72,12 @@ body {
     height: 32px;
     width: 32px;
     padding: 5px;
+    filter: invert(100%) sepia(0%) saturate(0%) hue-rotate(346deg)
+        brightness(100%) contrast(100%);
+}
+
+.result-recItem {
+    margin-top: 10px;
 }
 
 .aspects {
@@ -115,4 +130,5 @@ body {
 .hero-image {
     max-width: 90vw;
     object-fit: contain;
+    padding: 5px;
 }

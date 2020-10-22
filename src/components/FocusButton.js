@@ -8,6 +8,7 @@ export default function FocusButton(props) {
 
     return (
         <ToggleButton
+            trackOnColor={{ backgroundColor: "blue" }}
             size="small"
             value="check"
             selected={selected}

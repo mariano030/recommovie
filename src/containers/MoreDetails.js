@@ -55,6 +55,8 @@ export default function MoreDetails() {
     const [recDate, setRecDate] = useState("");
     const [recLink, setRecLink] = useState("");
     const [aspectsStatus, setAspectsStatus] = useState([]);
+    const [credits, setCredits] = useState({}); // useState(credits)
+
     //const recAspects = useSelector((state) => state.recAspects);
     //redux
     const dispatch = useDispatch();
@@ -150,24 +152,50 @@ export default function MoreDetails() {
             console.log("no link yet...");
         }
     }, [recLink]);
+
+    // get credits
+    useEffect(() => {
+        if (!recItem) {
+            return;
+        } else {
+            console.log("CREDITS BY ID running");
+            if (recItem.media_type == "person") {
+                return;
+            } else {
+                console.log("getting CREDITS for ", recItem.id);
+                (async () => {
+                    try {
+                        console.log("ITEM ID???", recItem.id);
+                        const requestUrl = "/api/credits-by-id/" + recItem.id;
+                        const credits = await Axios.get(requestUrl);
+                        console.log(
+                            "CREDITS ajax done - credits.data",
+                            credits.data
+                        );
+                        setCredits(credits.data);
+                        // let mounted = true;
+                        if (credits && credits.crew) {
+                            let [director] = credits.crew.map((credit) => {
+                                if (credit.department == "Directing") {
+                                    return credit;
+                                }
+                            });
+                            console.log("director", director);
+                        }
+                    } catch (err) {
+                        console.log("error", err);
+                    }
+                })();
+            }
+        }
+    }, [recItem]);
+    // set stuff for rec Item
     useEffect(() => {
         if (!recItem) {
             return;
         }
         console.log("imgUrl", imgUrl);
-
-        // {
-        //     recItem.original_name || recItem.original_title;
-        // }
-        // {
-        //     recItem.media_type != "person" &&
-        //         recItem.release_date &&
-        //         " (" + recItem.release_date.substring(0, 4) + ")";
-        // }
-
-        // imgStyle = "backdrop_path";
         setImgUrl("https://image.tmdb.org/t/p/w780" + recItem[imgStyle]);
-        //imgUrl = "https://image.tmdb.org/t/p/w780" + recItem.backdrop_path;
         switch (recItem.media_type) {
             case "movie":
                 date = "(" + recItem.release_date.substring(0, 4) + ")";
@@ -317,24 +345,11 @@ export default function MoreDetails() {
                                 id="panel1a-header"
                             >
                                 <Typography className={classes.heading}>
-                                    Recommendation focus:
+                                    Highlight aspects:
                                 </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
                                 <Typography>
-                                    {/* <ToggleButton
-                                        name={aspects[0].id}
-                                        size="small"
-                                        value="check"
-                                        selected={selected}
-                                        onChange={() => {
-                                            handleFocusButton;
-                                            setSelected(!selected);
-                                        }}
-                                    >
-                                        {aspects[0].name}
-                                    </ToggleButton> */}
-
                                     {aspects &&
                                         aspects.map((aspect, i) => (
                                             <FocusButton
@@ -380,6 +395,7 @@ export default function MoreDetails() {
 
                 {recLink && (
                     <LinkIsReady
+                        className={classes.red}
                         recLink={recLink}
                         recipientName={recData.recipientName}
                     />

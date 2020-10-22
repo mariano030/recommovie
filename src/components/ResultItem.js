@@ -23,6 +23,10 @@ const useStyles = makeStyles((theme) => ({
     inline: {
         display: "inline",
     },
+    red: {
+        color: "white",
+        backgroundColor: "#d44d5c",
+    },
 }));
 
 export default function ResultItem(props) {
@@ -67,7 +71,7 @@ export default function ResultItem(props) {
         <>
             <ListItem key={key.id} alignItems="flex-start">
                 <ListItemAvatar>
-                    <Avatar>
+                    <Avatar className={classes.red}>
                         <img src={iconUrl} className="icon-search"></img>
                     </Avatar>
                 </ListItemAvatar>

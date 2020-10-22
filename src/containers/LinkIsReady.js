@@ -105,8 +105,11 @@ export default function LinkIsReady({ recLink }) {
                     className={clsx(classes.margin, classes.textField)}
                     fullWidth
                 >
-                    <InputLabel>Recommendation Link</InputLabel>
+                    <InputLabel className={classes.red}>
+                        Recommendation Link
+                    </InputLabel>
                     <Input
+                        className={classes.red}
                         fullWidth
                         disabled
                         value={recLink}

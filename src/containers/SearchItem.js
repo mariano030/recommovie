@@ -173,20 +173,13 @@ export default function SearchItem() {
                     variant="outlined"
                     fullWidth={true}
                 />
-                {/* <input
-                    ref={searchField}
-                    onChange={handleChange}
-                    name="search"
-                    placeholder="Search ..."
-                    type="text"
-                /> */}
-                <p className="powered-by-text-small">
+                {/* <p className="powered-by-text-small">
                     Powered by{" "}
                     <img
                         className="powered-by-small"
                         src="/icons/tmdb-short.svg"
                     ></img>
-                </p>
+                </p> */}
             </div>
 
             {items.length >= 1 && (
@@ -204,6 +197,12 @@ export default function SearchItem() {
                         );
                     })}
                 </List>
+            )}
+
+            {!items && (
+                <Typography>
+                    Select Add Details Get Recommendation Link
+                </Typography>
             )}
         </div>
     );
