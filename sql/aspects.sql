@@ -6,9 +6,6 @@ CREATE TABLE aspects(
     icon VARCHAR(255)
 );
 
-INSERT into aspects (id,name, icon)
-values (1, 'Color','color');
-
 INSERT into aspects(name, icon)
 values (2, 'Art Design','design');
 
@@ -29,6 +26,9 @@ values ('Dialogue','dialogue');
 
 INSERT into aspects(name,icon)
 values ('Editing','editing');
+
+INSERT into aspects (id,name, icon)
+values (1, 'Color','color');
 
 INSERT into aspects(name,icon)
 values ('Mood','mood');
@@ -59,5 +59,11 @@ values ('Special Effects','sfx');
 
 INSERT into aspects(name,icon)
 values ('Visual Effects','vfx');
+
+INSERT into aspects(name,icon)
+values ('Mis en Scène','miseenscene');
+
+INSERT into aspects(name,icon)
+values ('Characters','characters');
 
 select * from aspects;
