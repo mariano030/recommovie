@@ -7,6 +7,7 @@ import { setAspects, setGenres } from "./redux/actions.js";
 
 import { Button } from "@material-ui/core";
 
+import ViewRec from "./containers/ViewRec.js";
 import ResultsItemsList from "./components/ResultsItemsList.js";
 //import { unmountComponentAtNode, render } from "react-dom";
 
@@ -40,10 +41,6 @@ const theme = createMuiTheme({
         },
     },
     //action , error , disabled
-    toggle: {
-        thumbOnColor: "yellow",
-        trackOnColor: "#f96f5d",
-    },
     text: {
         primary: "#242325",
     },
@@ -52,7 +49,7 @@ const theme = createMuiTheme({
     },
 });
 
-export default function App() {
+export default function App(props) {
     const dispatch = useDispatch();
     const newRecLink = useSelector((state) => state.newRecLink);
     // const recItem = useSelector((state) => state.recItem);
@@ -88,17 +85,33 @@ export default function App() {
     }, []);
     return (
         <>
-            <ThemeProvider theme={theme}>
-                <div className="column-start">
-                    <SearchItem />
-                    {/* <AddDetails /> */}
-                    <MoreDetails />
-                    {/* {newRecLink && <LinkIsReady />} */}
-                    {/* <Button> Material UI</Button> */}
-                    {/* <InputFieldIcon /> */}
-                    {/* <DoneButton /> */}
-                </div>
-            </ThemeProvider>
+            <BrowserRouter>
+                <ThemeProvider theme={theme}>
+                    <div className="column-start">
+                        <Route
+                            exact
+                            path="/"
+                            render={() => (
+                                <>
+                                    <SearchItem />
+                                    <MoreDetails />
+                                </>
+                            )}
+                        />
+                        <Route
+                            path="/r/:code"
+                            render={(props) => (
+                                <>
+                                    <ViewRec
+                                        match={props.match}
+                                        history={history}
+                                    />
+                                </>
+                            )}
+                        />
+                    </div>
+                </ThemeProvider>
+            </BrowserRouter>
         </>
     );
 }

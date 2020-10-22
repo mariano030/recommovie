@@ -16,9 +16,17 @@ const db = spicedPg(
 //     return db.query(q, params);
 // };
 
-module.exports.createUser = (name) => {
+module.exports.createSender = (name) => {
     const q = `
-    INSERT into users (name)
+    INSERT into senders (sendername)
+        values ($1) 
+    RETURNING id`;
+    const params = [name];
+    return db.query(q, params);
+};
+module.exports.createRecipient = (name) => {
+    const q = `
+    INSERT into recipients (recipientname)
         values ($1) 
     RETURNING id`;
     const params = [name];
@@ -38,14 +46,25 @@ module.exports.makeRec = (
     mediaId,
     senderId,
     recipientid,
-    message
+    aspects,
+    message,
+    extUrl
 ) => {
     const q = `
-    INSERT into recs (code, mediaType, mediaId,senderId, recipientid,message)
-                values ($1,$2,$3,$4,$5,$6)
+    INSERT into recs (code, mediaType, mediaId,senderId, recipientid,aspects, message, exturl)
+                values ($1,$2,$3,$4,$5, $6, $7,$8)
                 RETURNING id
     `;
-    const params = [code, mediaType, mediaId, senderId, recipientid, message];
+    const params = [
+        code,
+        mediaType,
+        mediaId,
+        senderId,
+        recipientid,
+        aspects,
+        message,
+        extUrl,
+    ];
     return db.query(q, params);
 };
 
@@ -60,24 +79,9 @@ module.exports.setAspects = (recId, aspectId) => {
 };
 
 module.exports.getRec = (code) => {
-    // good but missing users
     const q = `
-
     SELECT * from recs 
-    LEFT JOIN users
-    ON (users.id = recs.recipientid AND users.id = recs.senderid)
-    LEFT JOIN rec_aspects
-    ON rec_aspects.recid = recs.id
-    LEFT JOIN aspects
-    ON rec_aspects.aspectid = aspects.id
-    WHERE recs.code = 'guHLVDk' $1
-
-    SELECT * from recs 
-    LEFT JOIN rec_aspects
-    ON rec_aspects.recid = recs.id
-    LEFT JOIN aspects
-    ON rec_aspects.aspectid = aspects.id
-    WHERE recs.code = 'guHLVDk' $1
+    WHERE code = $1
     `;
     const params = [code];
     return db.query(q, params);

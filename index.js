@@ -84,7 +84,7 @@ app.post("/rec/", async (req, res) => {
         senderName,
         recipientName,
     } = req.body;
-    const senderId = 1; /// whatch out here! delete soon
+    //const senderId = 1; /// whatch out here! delete soon
 
     console.log("recipientName", recipientName);
     console.log("senderName", senderName);
@@ -93,6 +93,7 @@ app.post("/rec/", async (req, res) => {
     console.log("itemId: ", itemId);
     console.log("imageType: ", imageType);
     console.log("message: ", message);
+    console.log("extUrl: ", extUrl);
     // deal with focus!! list of focus relations?!
     //console.log("req.originalUrl", originalUrl);
     // const randomCode = util.promisify(generateCode);
@@ -101,30 +102,38 @@ app.post("/rec/", async (req, res) => {
         const randomCode = await uidSafe(5);
         console.log("promised", randomCode);
         let recipientId = 0;
+        let senderId = 0;
         if (recipientName) {
-            const { rows } = await db.createUser(recipientName);
+            const { rows } = await db.createRecipient(recipientName);
             recipientId = rows[0].id;
             console.log("recipientId", recipientId);
+        } else {
         }
         if (senderName) {
-            const { rows } = await db.createUser(senderName);
-            let senderId = rows[0].id;
+            const { rows } = await db.createSender(senderName);
+            senderId = rows[0].id;
             console.log("senderId", senderId);
         }
         console.log("about to makeRec recipientId:", recipientId);
+        /// how do i do this?
+
+        // for (const aspectId of aspects) {
+        //     await db.setAspects(rows[0].id, aspectId);
+        // }
+        console.log("message before insert ###", message);
+        console.log("inserting - makeRec");
         const { rows } = await db.makeRec(
             randomCode,
             mediaType,
             itemId,
             senderId,
             recipientId,
-            message
+            aspects,
+            message,
+            extUrl
         );
         //aspects
-        console.log("data.id: ", rows[0].id);
-        for (const aspectId of aspects) {
-            await db.setAspects(rows[0].id, aspectId);
-        }
+        // console.log("data.id: ", rows[0].id);
 
         const link =
             req.protocol + "://" + req.get("host") + "/r/" + randomCode;
@@ -263,11 +272,41 @@ app.get("/api/get-genres/", async (req, res) => {
     }
 });
 
-app.get("/r/:code", async (req, res) => {
+app.get("/api/get-rec/:code", async (req, res) => {
     // check if user is senderId
     console.log("RECCCOMOVIE req.params.code", req.params.code);
     try {
+        const { rows } = await db.getRec(req.params.code);
+        console.log("the rows rows[0].id", rows[0]);
+        let searchUrl = "";
         //const rec.data = await db.getRec(rew.params.code)
+        if (rows[0] && rows[0].mediatype == "tv") {
+            // api req movie via id
+            searchUrl =
+                "https://api.themoviedb.org/3/tv/" +
+                rows[0].mediaid +
+                "?api_key=" +
+                secrets.TMDB_API_KEY +
+                "&language=en-US&query=";
+        } else if (rows[0] && rows[0].mediatype == "movie") {
+            searchUrl =
+                "https://api.themoviedb.org/3/movie/" +
+                rows[0].mediaid +
+                "?api_key=" +
+                secrets.TMDB_API_KEY +
+                "&language=en-US&query=";
+        } else {
+            res.json({ error: true });
+        }
+        const itemInfo = await Axios.get(searchUrl);
+        console.log("#################itemInfo", itemInfo.data); // same format as recItem
+        const recItem = {
+            ...itemInfo.data,
+            recInfos: rows[0],
+        };
+        // rows = recInfo  // itemInfo
+        console.log("recItem", recItem);
+        res.json(recItem);
     } catch (err) {
         console.error("error", err);
     }

@@ -13,7 +13,7 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import DoneButton from "../components/DoneButton.js";
-import LinkIsReady from "../containers/LinkIsReady";
+import LinkIsReady from "./LinkIsReady";
 import useStatefulFields from "../hooks/useStatefulFields";
 
 import ItemIcon from "../components/ItemIcon.js";
@@ -39,7 +39,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function MoreDetails() {
+export default function ViewRec(props) {
     const classes = useStyles();
 
     //const { register, handleSubmit, errors } = useForm();
@@ -77,47 +77,47 @@ export default function MoreDetails() {
     //     return { ...aspect, status: false };
     // });
 
-    const handleSubmit = () => {
-        console.log("submit button pressed");
-        console.log("recData", recData);
+    // const handleSubmit = () => {
+    //     console.log("submit button pressed");
+    //     console.log("recData", recData);
 
-        if (!recItem) {
-            console.log("no recItem can not recOmmend");
-        } else {
-            (async () => {
-                try {
-                    const response = await Axios.post("/rec/", {
-                        ...recData,
-                        aspects: aspects
-                            .filter((aspect) => aspect.status == true)
-                            .map((aspect) => aspect.id),
-                    });
+    //     if (!recItem) {
+    //         console.log("no recItem can not recOmmend");
+    //     } else {
+    //         (async () => {
+    //             try {
+    //                 const response = await Axios.post("/rec/", {
+    //                     ...recData,
+    //                     aspects: aspects
+    //                         .filter((aspect) => aspect.status == true)
+    //                         .map((aspect) => aspect.id),
+    //                 });
 
-                    console.log(
-                        "the link is here! response.data",
-                        response.data.link
-                    );
-                    //dispatch(setRecLink(response.data.link));
-                    setRecLink(response.data.link);
-                } catch (err) {
-                    console.log("error recommending...!", err);
-                }
-            })();
-        }
-    };
+    //                 console.log(
+    //                     "the link is here! response.data",
+    //                     response.data.link
+    //                 );
+    //                 //dispatch(setRecLink(response.data.link));
+    //                 setRecLink(response.data.link);
+    //             } catch (err) {
+    //                 console.log("error recommending...!", err);
+    //             }
+    //         })();
+    //     }
+    // };
 
-    const handleFocusButton = (aspect, i) => {
-        console.log("submit button pressed");
-        dispatch(aspectStatusToggle(i));
-    };
+    // const handleFocusButton = (aspect, i) => {
+    //     console.log("submit button pressed");
+    //     dispatch(aspectStatusToggle(i));
+    // };
 
     // input fields:
-    const handleChangeMaterial = (e) => {
-        console.log(e.target.value);
-        //setValue(e.target.value);
-        let dataObj = { [e.target.name]: e.target.value };
-        dispatch(addToRecData(dataObj));
-    };
+    // const handleChangeMaterial = (e) => {
+    //     console.log(e.target.value);
+    //     //setValue(e.target.value);
+    //     let dataObj = { [e.target.name]: e.target.value };
+    //     dispatch(addToRecData(dataObj));
+    // };
 
     const toggleImage = () => {
         console.log("changing imgStyle from previous", imgStyle);
@@ -142,14 +142,6 @@ export default function MoreDetails() {
         }
         console.log(imgUrl);
     };
-
-    useEffect(() => {
-        if (recLink) {
-            //dispatch(setRecLink(recLink));
-        } else {
-            console.log("no link yet...");
-        }
-    }, [recLink]);
 
     // get credits
     useEffect(() => {
@@ -193,50 +185,46 @@ export default function MoreDetails() {
     }, [recItem]);
     // set stuff for rec Item
     useEffect(() => {
-        if (!recItem) {
-            return;
-        }
-        console.log("imgUrl", imgUrl);
-        setImgUrl("https://image.tmdb.org/t/p/w780" + recItem[imgStyle]);
-        switch (recItem.media_type) {
-            case "movie":
-                date = "(" + recItem.release_date.substring(0, 4) + ")";
-                console.log("DATE", date);
-                setRecDate(date);
-                iconUrl = "/icons/media_type_movie.svg";
-                break;
-            case "tv":
-                date = "(" + recItem.first_air_date.substring(0, 4) + ")";
-                setRecDate(date);
-                iconUrl = "/icons/media_type_tv.svg";
-                console.log("DATE", date);
-                break;
-            case "person":
-                iconUrl = "/icons/media_type_person.svg";
-                break;
-        }
-    }, [recItem]);
-
-    const handleClick = (id) => {
-        console.log("clicked button with id:", id);
+        console.log("useEffect in ViewRec runni'");
         console.log(
-            "clicked button with name",
-            aspects.filter((aspect) => {
-                if (aspect.id == id) {
-                    console.log("aspect.name", aspect.name);
-                    return aspect;
-                }
-            })
+            "this.props.match.params.code the url slug!",
+            props.match.params.code
         );
-        const selectedAspect = aspects.filter((aspect) => {
-            if (aspect.id == id) {
-                console.log("aspect.name", aspect.name);
-                return aspect;
+
+        (async () => {
+            try {
+                const requestUrl = "/api/get-rec/" + props.match.params.code;
+                console.log("requestUrl: ", requestUrl);
+                const result = await Axios.get(requestUrl);
+                console.log("recommendation data received");
+                //setCredits(credits.data);
+                console.log("RESULT.data", result.data);
+                console.log("recommendation.data[0]", recItemWithRecInfo);
+            } catch (err) {
+                console.log("error", err);
             }
-        })[0].name;
-        dispatch(addRecAspect(selectedAspect));
-        console.log("selectedAspect", selectedAspect);
-    };
+        })();
+    });
+    // const handleClick = (id) => {
+    //     console.log("clicked button with id:", id);
+    //     console.log(
+    //         "clicked button with name",
+    //         aspects.filter((aspect) => {
+    //             if (aspect.id == id) {
+    //                 console.log("aspect.name", aspect.name);
+    //                 return aspect;
+    //             }
+    //         })
+    //     );
+    //     const selectedAspect = aspects.filter((aspect) => {
+    //         if (aspect.id == id) {
+    //             console.log("aspect.name", aspect.name);
+    //             return aspect;
+    //         }
+    //     })[0].name;
+    //     dispatch(addRecAspect(selectedAspect));
+    //     console.log("selectedAspect", selectedAspect);
+    // };
 
     if (!recItem) {
         return null;

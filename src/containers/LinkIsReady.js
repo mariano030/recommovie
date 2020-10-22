@@ -31,7 +31,7 @@ import InputFieldLink from "../components/InputFieldLink.js";
 import TextFieldMessage from "../components/TextFieldMessage.js";
 import FocusButton from "../components/FocusButton.js";
 import FocusAccordion from "../components/FocusAccordion.js";
-import ToggleButton from "@material-ui/lab/ToggleButton";
+import CheckCircle from "@material-ui/icons/CheckCircle";
 
 //test stuff below - just delte when done with recData
 import VanillaTextInput from "../components/VanillaTextInput.js";
@@ -95,11 +95,21 @@ export default function LinkIsReady({ recLink }) {
     } else {
         return (
             <>
-                <Typography variant="h5">Your link is ready</Typography>
-                <Typography variant="h5">
-                    Just copy the link and send it to {recData.recipientName}.
-                </Typography>
-                {/* <Typography variant="h2">{recLink}</Typography> */}
+                {/* <Typography variant="h5">Your link is ready</Typography> */}
+                <div className="row-center">
+                    <div className="row-center">
+                        <CheckCircle />
+                    </div>
+                    <div>
+                        <Typography variant="overline">
+                            Just copy the link and send it
+                            {recData.recipientName &&
+                                " to " + recData.recipientName}
+                            .
+                        </Typography>
+                        {/* <Typography variant="h2">{recLink}</Typography> */}
+                    </div>
+                </div>
 
                 <FormControl
                     className={clsx(classes.margin, classes.textField)}
