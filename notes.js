@@ -138,3 +138,15 @@ functionName (e) =>{
 
 
 // http://localhost:8080/r/pIVdCRA recipient sender
+
+// input color
+// tv series - datum - createor - ...
+// seasons ? 
+
+// DONE!! empty sender    empty recipient 
+
+
+//copy link to clipboard
+
+
+// link to just watch?

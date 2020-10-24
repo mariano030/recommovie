@@ -108,11 +108,16 @@ app.post("/rec/", async (req, res) => {
             recipientId = rows[0].id;
             console.log("recipientId", recipientId);
         } else {
+            console.log("SETTING RECIPIENT ID TO GENERIC id 30");
+            recipientId = 30;
         }
         if (senderName) {
             const { rows } = await db.createSender(senderName);
             senderId = rows[0].id;
             console.log("senderId", senderId);
+        } else {
+            console.log("SETTING SENDER ID TO GENERIC id 30");
+            senderId = 30;
         }
         console.log("about to makeRec recipientId:", recipientId);
         /// how do i do this?
@@ -215,14 +220,26 @@ app.get("/api/credits-by-id/:id", async (req, res) => {
     console.log("/api/credits-by-id/:id");
     console.log("why is this not logging");
     console.log("searching for: req.params", req.params);
-    const id = req.params.id;
+    const type = req.params.id.slice(0, 1);
+    console.log("type", type);
+    let typeName = "null";
+    if (type == "t") {
+        console.log("TV SHOW DETECTED");
+        typeName = "tv";
+    } else if (type == "m") {
+        console.log("++ MOVIE DETECTED");
+        typeName = "movie";
+    }
+    const id = req.params.id.slice(1);
     console.log("<>>> PARAMS.ID", req.params.id);
     console.log("<>>> ID", id);
     //
     // https://api.themoviedb.org/3/movie/21575/credits?api_key=API_KEYYYY&language=en-US
     //
     const searchUrl =
-        "https://api.themoviedb.org/3/movie/" +
+        "https://api.themoviedb.org/3/" +
+        typeName +
+        "/" +
         id +
         "/credits?api_key=" +
         secrets.TMDB_API_KEY +

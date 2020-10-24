@@ -93,7 +93,7 @@ export default function reducer(state = { recData: {} }, action) {
             console.log(action.payload);
             state = {
                 ...state,
-                newRecLink: action.payload,
+                recLink: action.payload,
             };
             break;
         case "TOGGLE_ASPECT":

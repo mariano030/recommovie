@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from "react";
 import useForm from "react-hook-form";
-import { Link } from "react-router-dom"; // ?? needed ??
+// import { Link } from "react-router-dom"; // ?? needed ??
 import { useDispatch, useSelector } from "react-redux";
 import { addRecAspect, addToRecData } from "../redux/actions.js";
 import Axios from "../axios";
 
 import CapitalizedText from "../components/Capitalize.js";
 
+import Link from "@material-ui/core/Link";
 import Grid from "@material-ui/core/Grid";
 import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
@@ -63,7 +64,8 @@ export default function ViewRec(props) {
     const [recipientName, setRecipientName] = useState();
     const [message, setMessage] = useState();
     const [customUrl, setCustomUrl] = useState();
-    const [imgStyle, setPictureType] = useState("backdrop_path");
+    // const [imgStyle, setPictureType] = useState("backdrop_path");
+    const [imgStyle, setPictureType] = useState("poster_path");
     const [imgUrl, setImgUrl] = useState("");
     const [recDate, setRecDate] = useState("");
     const [recLink, setRecLink] = useState("");
@@ -124,8 +126,11 @@ export default function ViewRec(props) {
                 console.log("getting CREDITS for ", recItem.id);
                 (async () => {
                     try {
+                        let firstLetter = recItem.media_type.slice(0, 1);
+                        console.log(firstLetter);
                         console.log("ITEM ID???", recItem.id);
-                        const requestUrl = "/api/credits-by-id/" + recItem.id;
+                        const requestUrl =
+                            "/api/credits-by-id/" + firstLetter + recItem.id;
                         console.log("requestUrl: ", requestUrl);
                         const credits = await Axios.get(requestUrl);
                         console.log(
@@ -140,6 +145,15 @@ export default function ViewRec(props) {
                                     if (crewMemeber.department == "Directing") {
                                         return crewMemeber;
                                     }
+                                }
+                            );
+                            console.log("director", director);
+                        }
+                        if (credits.data && credits.data.crew) {
+                            console.log("this HAPPENING AT ALL?");
+                            let [creator] = recItem.created_by.map(
+                                (crewMemeber) => {
+                                    return crewMemeber;
                                 }
                             );
                             console.log("director", director);
@@ -247,38 +261,40 @@ export default function ViewRec(props) {
                             src="/icons/clapperboard.svg"
                         ></img>
                     </div>
-                    <div className="row-center">
-                        {recData.recipientName && !recData.senderName && (
-                            <Typography m="auto" variant="h6">
-                                A recommendation for{" "}
+                    <div className="view-a-recommendation">
+                        {recData.recipientName &&
+                            !recData.senderName &&
+                            "A recommendation for " +
+                            (
                                 <CapitalizedText
                                     capitalize={recData.recipientName}
                                 ></CapitalizedText>
-                            </Typography>
-                        )}
+                            )}
                     </div>
+                    {recData.recipientName && recData.senderName && (
+                        <div className="view-a-recommendation">
+                            {"A recommendation for "}
+                            <CapitalizedText
+                                capitalize={recData.recipientName}
+                            ></CapitalizedText>
+                        </div>
+                    )}
+                    {!recData.recipientName && recData.senderName && (
+                        <div className="view-a-recommendation">
+                            {"A recommendation for "}
+                            <CapitalizedText
+                                capitalize={recData.recipientName}
+                            ></CapitalizedText>
+                        </div>
+                    )}
                 </div>{" "}
-                {recData.recipientName && recData.senderName && (
-                    <Typography variant="h6">
-                        A recommendation for{" "}
-                        <CapitalizedText
-                            capitalize={recData.recipientName}
-                        ></CapitalizedText>
-                    </Typography>
-                )}
-                {!recData.recipientName && recData.senderName && (
-                    <Typography variant="h6">
-                        A recommendation for{" "}
-                        <CapitalizedText
-                            capitalize={recData.recipientName}
-                        ></CapitalizedText>
-                    </Typography>
-                )}
                 <div className="view">
-                    <ViewMessage
-                        message={recData.message}
-                        senderName={recData.senderName}
-                    />
+                    {recData.message && (
+                        <ViewMessage
+                            message={recData.message}
+                            senderName={recData.senderName}
+                        />
+                    )}
                 </div>
                 <div className="result-recItem">
                     <div>
@@ -322,6 +338,20 @@ export default function ViewRec(props) {
                                         }
                                     })}
                                 {"  "}
+                                {recItem.media_type == "tv" && (
+                                    <img
+                                        src="/icons/credits-creator.svg"
+                                        className="icon-tiny"
+                                    ></img>
+                                )}
+                                {recItem.media_type == "tv" &&
+                                    recItem.created_by.map((castMem, i) => {
+                                        let rety = castMem.name + " ";
+                                        return rety;
+                                    })}
+                                {"  "}{" "}
+                                {recItem.media_type == "tv" &&
+                                    " | Seasons: " + recItem.number_of_seasons}
                                 {credits.cast && (
                                     <img
                                         src="/icons/credits-camera.svg"
@@ -418,7 +448,7 @@ export default function ViewRec(props) {
                             </Grid>
                         </div>
                     </div>
-                    <div className="column-center">
+                    {/* <div className="column-center">
                         {recData.exturl && (
                             <Link
                                 href={recData.exturl}
@@ -428,6 +458,34 @@ export default function ViewRec(props) {
                                 {recData.exturl}
                             </Link>
                         )}
+                    </div> */}
+                    <div className="column-center">
+                        {recData.recipientName && recData.senderName && (
+                            <div className="view-a-recommendation">
+                                {"Recommended by "}
+                                <CapitalizedText
+                                    capitalize={recData.senderName}
+                                ></CapitalizedText>
+                            </div>
+                        )}
+                        {/* {!recData.message &&
+                            recData.senderName &&
+                            "Recommended by " +
+                            (
+                                <CapitalizedText
+                                    capitalize={recData.senderName}
+                                ></CapitalizedText>
+                            )} */}
+                        {/* <Link
+                            href={
+                                "https://www.justwatch.com/de/Suche?q=" +
+                                encodeURIComponent(recItem.name)
+                            }
+                            onClick={preventDefault}
+                            variant="body2"
+                        >
+                            {recData.exturl}
+                        </Link> */}
                     </div>
                 </div>
             </>

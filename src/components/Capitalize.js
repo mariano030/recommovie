@@ -1,10 +1,10 @@
 import React from "react";
 import Typography from "@material-ui/core/Typography";
 
-const CapitalizedText = (props) => {
+const CapitalizedText = ({ capitalize = "" }) => {
     let text =
-        props.capitalize.slice(0, 1).toUpperCase() +
-        props.capitalize.slice(1, props.capitalize.length);
+        capitalize.slice(0, 1).toUpperCase() +
+        capitalize.slice(1, capitalize.length);
 
     return <>{text}</>;
 };

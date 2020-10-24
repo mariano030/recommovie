@@ -129,3 +129,9 @@ module.exports.createSenderName = (id) => {
 //     OR (accepted = true AND recipient_id = $1 AND sender_id = users.id)
 //     OR (accepted = true AND sender_id = $1 AND recipient_id = users.id)`;
 //  `
+
+// INSERT into senders (sendername) id 30
+//     values ('a friend') ;
+
+//     INSERT into recipients (recipientname)  id 30
+//     values (NULL) ;

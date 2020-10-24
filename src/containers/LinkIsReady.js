@@ -47,6 +47,14 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 export default function LinkIsReady({ recLink }) {
+    /// RED??
+    const styles = (theme) => ({
+        disabledInput: {
+            backgroundColor: theme.palette.primary || "red",
+        },
+    });
+
+    ///
     const classes = useStyles();
     const recData = useSelector((state) => state.recData);
     //const { register, handleSubmit, errors } = useForm();
@@ -68,6 +76,15 @@ export default function LinkIsReady({ recLink }) {
         dispatch(addToRecData(dataObj));
     };
 
+    const copyToClipboard = (e) => {
+        console.log("copy to clipboard running");
+        e.target.select();
+        document.execCommand("copy");
+        // This is just personal preference.
+        // I prefer to not show the whole text area selected.
+        e.target.focus();
+        //this.setState({ copySuccess: "Copied!" });
+    };
     // useEffect(() => {
     //     if (!recLink) {
     //         return;
@@ -100,9 +117,10 @@ export default function LinkIsReady({ recLink }) {
                     <div className="row-center">
                         <CheckCircle />
                     </div>
+                    <div className="spacer"></div>
                     <div>
                         <Typography variant="overline">
-                            Just copy the link and send it
+                            {"  "} Just copy the link and send it
                             {recData.recipientName &&
                                 " to " + recData.recipientName}
                             .
@@ -122,7 +140,11 @@ export default function LinkIsReady({ recLink }) {
                         className={classes.red}
                         fullWidth
                         disabled
+                        color="primary"
                         value={recLink}
+                        onClick={(e) => {
+                            copyToClipboard(e);
+                        }}
                         endAdornment={
                             <InputAdornment position="end">
                                 <IconButton>

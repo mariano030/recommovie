@@ -144,6 +144,14 @@ body {
     width: 100%;
 }
 
+.view-a-recommendation {
+    width: 100%;
+    text-align: center;
+    font-weight: 600;
+    color: #f96f5d;
+    margin: 20px 20px 20px 5px;
+}
+
 .view-item-title {
     font-weight: 900;
 }
@@ -168,6 +176,13 @@ body {
     width: 100%;
 }
 
+.margin-twenty {
+    margin: 20px;
+}
+
+.spacer {
+    width: 10px;
+}
 /* display flex  */
 .row-center {
     display: flex;

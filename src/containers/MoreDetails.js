@@ -51,7 +51,8 @@ export default function MoreDetails() {
     const [recipientName, setRecipientName] = useState();
     const [message, setMessage] = useState();
     const [customUrl, setCustomUrl] = useState();
-    const [imgStyle, setPictureType] = useState("backdrop_path");
+    // const [imgStyle, setPictureType] = useState("backdrop_path");
+    const [imgStyle, setPictureType] = useState("poster_path");
     const [imgUrl, setImgUrl] = useState("");
     const [recDate, setRecDate] = useState("");
     const [recLink, setRecLink] = useState("");
@@ -101,7 +102,7 @@ export default function MoreDetails() {
                     //dispatch(setRecLink(response.data.link));
                     setRecLink(response.data.link);
                 } catch (err) {
-                    console.log("error recommending...!", err);
+                    console.error("error recommending...!", err);
                 }
             })();
         }
@@ -122,7 +123,7 @@ export default function MoreDetails() {
 
     const toggleImage = () => {
         console.log("changing imgStyle from previous", imgStyle);
-        if (recItem.poster_path && recItem.backdrop_path) {
+        if (recItem.poster_path && recItem.poster_path) {
             console.log("has poster & backdeop");
         } else if (recItem.poster_path) {
             console.log("has only recItem.poster_path");
@@ -137,9 +138,7 @@ export default function MoreDetails() {
             setImgUrl("https://image.tmdb.org/t/p/w780" + recItem.poster_path);
         } else {
             setImgUrl("poster_path");
-            setImgUrl(
-                "https://image.tmdb.org/t/p/w780" + recItem.backdrop_path
-            );
+            setImgUrl("https://image.tmdb.org/t/p/w780" + recItem.poster_path);
         }
         console.log(imgUrl);
     };
@@ -164,8 +163,11 @@ export default function MoreDetails() {
                 console.log("getting CREDITS for ", recItem.id);
                 (async () => {
                     try {
+                        let firstLetter = recItem.media_type.slice(0, 1);
+                        console.log(firstLetter);
                         console.log("ITEM ID???", recItem.id);
-                        const requestUrl = "/api/credits-by-id/" + recItem.id;
+                        const requestUrl =
+                            "/api/credits-by-id/" + firstLetter + recItem.id;
                         console.log("requestUrl: ", requestUrl);
                         const credits = await Axios.get(requestUrl);
                         console.log(
@@ -272,6 +274,74 @@ export default function MoreDetails() {
                         {/* <div className="small">Id: {recItem.id}</div> */}
                         <div className="credits-small">
                             <div className="credits-crew-small">
+                                {/* for tv! */}
+                                {recItem.media_type == "movie" && (
+                                    <img
+                                        src="/icons/credits-director.svg"
+                                        className="icon-tiny"
+                                    ></img>
+                                )}
+                                {credits.cast &&
+                                    credits.crew.map((castMem, i) => {
+                                        if (castMem.job == "Director") {
+                                            let rety = castMem.name + " ";
+                                            return rety;
+                                        }
+                                    })}
+                                {"  "}
+                                {recItem.media_type == "movie" && (
+                                    <img
+                                        src="/icons/credits-camera.svg"
+                                        className="icon-tiny"
+                                    ></img>
+                                )}
+                                {credits.cast &&
+                                    credits.crew.map((castMem, i) => {
+                                        if (
+                                            castMem.job ==
+                                            "Director of Photography"
+                                        ) {
+                                            let rety = castMem.name + " ";
+                                            return rety;
+                                        }
+                                    })}
+                                {/* {recItem.media_type == "tv" && (
+                                    <img
+                                        src="/icons/credits-creator.svg"
+                                        className="icon-tiny"
+                                    ></img>
+                                )}
+                                {recItem.media_type == "tv" &&
+                                    recItem.created_by &&
+                                    recItem.created_by.map((castMem, i) => {
+                                        let rety = castMem.name + " ";
+                                        return rety;
+                                    })} */}
+                            </div>
+                            <div className="credits-cast-small">
+                                {credits.cast && (
+                                    <img
+                                        src="/icons/credits-cast.svg"
+                                        className="icon-tiny"
+                                    ></img>
+                                )}
+                                {credits.cast &&
+                                    credits.cast
+                                        .slice(0, 4)
+                                        .map((castMem, i) => {
+                                            i < 5;
+                                            let rety = castMem.name + ", ";
+                                            return rety;
+                                        })}
+                                {credits.cast &&
+                                    credits.cast
+                                        .slice(4, 5)
+                                        .map((castMem, i) => {
+                                            let rety = castMem.name + " ";
+                                            return rety;
+                                        })}
+                                {/* for movies! */}
+                                {/* // fdfd
                                 {credits.cast && (
                                     <img
                                         src="/icons/credits-director.svg"
@@ -301,9 +371,9 @@ export default function MoreDetails() {
                                             let rety = castMem.name + " ";
                                             return rety;
                                         }
-                                    })}
+                                    })} */}
                             </div>
-                            <div className="credits-cast-small">
+                            {/* <div className="credits-cast-small">
                                 {credits.cast && (
                                     <img
                                         src="/icons/credits-cast.svg"
@@ -325,7 +395,7 @@ export default function MoreDetails() {
                                             let rety = castMem.name + " ";
                                             return rety;
                                         })}
-                            </div>
+                            </div> */}
                         </div>
                         <Box component="span" m={1}></Box>
                         <div className="genres">
@@ -454,15 +524,19 @@ export default function MoreDetails() {
                 {/* <VanillaTextInput /> */}
                 {/* </div> */}
 
-                {!recLink && <DoneButton onClick={() => handleSubmit()} />}
-                <DoneButton onClick={() => handleSubmit()} />
+                <div className="margin-twenty">
+                    {!recLink && <DoneButton onClick={() => handleSubmit()} />}
+                    {/* <DoneButton onClick={() => handleSubmit()} /> */}
+                </div>
 
                 {recLink && (
-                    <LinkIsReady
-                        className={classes.red}
-                        recLink={recLink}
-                        recipientName={recData.recipientName}
-                    />
+                    <div className="margin-twenty">
+                        <LinkIsReady
+                            className={classes.red}
+                            recLink={recLink}
+                            recipientName={recData.recipientName}
+                        />
+                    </div>
                 )}
             </>
         );

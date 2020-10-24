@@ -54,7 +54,7 @@ const theme = createMuiTheme({
 
 export default function App(props) {
     const dispatch = useDispatch();
-    const newRecLink = useSelector((state) => state.newRecLink);
+    const recLink = useSelector((state) => state.recLink);
     // const recItem = useSelector((state) => state.recItem);
     // const selected = useEffect(() => {}, []);
     //
