@@ -163,11 +163,21 @@ export default function MoreDetails() {
                 console.log("getting CREDITS for ", recItem.id);
                 (async () => {
                     try {
-                        let firstLetter = recItem.media_type.slice(0, 1);
-                        console.log(firstLetter);
+                        let requestUrl = "";
+                        if (recItem.media_type == "movie") {
+                            requestUrl =
+                                "/api/movie-credits-by-id/" + recItem.id;
+                                
+                            } else if (recItem.media_type == "tv") {
+                                requestUrl =
+                                    "/api/movie-credits-by-id/" + recItem.id;
+                                    
+                            } else if (recItem.media_type == "person") {
+                                console.log("recItem is PERSON")
+                                requestUrl =
+                                    "/api/person-credits-by-id/" + recItem.id;
+                            }
                         console.log("ITEM ID???", recItem.id);
-                        const requestUrl =
-                            "/api/credits-by-id/" + firstLetter + recItem.id;
                         console.log("requestUrl: ", requestUrl);
                         const credits = await Axios.get(requestUrl);
                         console.log(
@@ -496,7 +506,7 @@ export default function MoreDetails() {
                             name="extUrl"
                             value={customUrl}
                             onChange={handleChangeMaterial}
-                            label="custom url"
+                            label="add a custom link"
                         />
                     </div>
                     {/* <FocusAccordion aspects={aspects} />

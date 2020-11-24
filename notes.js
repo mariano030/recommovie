@@ -145,8 +145,30 @@ functionName (e) =>{
 
 // DONE!! empty sender    empty recipient 
 
+// 
 
 //copy link to clipboard
 
 
 // link to just watch?
+
+// enter in searchfield takes you to items[0]
+
+// rotten tomatoes api - scores - reviews
+
+// autoselect textfield (useEffect?)
+
+// OLI page seo : https://github.com/OliverSieweke/oliversieweke/blob/kreuzberg/src/components/seo/page-seo.js
+
+// const cohort = "masala";
+
+// preview trailer and include or not include trailer
+
+
+// rating reommendations?
+// rating user's recommendation accuracy?
+
+//create lists - let user update lists
+
+// fade effect for pics: https://mui.wertarbyte.com/#!/Image/1
+

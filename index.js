@@ -57,6 +57,8 @@ app.use(function (req, res, next) {
 app.use(express.static("public"));
 
 // post routes
+
+// make recommendation
 app.post("/rec/", async (req, res) => {
     if (req.body && req.session) {
         console.log("req.body.session");
@@ -94,9 +96,6 @@ app.post("/rec/", async (req, res) => {
     console.log("imageType: ", imageType);
     console.log("message: ", message);
     console.log("extUrl: ", extUrl);
-    // deal with focus!! list of focus relations?!
-    //console.log("req.originalUrl", originalUrl);
-    // const randomCode = util.promisify(generateCode);
 
     try {
         const randomCode = await uidSafe(5);
@@ -120,11 +119,6 @@ app.post("/rec/", async (req, res) => {
             senderId = 30;
         }
         console.log("about to makeRec recipientId:", recipientId);
-        /// how do i do this?
-
-        // for (const aspectId of aspects) {
-        //     await db.setAspects(rows[0].id, aspectId);
-        // }
         console.log("message before insert ###", message);
         console.log("inserting - makeRec");
         const { rows } = await db.makeRec(
@@ -149,40 +143,11 @@ app.post("/rec/", async (req, res) => {
     } catch (err) {
         console.error("error", err);
     }
-
-    // uidSafe(5)
-    //     .then((randomCode) => {
-    //         console.log("promised", randomCode);
-
-    //         const data = db
-    //             .makeRec(randomCode, mediaType, itemId, senderId, message)
-    //             .then((data) => {
-    //                 console.log("data.id", data.id);
-    //                 aspects.map(())
-    //                 db.setAspects(data.id)
-    //                 const link =
-    //                     req.protocol +
-    //                     "://" +
-    //                     req.get("host") +
-    //                     "/r/" +
-    //                     randomCode;
-    //                 //console.log("mylink", dynamicLink);
-    //                 console.log("sending: link", link);
-    //                 res.json({ link });
-    //                 console.log("response sent to server!");
-    //             })
-    //             .catch((err) => console.log("error inserting rec ", err));
-    //     })
-    //     .catch((err) =>
-    //         console.log("error with randomCode and DB recs inster", err)
-    //     );
-
-    // add req.body.session for sender
-    //await db.makeRec(code, "movie");
-    //const { mediaType, mediaId, imageType } = req.body;
 });
 
 // get routes
+
+// search
 app.get("/api/multi-search/:searchTerm", async (req, res) => {
     console.log("searching for: req.body", req.params);
 
@@ -216,10 +181,90 @@ app.get("/api/multi-search/:searchTerm", async (req, res) => {
     }
 });
 
+/// new new
+app.get("/api/movie-credits-by-id/:id", async (req, res) => {
+    console.log("/api/movie-credits-by-id/:id");
+    console.log("searching for: req.params", req.params);
+    console.log("<>>> PARAMS.ID", req.params.id);
+    const searchUrl =
+        "https://api.themoviedb.org/3/movie/" +
+        req.params.id +
+        "/credits?api_key=" +
+        secrets.TMDB_API_KEY +
+        "&language=en-US";
+    try {
+        const { data } = await Axios.get(searchUrl);
+        console.log(
+            "*MOVIE*CREDITS*MOVIE*CREDITS*MOVIE*CREDITS*MOVIE*CREDITS*"
+        );
+        console.log("searchUrl: ", searchUrl);
+        console.log(
+            "CREDITS*MOVIE*CREDITS*##########  results done  #######CREDITS*MOVIE*CREDITS*##############"
+        );
+        res.json(data);
+    } catch (err) {
+        console.log("error searching for item by ID ", err);
+        res.json({ error: true });
+    }
+});
+
+app.get("/api/tv-credits-by-id/:id", async (req, res) => {
+    console.log("/api/tv-credits-by-id/:id");
+    console.log("searching for: req.params", req.params);
+    console.log("<>>> PARAMS.ID", req.params.id);
+    const searchUrl =
+        "https://api.themoviedb.org/3/tv/" +
+        req.params.id +
+        "/credits?api_key=" +
+        secrets.TMDB_API_KEY +
+        "&language=en-US";
+    try {
+        const { data } = await Axios.get(searchUrl);
+        console.log(
+            "*TV*CREDITS*TV*CREDITS*TV*CREDITS*TV*CREDITS*"
+        );
+        console.log("searchUrl: ", searchUrl);
+        console.log(
+            "CREDITS*MOVTVIE*CREDITS*##########  results done  #######CREDITS*TV*CREDITS*##############"
+        );
+        res.json(data);
+    } catch (err) {
+        console.log("error searching for TV item by ID ", err);
+        res.json({ error: true });
+    }
+});
+
+app.get("/api/person-credits-by-id/:id", async (req, res) => {
+    console.log("/api/tv-credits-by-id/:id");
+    console.log("searching for: req.params", req.params);
+    console.log("<>>> PARAMS.ID", req.params.id);
+    const searchUrl =
+        "https://api.themoviedb.org/3/person/" +
+        req.params.id +
+        "/credits?api_key=" +
+        secrets.TMDB_API_KEY +
+        "&language=en-US";
+    try {
+        const { data } = await Axios.get(searchUrl);
+        console.log(
+            "*person*CREDITS*person*CREDITS*person*CREDITS*person*CREDITS*"
+        );
+        console.log("searchUrl: ", searchUrl);
+        console.log(
+            "CREDITS*person*CREDITS*##########  results done  #######CREDITS*person*CREDITS*##############"
+        );
+        res.json(data);
+    } catch (err) {
+        console.log("error searching for person item by ID ", err);
+        res.json({ error: true });
+    }
+});
+// new new
+
 app.get("/api/credits-by-id/:id", async (req, res) => {
     console.log("/api/credits-by-id/:id");
-    console.log("why is this not logging");
     console.log("searching for: req.params", req.params);
+    // first letter of id is m or t for media_type
     const type = req.params.id.slice(0, 1);
     console.log("type", type);
     let typeName = "null";
@@ -250,7 +295,7 @@ app.get("/api/credits-by-id/:id", async (req, res) => {
             "*CREDITS*CREDITS*CREDITS*CREDITS*CREDITS*CREDITS*CREDITS*CREDITS*"
         );
         console.log("searchUrl: ", searchUrl);
-        console.log("data: .DATA", data);
+        //console.log("data: .DATA", data);
         console.log(
             "CREDITS*CREDITS*CREDITS*##########  results done  #######CREDITS*CREDITS*CREDITS*##############"
         );
