@@ -181,3 +181,17 @@ functionName (e) =>{
 // * person
 
 // * tv show
+
+
+
+// APPEND ALL ADDITIONAL DATA TO recItem??
+// recItem
+// recItem.credits
+// recItem.details
+
+
+
+// "Reality" genre not showing. test case: love island
+
+
+// implement keyboard control for search navigation

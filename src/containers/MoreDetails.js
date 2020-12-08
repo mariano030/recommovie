@@ -57,11 +57,13 @@ export default function MoreDetails() {
     const [recDate, setRecDate] = useState("");
     const [recLink, setRecLink] = useState("");
     const [credits, setCredits] = useState({});
+    const [details, setDetails] = useState({});
 
     //redux
     const dispatch = useDispatch();
     const recItem = useSelector((state) => state.recItem);
     const genres = useSelector((state) => state.genres);
+// not yet put in redux    const details = useSelector((state) => state.genres);
     const aspects = useSelector((state) => state.aspects);
     const recData = useSelector((state) => state.recData);
     // const selectedAspects = useSelector((state) => state.selectedAspects);
@@ -143,6 +145,26 @@ export default function MoreDetails() {
         console.log(imgUrl);
     };
 
+    const getDataTV = (recItem) => {
+        console.log("getting DATA for TV show");
+        (async () => {
+                    try {
+                        let requestUrl = "/api/tv-details-by-id/" + recItem.id;
+                        console.log("TV SHOW ID", recItem.id);
+                        console.log("requestUrl: ", requestUrl);
+                        const detailsResults = await Axios.get(requestUrl);
+                        console.log(
+                            "DETAILS ajax done - details.data",
+                            detailsResults.data
+                        );
+                        // let mounted = true;
+                        setDetails(detailsResults.data);
+                    } catch (err) {
+                        console.log("error", err);
+                    }
+                })();
+    }
+
     useEffect(() => {
         if (recLink) {
             //dispatch(setRecLink(recLink));
@@ -171,6 +193,7 @@ export default function MoreDetails() {
                             } else if (recItem.media_type == "tv") {
                                 requestUrl =
                                     "/api/tv-credits-by-id/" + recItem.id;
+                                getDataTV(recItem);
                                     
                             } else if (recItem.media_type == "person") {
                                 console.log("recItem is PERSON")
@@ -284,7 +307,22 @@ export default function MoreDetails() {
                         {/* <div className="small">Id: {recItem.id}</div> */}
                         <div className="credits-small">
                             <div className="credits-crew-small">
-                                {/* for tv! */}
+                                {recItem.media_type == "tv" && details.created_by && details.created_by.length > 0 && (
+                                    <img
+                                        src="/icons/details-quill.svg"
+                                        className="icon-tiny"
+                                    ></img>
+                                )}
+                                {details.created_by && details.created_by.length > 0 &&
+                                    details.created_by.map((creator, i) => {
+                                        if (i < details.created_by.length -1) {
+                                            return creator.name + ", "
+                                        }
+                                        else return creator.name
+                                    }
+                                    )
+                                    }
+
                                 {recItem.media_type == "movie" && (
                                     <img
                                         src="/icons/credits-director.svg"

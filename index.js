@@ -252,7 +252,7 @@ app.get("/api/tv-details-by-id/:id", async (req, res) => {
         );
         console.log("searchUrl: ", searchUrl);
         console.log(
-            "CREDITS*MOVTVIE*CREDITS*##########  results done  #######CREDITS*TV*CREDITS*##############"
+            "CREDITS*TV*CREDITS*##########  results done  #######CREDITS*TV*CREDITS*##############"
         );
         res.json(data);
     } catch (err) {
