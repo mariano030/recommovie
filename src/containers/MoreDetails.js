@@ -46,7 +46,7 @@ export default function MoreDetails() {
     //const { register, handleSubmit, errors } = useForm();
 
     // const [values, handleChange] = useStatefulFields();
-    const [selected, setSelected] = React.useState(false);
+    const [selected, setSelected] = useState(false);
     const [senderName, setSenderName] = useState();
     const [recipientName, setRecipientName] = useState();
     const [message, setMessage] = useState();
@@ -228,30 +228,43 @@ export default function MoreDetails() {
         }
     }, [recItem]);
     // set stuff for rec Item
-    useEffect(() => {
-        if (!recItem) {
-            return;
-        }
-        console.log("imgUrl", imgUrl);
-        setImgUrl("https://image.tmdb.org/t/p/w780" + recItem[imgStyle]);
-        switch (recItem.media_type) {
-            case "movie":
-                date = "(" + recItem.release_date.substring(0, 4) + ")";
-                console.log("DATE", date);
-                setRecDate(date);
-                iconUrl = "/icons/media_type_movie.svg";
-                break;
-            case "tv":
-                date = "(" + recItem.first_air_date.substring(0, 4) + ")";
-                setRecDate(date);
-                iconUrl = "/icons/media_type_tv.svg";
-                console.log("DATE", date);
-                break;
-            case "person":
-                iconUrl = "/icons/media_type_person.svg";
-                break;
-        }
-    }, [recItem]);
+    // useEffect(() => {
+    //     if (!recItem) {
+    //         return;
+    //     }
+    //     console.log("imgUrl", imgUrl);
+    //     if (recItem.poster_path == null) {
+    //         if (recItem.backdrop_path == null) {
+    //             setImgUrl("httpshttps://bbtransactions.de/wp-content/themes/bb-transactions/images/no-image/No-Image-Found-400x264.png");
+    //         } else {
+    //             setImgUrl("https://image.tmdb.org/t/p/w780" + recItem.backdrop_path);
+                
+    //         }
+            
+    //     } else{
+    //         setImgUrl("https://image.tmdb.org/t/p/w780" + recItem[imgStyle]);
+
+    //     }
+        
+
+    //     switch (recItem.media_type) {
+    //         case "movie":
+    //             date = "(" + recItem.release_date.substring(0, 4) + ")";
+    //             console.log("DATE", date);
+    //             setRecDate(date);
+    //             iconUrl = "/icons/media_type_movie.svg";
+    //             break;
+    //         case "tv":
+    //             date = "(" + recItem.first_air_date.substring(0, 4) + ")";
+    //             setRecDate(date);
+    //             iconUrl = "/icons/media_type_tv.svg";
+    //             console.log("DATE", date);
+    //             break;
+    //         case "person":
+    //             iconUrl = "/icons/media_type_person.svg";
+    //             break;
+    //     }
+    // }, [recItem]);
 
     const handleClick = (id) => {
         console.log("clicked button with id:", id);
@@ -285,7 +298,7 @@ export default function MoreDetails() {
                             item={recItem}
                             myClass="hero-image"
                         ></ItemImage>
-                        <div className="small"></div>
+                        {/* <div className="small"></div> */}
                     </div>
                     <div>
                         <div className="row-start">

@@ -1,7 +1,6 @@
 
 ///////////////////////////////////////////////////////////
 
-// monday
 // clean up of existing code?
 // move the credits getting to ItemInfo
 
@@ -9,7 +8,7 @@
 // create first recommendation
 
 // rec content:
-// INPUTSS:
+// INPUTS:
 //  senderID
 //  recipient NAME
 //  sender NAME
@@ -19,14 +18,7 @@
 //  message
 //  extUrl
 
-// tuesday
-// picture selector
 
-// wednesday
-
-// prsentation
-
-// general - do i get the imdb id??
 
 
 
@@ -94,7 +86,9 @@ functionName (e) =>{
     value={stateVariable}
 />
 
+// picture selector
 
+// general - do i get the imdb id??
 
 // get credits for item
 //      implement crew / cast
@@ -109,8 +103,6 @@ functionName (e) =>{
 // get rec
 // get item
 
-// get credits
-// get videos for item
 
 // Preview??
 
@@ -195,3 +187,11 @@ functionName (e) =>{
 
 
 // implement keyboard control for search navigation
+
+// in action api calls stacken
+// 2te action die credits details lädt
+// videos etc
+// einzelne komponenten für verschidene media typen
+// mehr einzelne komponenten
+
+
