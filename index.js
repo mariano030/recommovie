@@ -215,7 +215,34 @@ app.get("/api/tv-credits-by-id/:id", async (req, res) => {
     const searchUrl =
         "https://api.themoviedb.org/3/tv/" +
         req.params.id +
-        "/credits?api_key=" +
+        "/aggregate_credits?api_key=" +
+        secrets.TMDB_API_KEY +
+        "&language=en-US";
+    try {
+        const { data } = await Axios.get(searchUrl);
+        console.log(
+            "*TV*CREDITS*TV*CREDITS*TV*CREDITS*TV*CREDITS*"
+        );
+        console.log("searchUrl: ", searchUrl);
+        console.log(
+            "CREDITS*MOVTVIE*CREDITS*##########  results done  #######CREDITS*TV*CREDITS*##############"
+        );
+        res.json(data);
+    } catch (err) {
+        console.log("error searching for TV item by ID ", err);
+        res.json({ error: true });
+    }
+});
+
+app.get("/api/tv-details-by-id/:id", async (req, res) => {
+    // Get the primary TV show details by id.
+    console.log("/api/tv/:id");
+    console.log("searching for: req.params", req.params);
+    console.log("<>>> PARAMS.ID", req.params.id);
+    const searchUrl =
+        "https://api.themoviedb.org/3/tv/" +
+        req.params.id +
+        "?api_key=" +
         secrets.TMDB_API_KEY +
         "&language=en-US";
     try {

@@ -170,7 +170,7 @@ export default function MoreDetails() {
                                 
                             } else if (recItem.media_type == "tv") {
                                 requestUrl =
-                                    "/api/movie-credits-by-id/" + recItem.id;
+                                    "/api/tv-credits-by-id/" + recItem.id;
                                     
                             } else if (recItem.media_type == "person") {
                                 console.log("recItem is PERSON")

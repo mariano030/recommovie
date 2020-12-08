@@ -172,3 +172,12 @@ functionName (e) =>{
 
 // fade effect for pics: https://mui.wertarbyte.com/#!/Image/1
 
+
+//VIEW DETAILS
+
+// * all
+// country of origin! in recItem
+
+// * person
+
+// * tv show
