@@ -211,3 +211,8 @@ body {
     object-fit: contain;
     padding: 5px;
 }
+
+
+.mobilefirst {
+    width:400px;
+}

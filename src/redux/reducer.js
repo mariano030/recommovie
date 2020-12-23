@@ -45,6 +45,12 @@ export default function reducer(state = { recData: {} }, action) {
             };
 
             break;
+        case "SET_MORE_DETAILS":
+            state = {
+                ...state,
+                details: action.payload, // whatever you called the key in actions.js
+            };
+            break;
         case "SET_ASPECTS":
             console.log("reducer -> SET_ASPECTS");
             console.log("reducer saying action.payload", action.payload);

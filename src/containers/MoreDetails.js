@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import useForm from "react-hook-form";
 import { Link } from "react-router-dom"; // ?? needed ??
 import { useDispatch, useSelector } from "react-redux";
-import { addRecAspect, addToRecData } from "../redux/actions.js";
+import { addRecAspect, addToRecData, getMoreDetails } from "../redux/actions.js";
 import Axios from "../axios";
 
 import Box from "@material-ui/core/Box";
@@ -183,47 +183,48 @@ export default function MoreDetails() {
                 return;
             } else {
                 console.log("getting CREDITS for ", recItem.id);
-                (async () => {
-                    try {
-                        let requestUrl = "";
-                        if (recItem.media_type == "movie") {
-                            requestUrl =
-                                "/api/movie-credits-by-id/" + recItem.id;
+                dispatch(getMoreDetails);
+                // (async () => {
+                //     try {
+                //         let requestUrl = "";
+                //         if (recItem.media_type == "movie") {
+                //             requestUrl =
+                //                 "/api/movie-credits-by-id/" + recItem.id;
                                 
-                            } else if (recItem.media_type == "tv") {
-                                requestUrl =
-                                    "/api/tv-credits-by-id/" + recItem.id;
-                                getDataTV(recItem);
+                //             } else if (recItem.media_type == "tv") {
+                //                 requestUrl =
+                //                     "/api/tv-credits-by-id/" + recItem.id;
+                //                 getDataTV(recItem);
                                     
-                            } else if (recItem.media_type == "person") {
-                                console.log("recItem is PERSON")
-                                requestUrl =
-                                    "/api/person-credits-by-id/" + recItem.id;
-                            }
-                        console.log("ITEM ID???", recItem.id);
-                        console.log("requestUrl: ", requestUrl);
-                        const credits = await Axios.get(requestUrl);
-                        console.log(
-                            "CREDITS ajax done - credits.data",
-                            credits.data
-                        );
-                        // let mounted = true;
-                        if (credits.data && credits.data.crew) {
-                            console.log("this HAPPENING AT ALL?");
-                            let [director] = credits.data.crew.map(
-                                (crewMemeber) => {
-                                    if (crewMemeber.department == "Directing") {
-                                        return crewMemeber;
-                                    }
-                                }
-                            );
-                            console.log("director", director);
-                        }
-                        setCredits(credits.data);
-                    } catch (err) {
-                        console.log("error", err);
-                    }
-                })();
+                //             } else if (recItem.media_type == "person") {
+                //                 console.log("recItem is PERSON")
+                //                 requestUrl =
+                //                     "/api/person-credits-by-id/" + recItem.id;
+                //             }
+                //         console.log("ITEM ID???", recItem.id);
+                //         console.log("requestUrl: ", requestUrl);
+                //         const credits = await Axios.get(requestUrl);
+                //         console.log(
+                //             "CREDITS ajax done - credits.data",
+                //             credits.data
+                //         );
+                //         // let mounted = true;
+                //         if (credits.data && credits.data.crew) {
+                //             console.log("this HAPPENING AT ALL?");
+                //             let [director] = credits.data.crew.map(
+                //                 (crewMemeber) => {
+                //                     if (crewMemeber.department == "Directing") {
+                //                         return crewMemeber;
+                //                     }
+                //                 }
+                //             );
+                //             console.log("director", director);
+                //         }
+                //         setCredits(credits.data);
+                //     } catch (err) {
+                //         console.log("error", err);
+                //     }
+                // })();
             }
         }
     }, [recItem]);

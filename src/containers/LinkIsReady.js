@@ -124,8 +124,8 @@ export default function LinkIsReady({ recLink }) {
                             {recData.recipientName &&
                                 " to " + recData.recipientName}
                             .
-                        </Typography>
-                        {/* <Typography variant="h2">{recLink}</Typography> */}
+                        </Typography> 
+                        {/* <Typograph     y variant="h2">{recLink}</Typography> */}
                     </div>
                 </div>
 
