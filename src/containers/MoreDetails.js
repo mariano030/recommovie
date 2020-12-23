@@ -183,7 +183,7 @@ export default function MoreDetails() {
                 return;
             } else {
                 console.log("getting CREDITS for ", recItem.id);
-                dispatch(getMoreDetails);
+                dispatch(getMoreDetails());
                 // (async () => {
                 //     try {
                 //         let requestUrl = "";
