@@ -13,10 +13,14 @@ export default function MoreInfoMovie() {
             <>
                 <div className="small">
                     <div className="credits-crew-small">
+                        <div className="iconic">
+
                                     <img
                                         src="/icons/credits-director.svg"
                                         className="icon-tiny"
                                     ></img>
+                        </div>
+                        <div className="text">
 
                                 {recItem.details && recItem.details.cast &&
                                     recItem.details.crew.map((castMem, i) => {
@@ -26,11 +30,14 @@ export default function MoreInfoMovie() {
                                         }
                                     })}
                                 {"  "}
-
+                        </div>
+                        <div className="iconic">                                   
                                     <img
                                         src="/icons/credits-camera.svg"
                                         className="icon-tiny"
                                     ></img>
+                                                        </div>
+                    <div className="credits-crew-small">
 
                                 {recItem.details && recItem.details.cast &&
                                     recItem.details.crew.map((castMem, i) => {
@@ -42,9 +49,10 @@ export default function MoreInfoMovie() {
                                             return rety;
                                         }
                                     })}
-
+                        </div>
+                        
                     </div>
-                                        <div className="credits-crew-small">
+                    <div className="credits-crew-small">
                                 {recItem.details && recItem.details.cast && (
                                     <img
                                         src="/icons/credits-cast.svg"

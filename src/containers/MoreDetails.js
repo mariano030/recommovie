@@ -22,6 +22,7 @@ import ItemImage from "../components/ItemImage.js";
 import MoreInfoTv from "../components/MoreInfoTv.js";
 import MoreInfoMovie from "../components/MoreInfoMovie.js";
 import MoreInfoPerson from "../components/MoreInfoPerson.js";
+import Genres from "../components/Genres.js";
 import TextField from "../components/TextField";
 import InputFieldIcon from "../components/InputFieldIcon.js";
 import InputFieldLink from "../components/InputFieldLink.js";
@@ -402,8 +403,8 @@ export default function MoreDetails() {
                                         })}
                             </div> */}
                         </div>
-                        <Box component="span" m={1}></Box>
-
+                        {/* <Box component="span" m={1}></Box> */}
+                            {recItem && recItem.media_type != "person" && <Genres />}
                             {/* {recItem.genre_ids &&
                                 recItem.genre_ids.map((genreId) => (
                                     <div className="genre-item" key={genreId}>

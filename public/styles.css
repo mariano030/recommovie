@@ -9,8 +9,14 @@
 body {
     margin: 5%;
     background-color: #eef0f2;
+
+    display: flex;
+    justify-content: center;
 }
 
+main {
+        max-width: 790px;
+}
 .powered-by-small {
     margin: 1px;
 
@@ -110,6 +116,15 @@ body {
     font-size: 0.8em;
 }
 
+.text {
+    padding-right: 3px;
+}
+
+.credits-crew-small {
+    display: flex;
+    flex-direction: row;
+}
+
 .result-recItem {
     margin-top: 10px;
 }
@@ -127,6 +142,7 @@ body {
 }
 
 .genres {
+    padding-top: 10px;
     display: flex;
     flex-direction: row;
 }

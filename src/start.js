@@ -29,15 +29,6 @@ const store = createStore(
 let elem = (
     <Provider store={store}>
         <App />
-
-        {/* <div className="row-left"> */}
-        {/* <SearchItem />
-            <AddDetails /> */}
-
-        {/* SelectFocalPoint */}
-        {/* Recommend TO & MSG */}
-        {/* Link Generation */}
-        {/* </div> */}
     </Provider>
 );
 

@@ -14,12 +14,16 @@ export default function MoreInfoTv() {
             <>
                 <div className="small">
                     <div className="credits-crew-small">
+                        <div className="iconic">
                                 {recItem.details && recItem.details.created_by && recItem.details.created_by.length > 0 && (
                                     <img
                                         src="/icons/details-quill.svg"
                                         className="icon-tiny"
                                     ></img>
                                 )}
+
+                        </div>
+                        <div className="text">
                                 {recItem.details && recItem.details.created_by && recItem.details.created_by.length > 0 &&
                                     recItem.details.created_by.map((creator, i) => {
                                         if (i < recItem.details.created_by.length -1) {
@@ -30,15 +34,20 @@ export default function MoreInfoTv() {
                                     )
                                     }
 
+                        </div>
+
                     </div>
                     {/* copy of movie cast display */}
                     <div className="credits-crew-small">
+                        <div className="iconic">
                                 {recItem.details && recItem.details.cast && (
                                     <img
                                         src="/icons/credits-cast.svg"
                                         className="icon-tiny"
                                     ></img>
                                 )}
+                        </div>
+                        <div className="text">
                                 {recItem.details && recItem.details.cast &&
                                     recItem.details && recItem.details.cast
                                         .slice(0, 4)
@@ -54,8 +63,9 @@ export default function MoreInfoTv() {
                                             let rety = castMem.name + " ";
                                             return rety;
                                         })}
+                        </div>
+
                     </div>
-                    <Genres />
                 </div>
             </>
         );
