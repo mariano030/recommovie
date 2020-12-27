@@ -19,6 +19,8 @@ import useStatefulFields from "../hooks/useStatefulFields";
 import Grid from "@material-ui/core/Grid";
 import ItemIcon from "../components/ItemIcon.js";
 import ItemImage from "../components/ItemImage.js";
+import MoreInfoTv from "../components/MoreInfoTv.js";
+import MoreInfoMovie from "../components/MoreInfoMovie.js";
 import TextField from "../components/TextField";
 import InputFieldIcon from "../components/InputFieldIcon.js";
 import InputFieldLink from "../components/InputFieldLink.js";
@@ -177,13 +179,14 @@ export default function MoreDetails() {
     useEffect(() => {
         if (!recItem) {
             return;
-        } else {
+        } else if (recItem && !recItem.details) {
             console.log("CREDITS BY ID running");
-            if (recItem.media_type == "person") {
-                return;
-            } else {
-                console.log("getting CREDITS for ", recItem.id);
-                dispatch(getMoreDetails());
+            dispatch(getMoreDetails(recItem));
+            // if (recItem.media_type == "person") {
+            //     return;
+            // } else {
+            //     console.log("getting CREDITS for ", recItem.id);
+
                 // (async () => {
                 //     try {
                 //         let requestUrl = "";
@@ -225,9 +228,9 @@ export default function MoreDetails() {
                 //         console.log("error", err);
                 //     }
                 // })();
-            }
+            // }
         }
-    }, [recItem]);
+    },[recItem]);
     // set stuff for rec Item
     // useEffect(() => {
     //     if (!recItem) {
@@ -320,53 +323,11 @@ export default function MoreDetails() {
 
                         {/* <div className="small">Id: {recItem.id}</div> */}
                         <div className="credits-small">
-                            <div className="credits-crew-small">
-                                {recItem.media_type == "tv" && details.created_by && details.created_by.length > 0 && (
-                                    <img
-                                        src="/icons/details-quill.svg"
-                                        className="icon-tiny"
-                                    ></img>
-                                )}
-                                {details.created_by && details.created_by.length > 0 &&
-                                    details.created_by.map((creator, i) => {
-                                        if (i < details.created_by.length -1) {
-                                            return creator.name + ", "
-                                        }
-                                        else return creator.name
-                                    }
-                                    )
+                            
+                                {recItem.media_type == "tv" && <MoreInfoTv/>
                                     }
 
-                                {recItem.media_type == "movie" && (
-                                    <img
-                                        src="/icons/credits-director.svg"
-                                        className="icon-tiny"
-                                    ></img>
-                                )}
-                                {credits.cast &&
-                                    credits.crew.map((castMem, i) => {
-                                        if (castMem.job == "Director") {
-                                            let rety = castMem.name + " ";
-                                            return rety;
-                                        }
-                                    })}
-                                {"  "}
-                                {recItem.media_type == "movie" && (
-                                    <img
-                                        src="/icons/credits-camera.svg"
-                                        className="icon-tiny"
-                                    ></img>
-                                )}
-                                {credits.cast &&
-                                    credits.crew.map((castMem, i) => {
-                                        if (
-                                            castMem.job ==
-                                            "Director of Photography"
-                                        ) {
-                                            let rety = castMem.name + " ";
-                                            return rety;
-                                        }
-                                    })}
+                                {recItem.media_type == "movie" && <MoreInfoMovie />}
                                 {/* {recItem.media_type == "tv" && (
                                     <img
                                         src="/icons/credits-creator.svg"
@@ -379,29 +340,8 @@ export default function MoreDetails() {
                                         let rety = castMem.name + " ";
                                         return rety;
                                     })} */}
-                            </div>
                             <div className="credits-cast-small">
-                                {credits.cast && (
-                                    <img
-                                        src="/icons/credits-cast.svg"
-                                        className="icon-tiny"
-                                    ></img>
-                                )}
-                                {credits.cast &&
-                                    credits.cast
-                                        .slice(0, 4)
-                                        .map((castMem, i) => {
-                                            i < 5;
-                                            let rety = castMem.name + ", ";
-                                            return rety;
-                                        })}
-                                {credits.cast &&
-                                    credits.cast
-                                        .slice(4, 5)
-                                        .map((castMem, i) => {
-                                            let rety = castMem.name + " ";
-                                            return rety;
-                                        })}
+
                                 {/* for movies! */}
                                 {/* // fdfd
                                 {credits.cast && (

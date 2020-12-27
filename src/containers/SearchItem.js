@@ -15,7 +15,7 @@ import TheatersIcon from "@material-ui/icons/Theaters";
 // components
 import ResultsItemsList from "../components/ResultsItemsList.js";
 import ItemIcon from "../components/ItemIcon.js";
-import ItemInfo from "../components/ItemInfo.js";
+// import ItemInfo from "../components/ItemInfo.js";
 import ItemDate from "../components/ItemDate.js";
 import ResultItem from "../components/ResultItem.js";
 

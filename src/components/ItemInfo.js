@@ -3,7 +3,6 @@ import { Link } from "react-router-dom"; // ?? needed ??
 import { useDispatch, useSelector } from "react-redux";
 import { setRecommendItem } from "../redux/actions.js";
 
-import Axios from "../axios";
 import { makeStyles } from "@material-ui/core/styles";
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -18,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 
 export default function ItemInfo(props) {
     const classes = useStyles();
-
+    console.log("ItemInfo RUNNNNNNNNNNING");
     const { item, myClass } = props;
     const recItem = useSelector((state) => state.recItem);
     let director = {};

@@ -16,34 +16,14 @@ export async function getFriendsList() {
         console.log("error in getFriendsList", err);
     }
 }
-// MEIN ACUTAL CALL
-export async function getMoreDetails(recItem) {
-                    try {
-                        let requestUrl = "/api/tv-details-by-id/" + recItem.id;
-                        console.log("TV SHOW ID", recItem.id);
-                        console.log("requestUrl: ", requestUrl);
-                        const detailsResults = await Axios.get(requestUrl);
-                        console.log(
-                            "DETAILS ajax done - details.data",
-                            detailsResults.data
-                        );
-                        // let mounted = true;
-                        return {
-                            type: "SET_MORE_DETAILS",
-                            payload: detailsResults.data
-                        };
-                    } catch (err) {
-                        console.log("error", err);
-                    }
-}
 
-export async function getMoreDetails2(){
+export async function getMoreDetails(recItem){
     if (recItem && recItem.media_type == "tv") {
                     try {
                         let requestUrl = "/api/tv-details-by-id/" + recItem.id;
                         console.log("TV SHOW ID", recItem.id);
                         console.log("requestUrl: ", requestUrl);
-                        const detailsResults = await Axios.get(requestUrl);
+                        const detailsResults = await axios.get(requestUrl);
                         console.log(
                             "DETAILS ajax done - details.data",
                             detailsResults.data
@@ -58,12 +38,12 @@ export async function getMoreDetails2(){
                     }
 
     } else if (recItem && recItem.media_type == "movie") {
-
+        console.log("movie detected");
                     try {
                         let requestUrl = "/api/movie-details-by-id/" + recItem.id;
                         console.log("MOVIE ID", recItem.id);
                         console.log("requestUrl: ", requestUrl);
-                        const detailsResults = await Axios.get(requestUrl);
+                        const detailsResults = await axios.get(requestUrl);
                         console.log(
                             "DETAILS ajax done - details.data",
                             detailsResults.data
@@ -82,7 +62,7 @@ export async function getMoreDetails2(){
                         let requestUrl = "/api/person-credits-by-id/" + recItem.id;
                         console.log("PERSON ID", recItem.id);
                         console.log("requestUrl: ", requestUrl);
-                        const detailsResults = await Axios.get(requestUrl);
+                        const detailsResults = await axios.get(requestUrl);
                         console.log(
                             "DETAILS ajax done - details.data",
                             detailsResults.data
