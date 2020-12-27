@@ -25,7 +25,7 @@ export default function reducer(state = { recData: {} }, action) {
             );
             state = {
                 ...state,
-                allFriendsAndRequests: action.payload, // whatever you called the key in actions.js
+                allFriendsAndRequests: action.payload, 
             };
             break;
         case "SET_REC_ITEM_REC_DATA":
@@ -56,22 +56,34 @@ export default function reducer(state = { recData: {} }, action) {
             };
             console.log("action.payload in rdc", action.payload)
             break;
-        case "SET_ASPECTS":
+            case "SET_ASPECTS_AND_GENRES":
             console.log("reducer -> SET_ASPECTS");
             console.log("reducer saying action.payload", action.payload);
             state = {
                 ...state,
-                aspects: action.payload, // whatever you called the key in actions.js
+                genres: action.payload[0], 
+                // recItem: {
+                //     ...recItem,
+                    aspects: action.payload[1], 
+                                // }
             };
             break;
-        case "SET_GENRES":
-            console.log("reducer -> SET_GENRES");
-            console.log("reducer saying action.payload", action.payload);
-            state = {
-                ...state,
-                genres: action.payload, // whatever you called the key in actions.js
-            };
-            break;
+        // case "SET_ASPECTS":
+        //     console.log("reducer -> SET_ASPECTS");
+        //     console.log("reducer saying action.payload", action.payload);
+        //     state = {
+        //         ...state,
+        //         aspects: action.payload, 
+        //     };
+        //     break;
+        // case "SET_GENRES":
+        //     console.log("reducer -> SET_GENRES");
+        //     console.log("reducer saying action.payload", action.payload);
+        //     state = {
+        //         ...state,
+        //         genres: action.payload, 
+        //     };
+        //     break;
         case "ADD_REC_ASPECT":
             console.log("reducer -> ADD_REC_ASPECT");
             console.log(action.payload);

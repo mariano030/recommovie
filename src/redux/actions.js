@@ -17,7 +17,7 @@ export async function getFriendsList() {
     }
 }
 
-export async function getMoreDetails(recItem){
+export async function getMoreDetails(recItem) {
     if (recItem && recItem.media_type == "tv") {
                     try {
                         let requestUrl = "/api/tv-details-by-id/" + recItem.id;
@@ -28,7 +28,13 @@ export async function getMoreDetails(recItem){
                             "DETAILS ajax done - details.data",
                             detailsResults.data
                         );
+                        requestUrl = "/api/tv-credits-by-id/" + recItem.id;
+                        const creditsResults = await axios.get(requestUrl);
                         // let mounted = true;
+                        detailsResults.data = {
+                            ...detailsResults.data,
+                            cast: creditsResults.data.cast,
+                        }
                         return {
                             type: "SET_MORE_DETAILS",
                             payload: detailsResults.data
@@ -40,7 +46,7 @@ export async function getMoreDetails(recItem){
     } else if (recItem && recItem.media_type == "movie") {
         console.log("movie detected");
                     try {
-                        let requestUrl = "/api/movie-details-by-id/" + recItem.id;
+                        let requestUrl = "/api/movie-credits-by-id/" + recItem.id;
                         console.log("MOVIE ID", recItem.id);
                         console.log("requestUrl: ", requestUrl);
                         const detailsResults = await axios.get(requestUrl);
@@ -76,6 +82,32 @@ export async function getMoreDetails(recItem){
                         console.log("error", err);
                     }
     }
+}
+
+export async function getAspectsAndGenres() {
+        console.log("getAspectsAndGenres() running");
+    try {
+                const aspectsResults = await axios.get("/api/get-aspects/");
+                const genresResults = await axios.get("/api/get-genres/");
+
+                return {
+                    type: "SET_ASPECTS_AND_GENRES",
+                    payload: [genresResults.data.genres, aspectsResults.data.map((aspect) => {
+                            return { ...aspect, status: false };
+                        })]
+                }
+                // dispatch(setAspects(aspectsResults.data));
+                // dispatch(
+                //     setAspectsAndResults(
+                //         aspectsResults.data.map((aspect) => {
+                //             return { ...aspect, status: false };
+                //         })
+                //     )
+                // );
+                // dispatch(setGenres(genresResults.data.genres));
+            } catch (err) {
+                console.log("error getting aspects or genres -> err", err);
+            }
 }
 
 export function setAspects(array) {

@@ -2,9 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom"; // ?? needed ??
 import { useDispatch, useSelector } from "react-redux";
 
-import Genres from "../components/Genres.js"
 
-export default function MoreInfoTv() {
+export default function MoreInfoPerson() {
     const recItem = useSelector((state) => state.recItem);
 
     if (!recItem) {
@@ -14,6 +13,7 @@ export default function MoreInfoTv() {
             <>
                 <div className="small">
                     <div className="credits-crew-small">
+                        It's a person
                                 {recItem.details && recItem.details.created_by && recItem.details.created_by.length > 0 && (
                                     <img
                                         src="/icons/details-quill.svg"
@@ -55,7 +55,6 @@ export default function MoreInfoTv() {
                                             return rety;
                                         })}
                     </div>
-                    <Genres />
                 </div>
             </>
         );

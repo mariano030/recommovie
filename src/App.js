@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux"; // useSelector
 import { BrowserRouter, Route, Link } from "react-router-dom";
 import Axios from "axios";
 
-import { setAspects, setGenres } from "./redux/actions.js";
+import { getAspectsAndGenres, setAspects, setGenres } from "./redux/actions.js";
 
 import { Button } from "@material-ui/core";
 
@@ -62,29 +62,30 @@ export default function App(props) {
     useEffect(() => {
         console.log("useEffect in App running");
         console.log("App -> useEffect running");
-        (async () => {
-            console.log("inside async");
-            try {
-                console.log("trying... axios");
-                const aspectsResults = await Axios.get("/api/get-aspects/");
-                const genresResults = await Axios.get("/api/get-genres/");
-                console.log(
-                    "functiongetAspects -> aspectsResults",
-                    aspectsResults
-                );
-                // dispatch(setAspects(aspectsResults.data));
-                dispatch(
-                    setAspects(
-                        aspectsResults.data.map((aspect) => {
-                            return { ...aspect, status: false };
-                        })
-                    )
-                );
-                dispatch(setGenres(genresResults.data.genres));
-            } catch (err) {
-                console.log("error getting aspects or genres -> err", err);
-            }
-        })();
+                    dispatch(getAspectsAndGenres());
+        // (async () => {
+        //     console.log("inside async");
+        //     try {
+        //         console.log("trying... axios");
+        //         const aspectsResults = await Axios.get("/api/get-aspects/");
+        //         const genresResults = await Axios.get("/api/get-genres/");
+        //         console.log(
+        //             "functiongetAspects -> aspectsResults",
+        //             aspectsResults
+        //         );
+        //         // dispatch(setAspects(aspectsResults.data));
+        //         dispatch(
+        //             setAspects(
+        //                 aspectsResults.data.map((aspect) => {
+        //                     return { ...aspect, status: false };
+        //                 })
+        //             )
+        //         );
+        //         dispatch(setGenres(genresResults.data.genres));
+        //     } catch (err) {
+        //         console.log("error getting aspects or genres -> err", err);
+        //     }
+        // })();
     }, []);
     return (
         <>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom"; // ?? needed ??
 import { useDispatch, useSelector } from "react-redux";
-import { setRecItemRecData } from "../redux/actions.js";
+import { setRecItemRecData, getAspectsAndGenres } from "../redux/actions.js";
 
 import Axios from "../axios";
 // material ui
@@ -50,6 +50,7 @@ export default function SearchItem() {
     const handleClick = (item) => {
         console.log("handleClick running - SETTING item ->recItem");
         dispatch(setRecItemRecData(item));
+        dispatch(getAspectsAndGenres(recItem));
         //searchField.current.value = "";
         setItems([]);
         setUserInput("");

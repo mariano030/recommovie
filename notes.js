@@ -194,4 +194,5 @@ functionName (e) =>{
 // einzelne komponenten für verschidene media typen
 // mehr einzelne komponenten
 
-
+// refactor (for list feature)
+// aspects working with global "stauts" variable for selection -> move to recItem

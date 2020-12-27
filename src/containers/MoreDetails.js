@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import useForm from "react-hook-form";
 import { Link } from "react-router-dom"; // ?? needed ??
 import { useDispatch, useSelector } from "react-redux";
-import { addRecAspect, addToRecData, getMoreDetails } from "../redux/actions.js";
+import { addRecAspect, addToRecData, getMoreDetails, getAspectsAndGenres } from "../redux/actions.js";
 import Axios from "../axios";
 
 import Box from "@material-ui/core/Box";
@@ -21,6 +21,7 @@ import ItemIcon from "../components/ItemIcon.js";
 import ItemImage from "../components/ItemImage.js";
 import MoreInfoTv from "../components/MoreInfoTv.js";
 import MoreInfoMovie from "../components/MoreInfoMovie.js";
+import MoreInfoPerson from "../components/MoreInfoPerson.js";
 import TextField from "../components/TextField";
 import InputFieldIcon from "../components/InputFieldIcon.js";
 import InputFieldLink from "../components/InputFieldLink.js";
@@ -181,6 +182,7 @@ export default function MoreDetails() {
             return;
         } else if (recItem && !recItem.details) {
             console.log("CREDITS BY ID running");
+
             dispatch(getMoreDetails(recItem));
             // if (recItem.media_type == "person") {
             //     return;
@@ -324,10 +326,11 @@ export default function MoreDetails() {
                         {/* <div className="small">Id: {recItem.id}</div> */}
                         <div className="credits-small">
                             
-                                {recItem.media_type == "tv" && <MoreInfoTv/>
-                                    }
+                                {recItem.media_type == "tv" && <MoreInfoTv/>}
+                                
 
                                 {recItem.media_type == "movie" && <MoreInfoMovie />}
+                                {recItem.media_type == "person" && <MoreInfoPerson />}
                                 {/* {recItem.media_type == "tv" && (
                                     <img
                                         src="/icons/credits-creator.svg"
@@ -400,31 +403,7 @@ export default function MoreDetails() {
                             </div> */}
                         </div>
                         <Box component="span" m={1}></Box>
-                        <div className="genres">
-                            <div style={{ width: "100%" }}>
-                                {recItem.genre_ids &&
-                                    recItem.genre_ids.map((genreId) => (
-                                        <Box
-                                            key={genreId}
-                                            component="div"
-                                            display="inline"
-                                            fontWeight="fontWeightLight"
-                                            fontSize={10}
-                                            p={1}
-                                            m={1}
-                                            // cssStyle={{ bgcolor: "yellow" }}
-                                            bgcolor="white"
-                                            // bgcolor="background.paper"
-                                            // cssStyle={class: "genre-item"}
-                                        >
-                                            {genres.map((item) => {
-                                                if (item.id == genreId) {
-                                                    return item.name;
-                                                }
-                                            })}
-                                        </Box>
-                                    ))}
-                            </div>
+
                             {/* {recItem.genre_ids &&
                                 recItem.genre_ids.map((genreId) => (
                                     <div className="genre-item" key={genreId}>
@@ -435,7 +414,7 @@ export default function MoreDetails() {
                                         })}
                                     </div>
                                 ))} */}
-                        </div>
+
                     </div>
                     <Box></Box>
                     <div className={classes.root}>
