@@ -50,35 +50,12 @@ export default function SearchItem() {
     const handleClick = (item) => {
         console.log("handleClick running - SETTING item ->recItem");
         dispatch(setRecItemRecData(item));
-        dispatch(getAspectsAndGenres(recItem));
+
         //searchField.current.value = "";
         setItems([]);
         setUserInput("");
     };
-    // useEffect(() => {
-    //     console.log("CREDITS BY ID running");
-    //     items.map((item) => {
-    //         if (item.media_type == "person") {
-    //             return;
-    //         } else {
-    //             (async () => {
-    //                 try {
-    //                     const requestUrl = "/api/credits-by-id/" + item.id;
-    //                     const credits = await Axios.get(requestUrl);
-    //                     console.log(
-    //                         "CREDITS ajax done - credits.data",
-    //                         credits.data
-    //                     );
-    //                     console.log(items);
-    //                     setCredits(credits.data);
-    //                     // let mounted = true;
-    //                 } catch (err) {
-    //                     console.log("error", err);
-    //                 }
-    //             })();
-    //         }
-    //     });
-    // }, [items]);
+  
     useEffect(() => {
         console.log("SearchItem useEffect running");
         let ignore = false;
@@ -168,7 +145,7 @@ export default function SearchItem() {
                     Recommend.
                 </Typography>
             </div>
-            <div className="column">
+            <div className="search-field-container">
                 <TextField
                     ref={searchField}
                     onChange={handleChange}

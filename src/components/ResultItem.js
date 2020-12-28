@@ -68,7 +68,7 @@ export default function ResultItem({ item }) {
             iconUrl = "/icons/media_type_person.svg";
             break;
     }
-    let key = item.id * item.vote_average;
+    let key = item.id; // * item.vote_average;
     return (
         <>
             <ListItem key={key.id} alignItems="flex-start">

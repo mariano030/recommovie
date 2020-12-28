@@ -31,12 +31,19 @@ export default function MoreInfoTv() {
                             </div>
                             <div className="item-title">
                                 <Typography variant="h5">
-                                    {recItem.original_name ||
-                                        recItem.original_title}
+                                    {recItem.name ||
+                                        recItem.title}
                                     {/* {recItem.media_type != "person" && {
                                         recDate,
                                     }} */}{" "}
                                     ({recItem.first_air_date.slice(0,4)})
+                                </Typography>
+                                <Typography variant="h7">
+                                    — {recItem.original_name ||
+                                        recItem.original_title}
+                                    {/* {recItem.media_type != "person" && {
+                                        recDate,
+                                    }} */}{" "}
                                 </Typography>
                             </div>
                         </div>
@@ -49,6 +56,7 @@ export default function MoreInfoTv() {
                                     <img
                                         src="/icons/details-quill.svg"
                                         className="icon-tiny"
+                                        title="Created by"
                                         alt="Created by"
                                     ></img>
                                 )}
@@ -76,6 +84,7 @@ export default function MoreInfoTv() {
                                         src="/icons/credits-cast.svg"
                                         className="icon-tiny"
                                         alt="Cast"
+                                        title="Cast"
                                     ></img>
                                 )}
                         </div>

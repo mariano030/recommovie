@@ -149,25 +149,25 @@ export default function MoreDetails() {
         console.log(imgUrl);
     };
 
-    const getDataTV = (recItem) => {
-        console.log("getting DATA for TV show");
-        (async () => {
-                    try {
-                        let requestUrl = "/api/tv-details-by-id/" + recItem.id;
-                        console.log("TV SHOW ID", recItem.id);
-                        console.log("requestUrl: ", requestUrl);
-                        const detailsResults = await Axios.get(requestUrl);
-                        console.log(
-                            "DETAILS ajax done - details.data",
-                            detailsResults.data
-                        );
-                        // let mounted = true;
-                        setDetails(detailsResults.data);
-                    } catch (err) {
-                        console.log("error", err);
-                    }
-                })();
-    }
+    // const getDataTV = (recItem) => {
+    //     console.log("getting DATA for TV show");
+    //     (async () => {
+    //                 try {
+    //                     let requestUrl = "/api/tv-details-by-id/" + recItem.id;
+    //                     console.log("TV SHOW ID", recItem.id);
+    //                     console.log("requestUrl: ", requestUrl);
+    //                     const detailsResults = await Axios.get(requestUrl);
+    //                     console.log(
+    //                         "DETAILS ajax done - details.data",
+    //                         detailsResults.data
+    //                     );
+    //                     // let mounted = true;
+    //                     setDetails(detailsResults.data);
+    //                 } catch (err) {
+    //                     console.log("error", err);
+    //                 }
+    //             })();
+    // }
 
     useEffect(() => {
         if (recLink) {
@@ -265,12 +265,13 @@ export default function MoreDetails() {
 
 
                         </div>
-                        <Box component="span" m={1}></Box>
+
                             {recItem && recItem.media_type != "person" && <Genres />}
                     </div>
                     <Box></Box>
                     <div className={classes.root}>
                         <Box component="span" m={1}></Box>
+                                                <Box component="span" m={1}></Box>
                         <Accordion>
                             <AccordionSummary
                                 expandIcon={<ExpandMoreIcon />}
@@ -278,7 +279,7 @@ export default function MoreDetails() {
                                 id="panel1a-header"
                             >
                                 <Typography className={classes.heading}>
-                                    Highlight aspects:
+                                    Highlight certain aspects:
                                 </Typography>
                             </AccordionSummary>
                             <AccordionDetails>
@@ -305,18 +306,18 @@ export default function MoreDetails() {
                         </Accordion>{" "}
                     </div>
                     <div className="column-center">
-                        <InputFieldIcon
-                            name="recipientName"
-                            value={recipientName}
-                            onChange={handleChangeMaterial}
-                            label="Recommend for"
-                        />
-                        <InputFieldIcon
-                            name="senderName"
-                            value={senderName}
-                            onChange={handleChangeMaterial}
-                            label="Recommended by"
-                        />
+                            <InputFieldIcon
+                                name="recipientName"
+                                value={recipientName}
+                                onChange={handleChangeMaterial}
+                                label="Recommend for"
+                            />
+                            <InputFieldIcon
+                                name="senderName"
+                                value={senderName}
+                                onChange={handleChangeMaterial}
+                                label="Recommended by"
+                            />
 
                         <TextFieldMessage
                             name="message"
@@ -332,30 +333,10 @@ export default function MoreDetails() {
                             label="add a custom link"
                         />
                     </div>
-                    {/* <FocusAccordion aspects={aspects} />
-                    <div className="column-center">
-                        <div className="aspects">
-                            {aspects &&
-                                aspects.map((aspect) => (
-                                    <FocusButton
-                                        key={aspect.id}
-                                        className="aspect-item"
-                                        label={aspect.name}
-                                        onClick={() => {
-                                            this.handleClick(aspect.id);
-                                        }}
-                                    />
-                                ))}
-                        </div> */}
-                    {/* message: {values.message} senderName:{" "}
-                        {values.senderName} recipientName {values.recipientName}
-                        {value} */}
+
                     {customUrl} {senderName} {recipientName} {message}
                 </div>
-                {/* <div className="genres">{genres && aspects.map(()=> <div className="genre">)}</div> */}
-                {/* <Button /> */}
-                {/* <VanillaTextInput /> */}
-                {/* </div> */}
+
 
                 <div className="margin-twenty">
                     {!recLink && <DoneButton onClick={() => handleSubmit()} />}

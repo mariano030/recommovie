@@ -44,6 +44,10 @@ main {
     font-size: 0.7rem;
 }
 
+.search-results-container {
+    width: 700px !important;
+}
+
 .result-item {
     margin-bottom: 7px;
     background-color: lightskyblue;

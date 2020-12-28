@@ -29,10 +29,16 @@ export default function MoreInfoMovie() {
                             </div>
                             <div className="item-title">
                                 <Typography variant="h5">
-                                    {recItem.original_name ||
-                                        recItem.original_title}
+                                    {recItem.name ||
+                                        recItem.title}
                                     {" "}
                                     ({recItem.release_date.slice(0,4)})
+                                </Typography>
+                                <Typography variant="h7">
+                                    — {recItem.original_name ||
+                                        recItem.original_title}
+                                    {" "}
+                                    {/* ({recItem.release_date.slice(0,4)}) */}
                                 </Typography>
                             </div>
                         </div>
@@ -44,6 +50,7 @@ export default function MoreInfoMovie() {
 
                                         <img
                                             alt="Directed by"
+                                            title="Directed by"
                                             src="/icons/credits-director.svg"
                                             className="icon-tiny"
                                         ></img>
@@ -62,6 +69,7 @@ export default function MoreInfoMovie() {
                             <div className="iconic">                                   
                                         <img
                                             alt="Director of Photography"
+                                            title="Director of Photography"
                                             src="/icons/credits-camera.svg"
                                             className="icon-tiny"
                                         ></img>
@@ -76,6 +84,12 @@ export default function MoreInfoMovie() {
                                             ) {
                                                 let rety = castMem.name + " ";
                                                 return rety;
+                                            } else if (
+                                                                                                castMem.job ==
+                                                "Cinematography"
+                                            ) {
+                                                let rety = castMem.name + " ";
+                                                return rety;
                                             }
                                         })}
                             </div>
@@ -84,7 +98,8 @@ export default function MoreInfoMovie() {
                         <div className="credits-crew-small">
                                     {recItem.details && recItem.details.cast && (
                                         <img
-                                        alt="Cast"
+                                            alt="Cast"
+                                            title="Cast"
                                             src="/icons/credits-cast.svg"
                                             className="icon-tiny"
                                         ></img>
