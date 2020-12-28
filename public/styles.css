@@ -120,9 +120,19 @@ main {
     padding-right: 3px;
 }
 
+.credits-container {
+        padding: 4px;
+}
+
 .credits-crew-small {
     display: flex;
     flex-direction: row;
+}
+
+.vertical-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
 .result-recItem {

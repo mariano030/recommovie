@@ -15,10 +15,10 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import DoneButton from "../components/DoneButton.js";
 import LinkIsReady from "../containers/LinkIsReady";
 import useStatefulFields from "../hooks/useStatefulFields";
-
 import Grid from "@material-ui/core/Grid";
+
 import ItemIcon from "../components/ItemIcon.js";
-import ItemImage from "../components/ItemImage.js";
+ import ItemImage from "../components/ItemImage.js";
 import MoreInfoTv from "../components/MoreInfoTv.js";
 import MoreInfoMovie from "../components/MoreInfoMovie.js";
 import MoreInfoPerson from "../components/MoreInfoPerson.js";
@@ -185,53 +185,6 @@ export default function MoreDetails() {
             console.log("CREDITS BY ID running");
 
             dispatch(getMoreDetails(recItem));
-            // if (recItem.media_type == "person") {
-            //     return;
-            // } else {
-            //     console.log("getting CREDITS for ", recItem.id);
-
-                // (async () => {
-                //     try {
-                //         let requestUrl = "";
-                //         if (recItem.media_type == "movie") {
-                //             requestUrl =
-                //                 "/api/movie-credits-by-id/" + recItem.id;
-                                
-                //             } else if (recItem.media_type == "tv") {
-                //                 requestUrl =
-                //                     "/api/tv-credits-by-id/" + recItem.id;
-                //                 getDataTV(recItem);
-                                    
-                //             } else if (recItem.media_type == "person") {
-                //                 console.log("recItem is PERSON")
-                //                 requestUrl =
-                //                     "/api/person-credits-by-id/" + recItem.id;
-                //             }
-                //         console.log("ITEM ID???", recItem.id);
-                //         console.log("requestUrl: ", requestUrl);
-                //         const credits = await Axios.get(requestUrl);
-                //         console.log(
-                //             "CREDITS ajax done - credits.data",
-                //             credits.data
-                //         );
-                //         // let mounted = true;
-                //         if (credits.data && credits.data.crew) {
-                //             console.log("this HAPPENING AT ALL?");
-                //             let [director] = credits.data.crew.map(
-                //                 (crewMemeber) => {
-                //                     if (crewMemeber.department == "Directing") {
-                //                         return crewMemeber;
-                //                     }
-                //                 }
-                //             );
-                //             console.log("director", director);
-                //         }
-                //         setCredits(credits.data);
-                //     } catch (err) {
-                //         console.log("error", err);
-                //     }
-                // })();
-            // }
         }
     },[recItem]);
     // set stuff for rec Item
@@ -301,30 +254,7 @@ export default function MoreDetails() {
             <>
                 <div className="result-recItem">
                     <div>
-                        <ItemImage
-                            item={recItem}
-                            myClass="hero-image"
-                        ></ItemImage>
-                        {/* <div className="small"></div> */}
-                    </div>
-                    <div>
-                        <div className="row-start">
-                            <div>
-                                <ItemIcon item={recItem} myClass="icon-black" />
-                            </div>
-                            <div className="item-title">
-                                <Typography variant="h5">
-                                    {recItem.original_name ||
-                                        recItem.original_title}
-                                    {/* {recItem.media_type != "person" && {
-                                        recDate,
-                                    }} */}{" "}
-                                    {recDate}
-                                </Typography>
-                            </div>
-                        </div>
 
-                        {/* <div className="small">Id: {recItem.id}</div> */}
                         <div className="credits-small">
                             
                                 {recItem.media_type == "tv" && <MoreInfoTv/>}
@@ -332,90 +262,11 @@ export default function MoreDetails() {
 
                                 {recItem.media_type == "movie" && <MoreInfoMovie />}
                                 {recItem.media_type == "person" && <MoreInfoPerson />}
-                                {/* {recItem.media_type == "tv" && (
-                                    <img
-                                        src="/icons/credits-creator.svg"
-                                        className="icon-tiny"
-                                    ></img>
-                                )}
-                                {recItem.media_type == "tv" &&
-                                    recItem.created_by &&
-                                    recItem.created_by.map((castMem, i) => {
-                                        let rety = castMem.name + " ";
-                                        return rety;
-                                    })} */}
-                            <div className="credits-cast-small">
 
-                                {/* for movies! */}
-                                {/* // fdfd
-                                {credits.cast && (
-                                    <img
-                                        src="/icons/credits-director.svg"
-                                        className="icon-tiny"
-                                    ></img>
-                                )}
-                                {credits.cast &&
-                                    credits.crew.map((castMem, i) => {
-                                        if (castMem.job == "Director") {
-                                            let rety = castMem.name + " ";
-                                            return rety;
-                                        }
-                                    })}
-                                {"  "}
-                                {credits.cast && (
-                                    <img
-                                        src="/icons/credits-camera.svg"
-                                        className="icon-tiny"
-                                    ></img>
-                                )}
-                                {credits.cast &&
-                                    credits.crew.map((castMem, i) => {
-                                        if (
-                                            castMem.job ==
-                                            "Director of Photography"
-                                        ) {
-                                            let rety = castMem.name + " ";
-                                            return rety;
-                                        }
-                                    })} */}
-                            </div>
-                            {/* <div className="credits-cast-small">
-                                {credits.cast && (
-                                    <img
-                                        src="/icons/credits-cast.svg"
-                                        className="icon-tiny"
-                                    ></img>
-                                )}
-                                {credits.cast &&
-                                    credits.cast
-                                        .slice(0, 4)
-                                        .map((castMem, i) => {
-                                            i < 5;
-                                            let rety = castMem.name + ", ";
-                                            return rety;
-                                        })}
-                                {credits.cast &&
-                                    credits.cast
-                                        .slice(4, 5)
-                                        .map((castMem, i) => {
-                                            let rety = castMem.name + " ";
-                                            return rety;
-                                        })}
-                            </div> */}
+
                         </div>
-                        {/* <Box component="span" m={1}></Box> */}
+                        <Box component="span" m={1}></Box>
                             {recItem && recItem.media_type != "person" && <Genres />}
-                            {/* {recItem.genre_ids &&
-                                recItem.genre_ids.map((genreId) => (
-                                    <div className="genre-item" key={genreId}>
-                                        {genres.map((item) => {
-                                            if (item.id == genreId) {
-                                                return item.name;
-                                            }
-                                        })}
-                                    </div>
-                                ))} */}
-
                     </div>
                     <Box></Box>
                     <div className={classes.root}>

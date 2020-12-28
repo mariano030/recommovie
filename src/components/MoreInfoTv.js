@@ -1,6 +1,10 @@
 import React from "react";
 import { Link } from "react-router-dom"; // ?? needed ??
 import { useDispatch, useSelector } from "react-redux";
+import Typography from "@material-ui/core/Typography";
+
+import ItemIcon from "../components/ItemIcon.js";
+import ItemImage from "../components/ItemImage.js";
 
 import Genres from "../components/Genres.js"
 
@@ -13,12 +17,39 @@ export default function MoreInfoTv() {
         return (
             <>
                 <div className="small">
+                    <div className="result-recItem">
+                        <div className="vertical-center">
+                            <ItemImage
+                                item={recItem}
+                                myClass="hero-image"
+                            ></ItemImage>
+
+                        </div>
+                        <div className="row-start">
+                            <div>
+                                <ItemIcon item={recItem} myClass="icon-black" />
+                            </div>
+                            <div className="item-title">
+                                <Typography variant="h5">
+                                    {recItem.original_name ||
+                                        recItem.original_title}
+                                    {/* {recItem.media_type != "person" && {
+                                        recDate,
+                                    }} */}{" "}
+                                    ({recItem.first_air_date.slice(0,4)})
+                                </Typography>
+                            </div>
+                        </div>
+                    </div>
+                    <div className="credits-container">
+
                     <div className="credits-crew-small">
                         <div className="iconic">
                                 {recItem.details && recItem.details.created_by && recItem.details.created_by.length > 0 && (
                                     <img
                                         src="/icons/details-quill.svg"
                                         className="icon-tiny"
+                                        alt="Created by"
                                     ></img>
                                 )}
 
@@ -44,6 +75,7 @@ export default function MoreInfoTv() {
                                     <img
                                         src="/icons/credits-cast.svg"
                                         className="icon-tiny"
+                                        alt="Cast"
                                     ></img>
                                 )}
                         </div>
@@ -65,6 +97,7 @@ export default function MoreInfoTv() {
                                         })}
                         </div>
 
+                    </div>
                     </div>
                 </div>
             </>
