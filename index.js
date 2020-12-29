@@ -85,9 +85,10 @@ app.post("/rec/", async (req, res) => {
         message,
         senderName,
         recipientName,
+        video,
     } = req.body;
     //const senderId = 1; /// whatch out here! delete soon
-
+    console.log("REQ.BODY",req.body)
     console.log("recipientName", recipientName);
     console.log("senderName", senderName);
     console.log("aspects", aspects);
@@ -96,6 +97,7 @@ app.post("/rec/", async (req, res) => {
     console.log("imageType: ", imageType);
     console.log("message: ", message);
     console.log("extUrl: ", extUrl);
+    console.log("video", video)
 
     try {
         const randomCode = await uidSafe(5);
@@ -130,6 +132,7 @@ app.post("/rec/", async (req, res) => {
             aspects,
             message,
             extUrl
+            //, videos - add to db
         );
         //aspects
         // console.log("data.id: ", rows[0].id);

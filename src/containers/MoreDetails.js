@@ -63,6 +63,7 @@ export default function MoreDetails() {
     const [imgUrl, setImgUrl] = useState("");
     const [recDate, setRecDate] = useState("");
     const [recLink, setRecLink] = useState("");
+    const [includeVideoButton, setIncludeVideoButton] = useState(true)
  
     // const [credits, setCredits] = useState({});
     // const [details, setDetails] = useState({});
@@ -119,7 +120,7 @@ export default function MoreDetails() {
     };
 
     const handleFocusButton = (aspect, i) => {
-        console.log("submit button pressed");
+        console.log("ahndleFocusButton clicked"), i;
         dispatch(aspectStatusToggle(i));
     };
 
@@ -263,7 +264,10 @@ export default function MoreDetails() {
         console.log("toggleVideo:", toggleVideo);
         toggleVideo = !toggleVideo;
         console.log("toggleVideo:", toggleVideo);
-        
+        if (recItem.videos && recItem.videos.length == 0) {
+            setIncludeVideoButton(false);
+        }
+        console.log('recItem.videos.length: ', recItem.videos.length);
         if (toggleVideo) {
             videoButtonLabel = "Don't include Trailer/Video";
         } else {
@@ -290,17 +294,20 @@ export default function MoreDetails() {
 
 
                         </div>
-                            <Button
+                        <div className="column-center">
+                            {recItem && includeVideoButton == true && <Button
                                 onClick={() => videoLoad()}
                                 variant="contained"
                                 color="primary"
                                 size="large"
                                 >
                                     {videoButtonLabel && videoButtonLabel}
-                            </Button>
+                            </Button>}
                             {/* <DoneButton onClick={() => videoLoad()} /> */}
                             {recItem && recItem.videos && recItem.videos.length > 0 &&<ItemVideo />}
                             {recItem && recItem.media_type != "person" && <Genres />}
+
+                        </div>
                     </div>
                     <Box></Box>
                     <div className={classes.root}>

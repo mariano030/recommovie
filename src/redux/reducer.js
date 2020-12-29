@@ -16,18 +16,6 @@ export default function reducer(state = { recData: {} }, action) {
         //         };
         //         break;
         // }
-        case "GET_FRIENDS_LIST":
-            // what what?
-            console.log("friendsRaw in reducer");
-            console.log(
-                "reducer saying action.allFriendsAndRequests",
-                action.payload
-            );
-            state = {
-                ...state,
-                allFriendsAndRequests: action.payload, 
-            };
-            break;
         case "SET_REC_ITEM_REC_DATA":
             // what what?
             console.log("SET_REC_ITEM_REC_DATA");
@@ -100,14 +88,6 @@ export default function reducer(state = { recData: {} }, action) {
             state = {
                 ...state,
                 recAspects: [...state.recAspects, action.payload],
-            };
-            break;
-        case "SET_REC_MESSAGE":
-            console.log("reducer -> SET_REC_MESSAGE");
-            console.log(action.payload);
-            state = {
-                ...state,
-                recMessage: action.payload,
             };
             break;
         case "ADD_TO_REC_DATA":

@@ -101,6 +101,14 @@ export async function getVideos(recItem) {
 
 } 
 
+export function setVideoSelection(slug) {
+    console.log("selected slug:", slug);
+    return {
+        type: "SET_VIDEO_SELECTION",
+        palyod: slug,
+    };
+
+}
 
 export async function getAspectsAndGenres() {
         console.log("getAspectsAndGenres() running");
@@ -160,16 +168,9 @@ export function addRecAspect(item) {
     };
 }
 
-export function setRecMessage(message) {
-    console.log("AA addRecMessage - adding:", message);
-    return {
-        type: "SET_REC_MESSAGE",
-        payload: message,
-    };
-}
 
 export function addToRecData(nameValueObj) {
-    console.log("AA addRecMessage - adding:", nameValueObj);
+    console.log("AA addRecMessage or other - adding:", nameValueObj);
     return {
         type: "ADD_TO_REC_DATA",
         payload: nameValueObj,

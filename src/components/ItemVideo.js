@@ -5,9 +5,12 @@ import { useDispatch, useSelector } from "react-redux";
 import ToggleButton from "@material-ui/lab/ToggleButton";
 import Button from "@material-ui/core/Button";
 
+import { addToRecData } from "../redux/actions.js"
+
+let counter = 0;
+
 export default function ItemVideo() {
-    let counter = 0;
-    //const dispatch = useDispatch();
+    const dispatch = useDispatch();
     useEffect(()=>{console.log("useEFFFECT ItemVideo")
     },[])
     const recItem = useSelector((state) => state.recItem);
@@ -20,35 +23,58 @@ export default function ItemVideo() {
     /* 
     <iframe width="1677" height="629" src="https://www.youtube.com/embed/JqknnUs-ljA" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe> */
 
-    const incCounter = () => {
-        console.log("increase counter...")
-        if (counter == recItem.videos.length-1) {
-            counter = 0;
-        } else {
-            counter++;
-        }
-        console.log("counter: ", counter)
-        setSelectedVideoSlug(recItem.videos[counter].key);
-    }
+    // const incCounter = () => {
+    //     console.log("increase counter...")
+    //     if (counter == recItem.videos.length-1) {
+    //         counter = 0;
+    //     } else {
+    //         counter++;
+    //     }
+    //     console.log("counter: ", counter)
+    //     setSelectedVideoSlug(recItem.videos[counter].key);
+    //     ;
+    // }
 
+    const setVideo = (i) => {
+        console.log("set clicked")
+        setSelectedVideoSlug(recItem.videos[i].key);
+        dispatch(addToRecData({video: selectedVideoSlug}));
+    }
+    
     return (
         <> 
             <iframe 
-                width="500" 
+                width="100%" 
                 height="320" 
                 src={url}
                 frameBorder="3" 
                 allowFullScreen
             >
             </iframe> 
-            <Button
+            {/* <Button
                 onClick={() => incCounter()}
                 variant="contained"
                 color="primary"
                 size="large"
             >
                 Next
-            </Button>
+            </Button> */}
+            <div className="row-center">
+            {recItem.videos && recItem.videos.map((videoObj, i) => { 
+                return( 
+                <ToggleButton key={i}
+                onClick={() => setVideo(i)}
+                variant="contained"
+                color="primary"
+                size="large"
+                selected={false}
+                value="whattheFUCL"
+            >
+                {videoObj.type} #{i+1}
+            </ToggleButton>)
+            })}
+
+            </div>
             {/* <LiteYouTubeEmbed
                 id={selectedVideoSlug} // Default none, id of the video or playlist
                 adNetwork={true} // Default true, to preconnect or not to doubleclick addresses called by YouTube iframe (the adnetwork from Google)
