@@ -2,23 +2,25 @@ import React, { useState, useEffect } from "react";
 import useForm from "react-hook-form";
 import { Link } from "react-router-dom"; // ?? needed ??
 import { useDispatch, useSelector } from "react-redux";
-import { addRecAspect, addToRecData, getMoreDetails, getAspectsAndGenres } from "../redux/actions.js";
+import { addRecAspect, addToRecData, getMoreDetails, getAspectsAndGenres, getVideos } from "../redux/actions.js";
 import Axios from "../axios";
 
-import Box from "@material-ui/core/Box";
 import { makeStyles } from "@material-ui/core/styles";
+import Box from "@material-ui/core/Box";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
 import Typography from "@material-ui/core/Typography";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
-import DoneButton from "../components/DoneButton.js";
+import Grid from "@material-ui/core/Grid";
+import Button from "@material-ui/core/Button";
+
 import LinkIsReady from "../containers/LinkIsReady";
 import useStatefulFields from "../hooks/useStatefulFields";
-import Grid from "@material-ui/core/Grid";
-
+import DoneButton from "../components/DoneButton.js";
 import ItemIcon from "../components/ItemIcon.js";
  import ItemImage from "../components/ItemImage.js";
+import ItemVideo from "../components/ItemVideo.js";
 import MoreInfoTv from "../components/MoreInfoTv.js";
 import MoreInfoMovie from "../components/MoreInfoMovie.js";
 import MoreInfoPerson from "../components/MoreInfoPerson.js";
@@ -47,6 +49,7 @@ const useStyles = makeStyles((theme) => ({
 export default function MoreDetails() {
     const classes = useStyles();
 
+
     //const { register, handleSubmit, errors } = useForm();
 
     // const [values, handleChange] = useStatefulFields();
@@ -60,8 +63,9 @@ export default function MoreDetails() {
     const [imgUrl, setImgUrl] = useState("");
     const [recDate, setRecDate] = useState("");
     const [recLink, setRecLink] = useState("");
-    const [credits, setCredits] = useState({});
-    const [details, setDetails] = useState({});
+ 
+    // const [credits, setCredits] = useState({});
+    // const [details, setDetails] = useState({});
 
     //redux
     const dispatch = useDispatch();
@@ -187,6 +191,13 @@ export default function MoreDetails() {
             dispatch(getMoreDetails(recItem));
         }
     },[recItem]);
+
+
+    // move later
+    let toggleVideo = false;
+    let videoButtonLabel = "Include Trailer/Video";
+    useEffect(() => {
+    },[]);
     // set stuff for rec Item
     // useEffect(() => {
     //     if (!recItem) {
@@ -247,6 +258,20 @@ export default function MoreDetails() {
         console.log("selectedAspect", selectedAspect);
     };
 
+    const videoLoad = () => {
+        dispatch(getVideos(recItem));
+        console.log("toggleVideo:", toggleVideo);
+        toggleVideo = !toggleVideo;
+        console.log("toggleVideo:", toggleVideo);
+        
+        if (toggleVideo) {
+            videoButtonLabel = "Don't include Trailer/Video";
+        } else {
+            videoButtonLabel = "Include Trailer/Video";
+        }
+    }
+
+
     if (!recItem) {
         return null;
     } else {
@@ -265,7 +290,16 @@ export default function MoreDetails() {
 
 
                         </div>
-
+                            <Button
+                                onClick={() => videoLoad()}
+                                variant="contained"
+                                color="primary"
+                                size="large"
+                                >
+                                    {videoButtonLabel && videoButtonLabel}
+                            </Button>
+                            {/* <DoneButton onClick={() => videoLoad()} /> */}
+                            {recItem && recItem.videos && recItem.videos.length > 0 &&<ItemVideo />}
                             {recItem && recItem.media_type != "person" && <Genres />}
                     </div>
                     <Box></Box>

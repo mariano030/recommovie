@@ -12,7 +12,6 @@ import { Provider } from "react-redux";
 import App from "./App.js";
 
 //hooks
-//import GetAspects from "./hooks/GetAspects";
 // import { init } from "./socket.js";
 
 // socket.io

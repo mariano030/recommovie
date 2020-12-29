@@ -38,7 +38,7 @@ export default function MoreInfoTv() {
                                     }} */}{" "}
                                     ({recItem.first_air_date.slice(0,4)})
                                 </Typography>
-                                <Typography variant="h7">
+                                <Typography variant="h6">
                                     — {recItem.original_name ||
                                         recItem.original_title}
                                     {/* {recItem.media_type != "person" && {

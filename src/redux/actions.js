@@ -84,6 +84,24 @@ export async function getMoreDetails(recItem) {
     }
 }
 
+export async function getVideos(recItem) {
+    let requestUrl = "/api/" + recItem.media_type + "-videos-by-id/" + recItem.id;
+    if (recItem.media_type == "movie" || recItem.media_type == "tv") {
+        try {
+            const videosResults = await axios.get(requestUrl);
+            return {
+                    type: "SET_VIDEOS",
+                    payload: videosResults.data,
+            }
+        } catch {
+            console.log("error axios for media_type-videos-by-id/:")
+        }
+
+    }
+
+} 
+
+
 export async function getAspectsAndGenres() {
         console.log("getAspectsAndGenres() running");
     try {

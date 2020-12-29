@@ -34,7 +34,7 @@ export default function MoreInfoMovie() {
                                     {" "}
                                     ({recItem.release_date.slice(0,4)})
                                 </Typography>
-                                <Typography variant="h7">
+                                <Typography variant="h6">
                                     — {recItem.original_name ||
                                         recItem.original_title}
                                     {" "}

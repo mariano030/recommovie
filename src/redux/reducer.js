@@ -68,6 +68,16 @@ export default function reducer(state = { recData: {} }, action) {
                                 // }
             };
             break;
+            case "SET_VIDEOS":
+            console.log("action.payload", action.payload);
+            state = {
+                ...state,
+                recItem: {
+                    ...state.recItem,
+                    videos: action.payload,
+                }
+            };
+            break;
         // case "SET_ASPECTS":
         //     console.log("reducer -> SET_ASPECTS");
         //     console.log("reducer saying action.payload", action.payload);

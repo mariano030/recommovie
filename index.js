@@ -261,6 +261,29 @@ app.get("/api/tv-details-by-id/:id", async (req, res) => {
     }
 });
 
+app.get("/api/movie-videos-by-id/:id", async (req, res) => {
+    console.log("searching for: req.params", req.params);
+    console.log("<>>> PARAMS.ID", req.params.id);
+    const searchUrl =
+        "https://api.themoviedb.org/3/movie/" +
+        req.params.id +
+        "/videos?api_key=" +
+        secrets.TMDB_API_KEY +
+        "&language=en-US";
+    try {
+        const videoResults = await Axios.get(searchUrl);
+        console.log(
+            "Movie Videos requested*"
+        );
+        console.log("searchUrl: ", searchUrl);
+        console.log("restults!", videoResults.data.results)
+        res.json(videoResults.data.results);
+    } catch (err) {
+        console.log("error searching for TV item by ID ", err);
+        res.json({ error: true });
+    }
+});
+
 app.get("/api/person-credits-by-id/:id", async (req, res) => {
     console.log("/api/tv-credits-by-id/:id");
     console.log("searching for: req.params", req.params);
@@ -274,11 +297,11 @@ app.get("/api/person-credits-by-id/:id", async (req, res) => {
     try {
         const { data } = await Axios.get(searchUrl);
         console.log(
-            "*person*CREDITS*person*CREDITS*person*CREDITS*person*CREDITS*"
+            "*person*CREDITS*person*CREDITS*"
         );
         console.log("searchUrl: ", searchUrl);
         console.log(
-            "CREDITS*person*CREDITS*##########  results done  #######CREDITS*person*CREDITS*##############"
+            "*person*CREDITS*##########  results done  #######CREDITS*person"
         );
         res.json(data);
     } catch (err) {
@@ -288,6 +311,7 @@ app.get("/api/person-credits-by-id/:id", async (req, res) => {
 });
 // new new
 
+// used for ViewRec
 app.get("/api/credits-by-id/:id", async (req, res) => {
     console.log("/api/credits-by-id/:id");
     console.log("searching for: req.params", req.params);
