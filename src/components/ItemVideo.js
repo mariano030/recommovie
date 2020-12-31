@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 // import { LiteYouTubeEmbed } from "react-lite-youtube-embed";
 
 import ToggleButton from "@material-ui/lab/ToggleButton";
+import ToggleButtonGroup from "@material-ui/lab/ToggleButtonGroup";
 import Button from "@material-ui/core/Button";
 
 import { addToRecData } from "../redux/actions.js"
@@ -35,9 +36,24 @@ export default function ItemVideo() {
     //     ;
     // }
 
-    const setVideo = (i) => {
+    const sizeChecker = (videoObj,i) => {
+        if (videoObj.size > recItem.videos[Math.max(0, i-1)].size) {
+            console.log("larger");
+            //dispatch(addToRecData({video: recItem.videos[i].key}));
+            //setVideo(recItem.videos[i].key);
+            return true;
+        } else {
+             console.log("not larger");
+            return false;
+        }
+        }
+    
+
+    const setVideo = (key) => {
         console.log("set clicked")
-        setSelectedVideoSlug(recItem.videos[i].key);
+        setSelectedVideoSlug(key);
+        //setSelectedVideoSlug(recItem.videos[i].key);
+        // vorher auf einzelbutton: ->                    onClick={() => setVideo(i)}
         dispatch(addToRecData({video: selectedVideoSlug}));
     }
     
@@ -60,19 +76,38 @@ export default function ItemVideo() {
                 Next
             </Button> */}
             <div className="row-center">
-            {recItem.videos && recItem.videos.map((videoObj, i) => { 
-                return( 
-                <ToggleButton key={i}
-                onClick={() => setVideo(i)}
-                variant="contained"
-                color="primary"
-                size="large"
-                selected={false}
-                value="whattheFUCL"
-            >
-                {videoObj.type} #{i+1}
-            </ToggleButton>)
-            })}
+            {/* <ToggleButtonGroup orientaion="horizontal" value={selectedVideoSlug} onChange={setVideo()}>  */} 
+                {recItem.videos && recItem.videos.map((videoObj, i) => { 
+                    return( 
+                    <ToggleButton 
+                    key={i}
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    selected={sizeChecker(videoObj,i)}
+                    value={videoObj.key}
+                >   
+                    <div className="column-center">
+                    <div className="small">{videoObj.type} #{i+1}</div>
+                    <div className="small">{videoObj.size}p</div>
+                    </div>
+                </ToggleButton>)
+                })}
+                    <ToggleButton 
+                    key="no vid"
+                    variant="contained"
+                    color="primary"
+                    size="small"
+                    selected={false}
+                    value="no"
+                >   
+                    <div className="column-center">
+                    <div className="small">No Video</div>
+                    
+                    </div>
+                </ToggleButton>
+            
+            {/* </ToggleButtonGroup> */}
 
             </div>
             {/* <LiteYouTubeEmbed

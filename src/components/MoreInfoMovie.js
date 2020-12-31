@@ -28,18 +28,20 @@ export default function MoreInfoMovie() {
                                 <ItemIcon item={recItem} myClass="icon-black" />
                             </div>
                             <div className="item-title">
-                                <Typography variant="h5">
-                                    {recItem.name ||
-                                        recItem.title}
-                                    {" "}
-                                    ({recItem.release_date.slice(0,4)})
-                                </Typography>
-                                <Typography variant="h6">
-                                    — {recItem.original_name ||
-                                        recItem.original_title}
-                                    {" "}
-                                    {/* ({recItem.release_date.slice(0,4)}) */}
-                                </Typography>
+                                
+                                    <Typography variant="h5">
+                                        {recItem.name ||
+                                            recItem.title}
+                                        {" "}
+                                        ({recItem.release_date.slice(0,4)})
+                                    </Typography>
+                                    <Typography variant="caption" color="textSecondary">
+                                        Original Title: "{recItem.original_name ||
+                                            recItem.original_title}"
+                                        {" "}
+                                        {/* ({recItem.release_date.slice(0,4)}) */}
+                                    </Typography>
+                                
                             </div>
                         </div>
                     </div>

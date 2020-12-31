@@ -267,7 +267,7 @@ export default function MoreDetails() {
         if (recItem.videos && recItem.videos.length == 0) {
             setIncludeVideoButton(false);
         }
-        console.log('recItem.videos.length: ', recItem.videos.length);
+        //console.log('recItem.videos.length: ', recItem.videos.length);
         if (toggleVideo) {
             videoButtonLabel = "Don't include Trailer/Video";
         } else {

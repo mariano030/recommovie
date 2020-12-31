@@ -137,7 +137,9 @@ functionName (e) =>{
 
 // DONE!! empty sender    empty recipient 
 
-// 
+// /movie/{movie_id}/watch/providers STREAMING PROVIDERS?
+//    This is not going to return full deep links, but rather, it's just enough information to display what's available where.
+//      You can link to the provided TMDb URL to help support TMDb and let your users deep link into the content.
 
 //copy link to clipboard
 
@@ -176,27 +178,29 @@ functionName (e) =>{
 
 
 
-// APPEND ALL ADDITIONAL DATA TO recItem??
-// recItem
-// recItem.credits
-// recItem.details
+// implement keyboard control for search navigation
+// record audio message
 
-
-
+// B U G S 
 // "Reality" genre not showing. test case: love island
 
 
-// implement keyboard control for search navigation
 
+
+
+// refactor (for list feature)
+// aspects working with global "stauts" variable for selection -> move to recItem
+
+//   DONE!
+// APPEND ALL ADDITIONAL DATA TO recItem?? - DONE
+// recItem
+// recItem.credits
+// recItem.details
 // in action api calls stacken
 // 2te action die credits details lädt
 // videos etc
 // einzelne komponenten für verschidene media typen
 // mehr einzelne komponenten
-
-// refactor (for list feature)
-// aspects working with global "stauts" variable for selection -> move to recItem
-
 
 
 // npm WARN webpack-dev-middleware@1.12.2 requires a peer of webpack@^1.0.0 || ^2.0.0 || ^3.0.0 but none is installed. You must install peer dependencies yourself.

@@ -42,6 +42,8 @@ main {
 
 .small {
     font-size: 0.7rem;
+    padding: 0px;
+    margin: 0px;
 }
 
 .search-results-container {
